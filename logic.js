@@ -4,6 +4,7 @@ var request = require("request");
 var util = require("./util");
 var game = require("./game");
 var games = new game.GameManager;
+var users = [];
 function extractClientData(socket) {
     var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
     if (client === undefined) {
@@ -52,6 +53,20 @@ exports.default = function (app, io) {
         next();
     });
     io.on('connection', function (socket) {
+        socket.on('setUsername', function (data) {
+            console.log(data);
+            if (users.indexOf(data) > -1) {
+                socket.emit('userExists', data + ' username is taken! Try some other username.');
+            }
+            else {
+                users.push(data);
+                socket.emit('userSet', { username: data });
+            }
+        });
+        socket.on('msg', function (data) {
+            //Send message to everyone
+            io.sockets.emit('newmsg', data);
+        });
         socket.on('join', function (string_data) {
             var data = JSON.parse(string_data);
             var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);

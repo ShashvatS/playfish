@@ -27,4 +27,8 @@ router.get('/join', (req: express.Request, res: express.Response) => {
     res.sendFile(path.join(__dirname, '../views/join.html'));
 });
 
+router.get('/chat', (req: express.Request, res: express.Response) => {
+    res.sendFile(path.join(__dirname, '../views/chat.html'));
+});
+
 export default router;

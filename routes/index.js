@@ -23,5 +23,8 @@ router.get('/create', function (req, res) {
 router.get('/join', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/join.html'));
 });
+router.get('/chat', function (req, res) {
+    res.sendFile(path.join(__dirname, '../views/chat.html'));
+});
 exports.default = router;
 //# sourceMappingURL=index.js.map
