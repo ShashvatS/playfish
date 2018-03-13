@@ -167,9 +167,11 @@
               <div id="form1" style="display:none">
                 <form action="javascript:ask()">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="^[0-9]|[1-4][0-9]|5[0-3]$" id="askcard">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-9][0-5]$" id="askcard">
+                    <!-- <input class="mdl-textfield__input" type="text" pattern="^[0-9]|[1-4][0-9]|5[0-3]$" id="askcard"> -->
                     <label class="mdl-textfield__label" for="askcard">Card</label>
-                    <span class="mdl-textfield__error">Input must be a card from 0 to 53!</span>
+                    <!-- <span class="mdl-textfield__error">Input must be a card from 0 to 53!</span> -->
+                    <span class="mdl-textfield__error">Input must be a valid card!</span>
                   </div>
   
                   <br>
@@ -189,7 +191,7 @@
               <div id="form2" style="display:none">
                 <form action="javascript:declare()">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="^[0-8]$" id="declaresuit">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-9]$" id="declaresuit">
                     <label class="mdl-textfield__label" for="askcard">Suit</label>
                     <span class="mdl-textfield__error">Input must be a valid set!</span>
                   </div>

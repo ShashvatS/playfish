@@ -8,6 +8,19 @@ function toggle(id) {
   }
 }
 
+function convertCoordinatetoNum(num) {
+  const card = num % 10;
+  const set = (num - card) / 10 - 1;
+
+  return 6*set + card;
+}
+
+function convertNumToCoordinates(num) {
+  const card = num % 6;
+  const set = (num - card) / 6;
+  return 10 * (set + 1) + card;
+}
+
 function connect() {
   socket.emit('gamestate', '');
 
@@ -25,7 +38,7 @@ function connect() {
 socket.on('gamestate', stringData => {
   const data = JSON.parse(stringData);
   const gameData = data.data;
-  
+
   //update the view
   $('#gameroom').text("Game code: " + data.gameCode);
   $('#gameplayer').text("Player: " + (data.player + 1));
@@ -40,9 +53,9 @@ socket.on('gamestate', stringData => {
   if (gameData.lastMove !== undefined) {
     let str = "";
     if (gameData.lastMove[3] == 1) {
-      str = `Player ${gameData.lastMove[0] + 1} took ${gameData.lastMove[2]} from Player ${gameData.lastMove[1] + 1}`
+      str = `Player ${gameData.lastMove[0] + 1} took ${convertNumToCoordinates(gameData.lastMove[2])} from Player ${gameData.lastMove[1] + 1}`
     } else {
-      str = `Player ${gameData.lastMove[0] + 1} asked Player ${gameData.lastMove[1] + 1} for ${gameData.lastMove[2]}`
+      str = `Player ${gameData.lastMove[0] + 1} asked Player ${gameData.lastMove[1] + 1} for ${convertNumToCoordinates(gameData.lastMove[2])}`
     }
     $('#lastmove').text("Log: " + str);
   } else {
@@ -61,7 +74,7 @@ socket.on('gamestate', stringData => {
     declaredStr += " None";
   } else {
     for (let i of gameData.declaresLog) {
-      declaredStr += " " + i;
+      declaredStr += " " + (i + 1);
     }
   }
 
@@ -69,7 +82,7 @@ socket.on('gamestate', stringData => {
 
   let cardsStr = "";
   for (let card of gameData.cards) {
-    cardsStr += card + " ";
+    cardsStr += convertNumToCoordinates(card) + " ";
   }
 
   $('#playercards').text(cardsStr);
@@ -79,7 +92,7 @@ socket.on('gamestate', stringData => {
 function ask() {
   const data = {
     type: "ask",
-    card: +$('#askcard').val(),
+    card: convertCoordinatetoNum(+$('#askcard').val()),
     other: +$('#askplayer').val() - 1
   }
 
@@ -93,7 +106,7 @@ function declare() {
     data[i - 1] = $(id).val() - 1;
   }
   data.type = "declare";
-  data.set = +$('#declaresuit').val();
+  data.set = +$('#declaresuit').val() - 1;
 
   socket.emit('makemove', JSON.stringify(data));
 }
