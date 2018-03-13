@@ -89,7 +89,7 @@ class Game {
             /*  transfer the card */
             if (this.cards[data.card] == data.other) {
                 this.cards[data.card] = player;
-                this.moves.push([player, data.other, card, 1]);
+                this.moves.push([player, data.other, data.card, 1]);
 
                 this.numCards[player] += 1;
                 this.numCardsBySet[player][set] += 1;
@@ -101,7 +101,7 @@ class Game {
             /* dont transfer the card */
             else {
                 this.lastPlayer = data.other;
-                this.moves.push([player, data.other, card, 0]);
+                this.moves.push([player, data.other, data.card, 0]);
             }
 
             return;
