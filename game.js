@@ -66,9 +66,9 @@ var Game = (function () {
                 this.cards[data.card] = player;
                 this.moves.push([player, data.other, card, 1]);
                 this.numCards[player] += 1;
-                this.numCards[player][set] += 1;
+                this.numCardsBySet[player][set] += 1;
                 this.numCards[data.other] -= 1;
-                this.numCards[data.other][set] -= 1;
+                this.numCardsBySet[data.other][set] -= 1;
             }
             else {
                 this.lastPlayer = data.other;
