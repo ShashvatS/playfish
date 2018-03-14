@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jquery": true
+  },
+  "rules": {
+    "linebreak-style": [0, "windows"],
+    "no-unused-vars": 1
+  },
+  "globals": {
+      "io": true
+  }
+}
