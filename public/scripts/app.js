@@ -21,23 +21,24 @@ function convertNumToCoordinates(num) {
   return 10 * (set + 1) + card;
 }
 
+function refresh() {
+  socket.emit('gamestate', '');
+}
+
 function connect() {
   socket.emit('gamestate', '');
 
   const gamediv = document.getElementById("maingame");
   if (gamediv.style.display === "none") {
     gamediv.style.display = "block";
+    $(document).on("click", "#refresh", refresh);
+    setInterval(refresh, 60000);
   }
   const connectbtn = document.getElementById("connect");
   if (connectbtn.style.display !== "none") {
     connectbtn.style.display = "none";
   }
 }
-
-function refresh() {
-  socket.emit('gamestate', '');
-}
-
 
 socket.on('gamestate', stringData => {
   const data = JSON.parse(stringData);
@@ -131,3 +132,4 @@ socket.on('makemovestatus', stringStatus => {
 socket.on('gamestatestatus', stringStatus => {
 
 });
+
