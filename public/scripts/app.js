@@ -34,6 +34,10 @@ function connect() {
   }
 }
 
+function refresh() {
+  socket.emit('gamestate', '');
+}
+
 
 socket.on('gamestate', stringData => {
   const data = JSON.parse(stringData);
