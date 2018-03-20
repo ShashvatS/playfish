@@ -8,11 +8,15 @@ function toggle(id) {
   }
 }
 
+function hide(obj) {
+  obj.style.display = "none";
+}
+
 function convertCoordinatetoNum(num) {
   const card = num % 10;
   const set = (num - card) / 10 - 1;
 
-  return 6*set + card;
+  return 6 * set + card;
 }
 
 function convertNumToCoordinates(num) {
@@ -29,15 +33,9 @@ function connect() {
   socket.emit('gamestate', '');
 
   const gamediv = document.getElementById("maingame");
-  if (gamediv.style.display === "none") {
-    gamediv.style.display = "block";
-    $(document).on("click", "#refresh", refresh);
-    setInterval(refresh, 60000);
-  }
   const connectbtn = document.getElementById("connect");
-  if (connectbtn.style.display !== "none") {
-    connectbtn.style.display = "none";
-  }
+  toggle(gamediv);
+  toggle(connectbtn);
 }
 
 socket.on('gamestate', stringData => {
@@ -133,4 +131,3 @@ socket.on('makemovestatus', stringStatus => {
 socket.on('gamestatestatus', stringStatus => {
 
 });
-

@@ -6,6 +6,8 @@ import * as util from './util';
 import * as game from './game';
 
 const games: game.GameManager = new game.GameManager;
+
+/* chat hacks */
 const users: string[] = [];
 
 function extractClientData(socket: SocketIO.Socket) {
@@ -67,6 +69,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
         next();
     });
     io.on('connection', (socket: SocketIO.Socket) => {
+        /* chat hacks */
         socket.on('setUsername', function (data) {
             console.log(data);
 
@@ -77,7 +80,6 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 socket.emit('userSet', { username: data });
             }
         });
-
         socket.on('msg', function (data) {
             //Send message to everyone
             io.sockets.emit('newmsg', data);
@@ -147,7 +149,6 @@ export default (app: express.Application, io: SocketIO.Server) => {
             games.update(game, player, data);
             //do stuffz here
             for (let client of game2cookies[game]) {
-                console.log(client);
                 const socketid = cookie2socket[client];
                 const player = cookie2player[client];
 

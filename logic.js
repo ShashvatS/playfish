@@ -4,6 +4,7 @@ var request = require("request");
 var util = require("./util");
 var game = require("./game");
 var games = new game.GameManager;
+/* chat hacks */
 var users = [];
 function extractClientData(socket) {
     var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
@@ -53,6 +54,7 @@ exports.default = function (app, io) {
         next();
     });
     io.on('connection', function (socket) {
+        /* chat hacks */
         socket.on('setUsername', function (data) {
             console.log(data);
             if (users.indexOf(data) > -1) {
@@ -121,7 +123,6 @@ exports.default = function (app, io) {
             //do stuffz here
             for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
                 var client_1 = _b[_i];
-                console.log(client_1);
                 var socketid = cookie2socket[client_1];
                 var player_1 = cookie2player[client_1];
                 if (socketid === undefined || player_1 === undefined) {

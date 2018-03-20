@@ -23,7 +23,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="white">
   <meta name="apple-mobile-web-app-title" content="Play Fish">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/touch/apple-touch-icon.png">
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
   <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
@@ -43,7 +43,7 @@
 
   <!-- Material Design icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Material Design Lite page styles:
     You can choose other color schemes from the CDN, more info here http://www.getmdl.io/customize/index.html
@@ -101,7 +101,9 @@
                 <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
               </div>
 
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()" type="button">Copy</button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()" type="button">
+                <i class="material-icons">content_copy</i>
+              </button>
             </form>
 
           </div>
@@ -140,10 +142,14 @@
         <section class="section--center mdl-grid mdl-grid--no-spacing">
           <div class="mdl-cell mdl-cell--12-col">
 
-            <button id="connect" onclick="javascript:connect()" type="button">Start</button>
+            <button id="connect" onclick="javascript:connect()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons">polymer</i>
+            </button>
             <br>
             <div id="maingame" style="display: hidden">
-              <button id="refresh" onlick="javascript:fresh()" type="button">Refresh</button>
+              <button id="refresh" onlick="javascript:fresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons">autorenew</i>
+              </button>
               <h3 id="gameroom"></h3>
               <h4 id="gameplayer"></h4>
               <h4 id="score"></h4>
@@ -166,12 +172,24 @@
                 <tbody>
                   <tr>
                     <td class="mdl-data-table__cell--non-numeric"># of Cards</td>
-                    <td><div id="numcards0"></div></td>
-                    <td><div id="numcards1"></div></td>
-                    <td><div id="numcards2"></div></td>
-                    <td><div id="numcards3"></div></td>
-                    <td><div id="numcards4"></div></td>
-                    <td><div id="numcards5"></div></td>
+                    <td>
+                      <div id="numcards0"></div>
+                    </td>
+                    <td>
+                      <div id="numcards1"></div>
+                    </td>
+                    <td>
+                      <div id="numcards2"></div>
+                    </td>
+                    <td>
+                      <div id="numcards3"></div>
+                    </td>
+                    <td>
+                      <div id="numcards4"></div>
+                    </td>
+                    <td>
+                      <div id="numcards5"></div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -181,9 +199,18 @@
 
               <h4 id="lastmove"></h4>
 
-              <button onclick="javascript:toggle(form1)">Ask</button>
-              <button onclick="javascript:toggle(form2)">Declare</button>
-              <button onclick="javascript:toggle(form3)">Transfer</button>
+              <button onclick="javascript:toggle(form1); hide(form2); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Ask
+                <i class="material-icons">arrow_drop_down</i>
+              </button>
+              <button onclick="javascript:toggle(form2); hide(form1); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Declare
+                <i class="material-icons">arrow_drop_down</i>
+              </button>
+              <button onclick="javascript:toggle(form3); hide(form2); hide(form1)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Transfer
+                <i class="material-icons">arrow_drop_down</i>
+              </button>
 
               <div id="form1" style="display:none">
                 <form action="javascript:ask()">
