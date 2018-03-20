@@ -68,7 +68,8 @@ socket.on('gamestate', stringData => {
   }
 
   const numCardsArr = gameData.numCards.map((x, i) => {
-    return `Player ${i + 1}: ${x} cards`;
+    //return `Player ${i + 1}: ${x} cards`;
+    return `${x}`;
   });
   for (let i = 0; i < 6; ++i) {
     $('#numcards' + i).text(numCardsArr[i]);
