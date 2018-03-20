@@ -59,7 +59,11 @@ function makeNumCardsTable(gameData) {
   });
   for (let i = 0; i < 6; ++i) {
     $('#numcards' + i).text(numCardsArr[i]);
+    $('#table' + (i + 1)).css("font-weight", "");
   }
+
+  const turn = gameData.turn + 1;
+  $('#table' + (gameData.turn + 1)).css("font-weight", "bold");
 }
 
 function makeDeclaredSets(gameData) {
@@ -98,7 +102,7 @@ socket.on('gamestate', stringData => {
   //update the view
   $('#gameroom').text("Game code: " + data.gameCode);
   $('#gameplayer').text("Player: " + (data.player + 1));
-  $('#turn').text("Turn: Player " + (gameData.turn + 1));
+  //$('#turn').text("Turn: Player " + (gameData.turn + 1));
 
   if (data.player % 2 == 0) {
     $('#score').text("Score: " + gameData.scoreOdd + " : " + gameData.scoreEven + " (you)");
