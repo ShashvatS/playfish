@@ -17,12 +17,6 @@ router.get('/*', function (req, res, next) {
 router.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/index.html'));
 });
-router.get('/create', function (req, res) {
-    res.sendFile(path.join(__dirname, '../views/create.html'));
-});
-router.get('/join', function (req, res) {
-    res.sendFile(path.join(__dirname, '../views/join.html'));
-});
 router.get('/chat', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/chat.html'));
 });

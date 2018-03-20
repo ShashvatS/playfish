@@ -36,9 +36,6 @@
     <Content Include="views\chat.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="views\create.html">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="views\error.pug">
       <SubType>Code</SubType>
     </Content>
@@ -46,9 +43,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\layout.pug">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="views\join.html">
       <SubType>Code</SubType>
     </Content>
     <TypeScriptCompile Include="app.ts" />
