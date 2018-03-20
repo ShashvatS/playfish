@@ -38,6 +38,59 @@ function connect() {
   toggle(connectbtn);
 }
 
+
+function makeLog(gameData) {
+  if (gameData.lastMove === undefined) {
+    $('#lastmove').text("Log: Game start");
+  } else {
+    let str = "";
+    if (gameData.lastMove[3] == 1) {
+      str = `Player ${gameData.lastMove[0] + 1} took ${convertNumToCoordinates(gameData.lastMove[2])} from Player ${gameData.lastMove[1] + 1}`
+    } else {
+      str = `Player ${gameData.lastMove[0] + 1} asked Player ${gameData.lastMove[1] + 1} for ${convertNumToCoordinates(gameData.lastMove[2])}`
+    }
+    $('#lastmove').text("Log: " + str);
+  }
+}
+
+function makeNumCardsTable(gameData) {
+  const numCardsArr = gameData.numCards.map((x, i) => {
+    return `${x}`;
+  });
+  for (let i = 0; i < 6; ++i) {
+    $('#numcards' + i).text(numCardsArr[i]);
+  }
+}
+
+function makeDeclaredSets(gameData) {
+  let declaredStr = "Declared Sets:";
+  if (gameData.declaresLog.length == 0) {
+    declaredStr += " None";
+  } else {
+    for (let i of gameData.declaresLog) {
+      declaredStr += " " + (i + 1);
+    }
+  }
+
+  $('#declaredsets').text(declaredStr);
+}
+
+function makePlayerCards(gameData) {
+  // let cardsStr = "";
+  // for (let card of gameData.cards) {
+  //   cardsStr += convertNumToCoordinates(card) + " ";
+  // }
+
+  // $('#playercards').text(cardsStr);
+
+  // $('#playercards').remove('.card');
+  $('.card').remove();
+  for (let card of gameData.cards) {
+    $('#playercards').append(`<div class="card"><span> ${convertNumToCoordinates(card)} </span></div>`);
+  }
+
+}
+
 socket.on('gamestate', stringData => {
   const data = JSON.parse(stringData);
   const gameData = data.data;
@@ -53,43 +106,10 @@ socket.on('gamestate', stringData => {
     $('#score').text("Score: " + gameData.scoreOdd + " (you) : " + gameData.scoreEven);
   }
 
-  if (gameData.lastMove !== undefined) {
-    let str = "";
-    if (gameData.lastMove[3] == 1) {
-      str = `Player ${gameData.lastMove[0] + 1} took ${convertNumToCoordinates(gameData.lastMove[2])} from Player ${gameData.lastMove[1] + 1}`
-    } else {
-      str = `Player ${gameData.lastMove[0] + 1} asked Player ${gameData.lastMove[1] + 1} for ${convertNumToCoordinates(gameData.lastMove[2])}`
-    }
-    $('#lastmove').text("Log: " + str);
-  } else {
-    $('#lastmove').text("Log: Game start");
-  }
-
-  const numCardsArr = gameData.numCards.map((x, i) => {
-    //return `Player ${i + 1}: ${x} cards`;
-    return `${x}`;
-  });
-  for (let i = 0; i < 6; ++i) {
-    $('#numcards' + i).text(numCardsArr[i]);
-  }
-
-  let declaredStr = "Declared Sets:";
-  if (gameData.declaresLog.length == 0) {
-    declaredStr += " None";
-  } else {
-    for (let i of gameData.declaresLog) {
-      declaredStr += " " + (i + 1);
-    }
-  }
-
-  $('#declaredsets').text(declaredStr);
-
-  let cardsStr = "";
-  for (let card of gameData.cards) {
-    cardsStr += convertNumToCoordinates(card) + " ";
-  }
-
-  $('#playercards').text(cardsStr);
+  makeLog(gameData);
+  makeNumCardsTable(gameData);
+  makeDeclaredSets(gameData);
+  makePlayerCards(gameData);
 
 });
 

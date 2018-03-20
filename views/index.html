@@ -123,7 +123,7 @@
 
               <br>
               <div class="mdl-textfield mdl-js-textfield">
-                <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="player" inputmode="numeric">
+                <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player" inputmode="numeric">
                 <label class="mdl-textfield__label" for="player">Player</label>
                 <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
               </div>
@@ -195,7 +195,8 @@
               </table>
 
               <h4>Your Cards</h4>
-              <h5 id="playercards"></h5>
+              <!-- <h5 id="playercards"></h5> -->
+              <div id="playercards"></div>
 
               <h4 id="lastmove"></h4>
 
@@ -215,14 +216,14 @@
               <div id="form1" style="display:none">
                 <form action="javascript:ask()">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-9][0-5]$" id="askcard" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-9][0-5]$" id="askcard" inputmode="numeric">
                     <label class="mdl-textfield__label" for="askcard">Card</label>
                     <span class="mdl-textfield__error">Input must be a valid card!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="askplayer" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="askplayer" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Player</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
@@ -237,49 +238,49 @@
               <div id="form2" style="display:none">
                 <form action="javascript:declare()">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-9]$" id="declaresuit" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-9]$" id="declaresuit" inputmode="numeric">
                     <label class="mdl-textfield__label" for="askcard">Suit</label>
                     <span class="mdl-textfield__error">Input must be a valid set!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare1" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare1" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Zero</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare2" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare2" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">One</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare3" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare3" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Two</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare4" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare4" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Three</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare5" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare5" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Four</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="declare6" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare6" inputmode="numeric">
                     <label class="mdl-textfield__label" for="player">Five</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
@@ -295,7 +296,7 @@
               <div id="form3" style="display:none">
                 <form action="javascript:transfer()">
                   <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" pattern="^[1-6]$" id="transfer" inputmode="numeric">
+                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="transfer" inputmode="numeric">
                     <label class="mdl-textfield__label" for="transfer">Transfer</label>
                     <span class="mdl-textfield__error">Input must be a 1-6!</span>
                   </div>

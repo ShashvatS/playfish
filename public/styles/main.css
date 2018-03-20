@@ -211,3 +211,19 @@ html, body {
 .mdl-demo .mdl-menu__container {
   z-index: 99;
 }
+
+.card  {
+  box-sizing: border-box;
+  width: 35px;
+  height: 25px;
+  margin: 5px;
+  border-style: solid;
+  border-color: black;
+  text-align: center;
+  display: inline-block;
+}
+
+.card span {
+  vertical-align: middle;
+
+}
