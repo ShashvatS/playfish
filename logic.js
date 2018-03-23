@@ -69,6 +69,18 @@ exports.default = function (app, io) {
             //Send message to everyone
             io.sockets.emit('newmsg', data);
         });
+        socket.on('localMessage', function (string_data) {
+            var _a = extractClientData(socket), client = _a.a, game = _a.b;
+            if (game === undefined || game2cookies[game] === undefined)
+                return;
+            for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
+                var client_1 = _b[_i];
+                var socketid = cookie2socket[client_1];
+                if (socketid === undefined)
+                    continue;
+                io.to(socketid).emit('localmessage', string_data);
+            }
+        });
         socket.on('join', function (string_data) {
             var data = JSON.parse(string_data);
             var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
@@ -122,11 +134,11 @@ exports.default = function (app, io) {
             games.update(game, player, data);
             //do stuffz here
             for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
-                var client_1 = _b[_i];
-                var socketid = cookie2socket[client_1];
-                var player_1 = cookie2player[client_1];
+                var client_2 = _b[_i];
+                var socketid = cookie2socket[client_2];
+                var player_1 = cookie2player[client_2];
                 if (socketid === undefined || player_1 === undefined) {
-                    return;
+                    continue;
                 }
                 var rdata = {
                     gameCode: game,

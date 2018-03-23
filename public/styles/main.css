@@ -227,3 +227,24 @@ html, body {
   vertical-align: middle;
 
 }
+
+.cardcontainer {
+  width: 90%;
+  overflow-x: scroll;
+  overflow-y: auto;
+  white-space: nowrap;
+  height: 150px;
+  padding: 10px;
+}
+
+img {
+  width: auto;
+  height: 120px;
+  padding: 5px;
+}
+
+.cardinput {
+  width: auto;
+  height: 115px;
+  padding: 5px;
+}

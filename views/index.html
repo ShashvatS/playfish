@@ -79,6 +79,7 @@
         <a href="#host" class="mdl-layout__tab is-active">Host</a>
         <a href="#join" class="mdl-layout__tab">Join</a>
         <a href="#play" class="mdl-layout__tab">Play</a>
+        <a href="#chat" class="mdl-layout__tab">Chat</a>
       </div>
     </header>
 
@@ -195,7 +196,9 @@
 
               <h4>Your Cards</h4>
               <!-- <h5 id="playercards"></h5> -->
-              <div id="playercards"></div>
+              <!-- <div id="playercards"></div> -->
+              <div id="playercards2" class="cardcontainer"></div>
+
 
               <h4 id="lastmove"></h4>
 
@@ -213,7 +216,15 @@
               </button>
 
               <div id="form1" style="display:none">
-                <form action="javascript:ask()">
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="askplayer2" inputmode="numeric">
+                  <label class="mdl-textfield__label" for="player">Player</label>
+                  <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
+                </div>
+                <div id="playercards3" class="cardcontainer"></div>
+                <div id="playercards4" class="cardcontainer"></div>
+
+                <!-- <form action="javascript:ask()">
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-9][0-5]$" id="askcard" inputmode="numeric">
                     <label class="mdl-textfield__label" for="askcard">Card</label>
@@ -231,56 +242,70 @@
                   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
                     Ask
                   </button>
-                </form>
+                </form> -->
               </div>
 
               <div id="form2" style="display:none">
                 <form action="javascript:declare()">
+                  <br>
+                  <select id="declareSET" name="declareSET">
+                    <option value="0">High Clubs</option>
+                    <option value="7">Low Clubs</option>
+                    <option value="6">High Hearts</option>
+                    <option value="1">Low Hearts</option>
+                    <option value="4">High Spades</option>
+                    <option value="3">Low Spades</option>
+                    <option value="2">High Diamonds</option>
+                    <option value="5">Low Diamonds</option>
+                    <option value="8">Jokers</option>
+
+                  </select>
+<!-- 
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-9]$" id="declaresuit" inputmode="numeric">
                     <label class="mdl-textfield__label" for="askcard">Suit</label>
                     <span class="mdl-textfield__error">Input must be a valid set!</span>
-                  </div>
+                  </div> -->
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare1" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Zero</label>
+                    <label class="mdl-textfield__label" for="player">2/9/Black</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare2" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">One</label>
+                    <label class="mdl-textfield__label" for="player">3/10/Red</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare3" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Two</label>
+                    <label class="mdl-textfield__label" for="player">4/Jack/Club</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare4" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Three</label>
+                    <label class="mdl-textfield__label" for="player">5/Queen/Diamond</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare5" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Four</label>
+                    <label class="mdl-textfield__label" for="player">6/King/Spade</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="declare6" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Five</label>
+                    <label class="mdl-textfield__label" for="player">7/Ace/Heart</label>
                     <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                   </div>
 
@@ -288,7 +313,6 @@
                   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
                     Declare
                   </button>
-                </form>
 
               </div>
 
@@ -313,6 +337,26 @@
         </section>
       </div>
 
+      <div class="mdl-layout__tab-panel" id="chat">
+        <section class="section--center mdl-grid mdl-grid--no-spacing">
+          <div class="mdl-cell mdl-cell--12-col">
+
+            <span class="mdl-layout-title">Game Chat</span>
+            <br>
+            <div id="error-container"></div>
+            <input id="chatUsername" type="text" value="" placeholder="Enter your name!">
+
+            <br>
+            <br>
+
+            <div id="message-container"></div>
+            <input type="text" id="chatMessage">
+            <button type="button" name="button" onclick="sendMessage()">Send</button>
+
+          </div>
+        </section>
+      </div>
+
       <!-- <footer class="mdl-mega-footer">
 
       </footer> -->
@@ -327,6 +371,7 @@
   </div>
 
   <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+
   <!-- build:js scripts/main.min.js -->
   <script src="scripts/main.js"></script>
   <script>
@@ -339,6 +384,8 @@
   <script src="scripts/host.js"></script>
   <script src="scripts/join.js"></script>
   <script src="scripts/app.js"></script>
+  <script src="scripts/localchat.js"></script>
+
 
   <!-- endbuild -->
 
@@ -346,3 +393,4 @@
 </body>
 
 </html>
+

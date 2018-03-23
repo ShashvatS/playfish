@@ -85,6 +85,20 @@ export default (app: express.Application, io: SocketIO.Server) => {
             io.sockets.emit('newmsg', data);
         });
 
+        socket.on('localMessage', (string_data) => {
+            const { a: client, b: game } = extractClientData(socket);
+
+            if (game === undefined || game2cookies[game] === undefined)
+                return;
+
+            for (let client of game2cookies[game]) {
+                const socketid = cookie2socket[client];
+                if (socketid === undefined) continue;
+                io.to(socketid).emit('localmessage', string_data);
+            }
+
+        });
+
         socket.on('join', (string_data) => {
             const data = JSON.parse(string_data);
             const client = util.getCookie(socket.request.headers.cookie,
@@ -153,7 +167,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 const player = cookie2player[client];
 
                 if (socketid === undefined || player === undefined) {
-                    return;
+                    continue;
                 }
 
                 const rdata = {
