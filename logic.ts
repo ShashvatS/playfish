@@ -2,6 +2,8 @@
 import request = require('request');
 import sio = require('socket.io');
 
+import schedule = require('node-schedule');
+
 import * as util from './util';
 import * as game from './game';
 
@@ -34,6 +36,20 @@ const cookie2socket: { [cookie: string]: string } = {};
 const cookie2game: { [cookie: string]: string } = {}
 /* maintain at io/join */
 const cookie2player: { [cookie: string]: number } = {};
+
+const task = schedule.scheduleJob('42 * * * *', () => {
+    for (let game in game2cookies) {
+        if (games.remove(game)) {
+            for (let client of game2cookies[game]) {
+                delete cookie2game[client];
+                delete cookie2player[client];
+            }
+            delete game2cookies[game];
+        }
+    }
+
+    return;
+});
 
 //TODO: admin stuffz, admin backdoors
 export default (app: express.Application, io: SocketIO.Server) => {

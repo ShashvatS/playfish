@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var request = require("request");
+var schedule = require("node-schedule");
 var util = require("./util");
 var game = require("./game");
 var games = new game.GameManager;
@@ -26,6 +27,19 @@ var cookie2socket = {};
 var cookie2game = {};
 /* maintain at io/join */
 var cookie2player = {};
+var task = schedule.scheduleJob('42 * * * *', function () {
+    for (var game_1 in game2cookies) {
+        if (games.remove(game_1)) {
+            for (var _i = 0, _a = game2cookies[game_1]; _i < _a.length; _i++) {
+                var client = _a[_i];
+                delete cookie2game[client];
+                delete cookie2player[client];
+            }
+            delete game2cookies[game_1];
+        }
+    }
+    return;
+});
 //TODO: admin stuffz, admin backdoors
 exports.default = function (app, io) {
     app.post('/create', function (req, res) {

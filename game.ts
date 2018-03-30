@@ -205,6 +205,21 @@ export class GameManager {
     constructor() { };
     private games: { [id: string]: Game } = {};
 
+    public remove(key: string): boolean {
+        if (this.games[key].time - Date.now() > 24 * 60 * 60 * 1000) {
+            delete this.games[key];
+            return true;
+        } 
+        return false;
+    }
+    public removeOld() {
+        for (let key in this.games) {
+            if (this.games[key].time - Date.now() > 24 * 60 * 60 * 1000) {
+                delete this.games[key];
+            }
+        }
+    }
+
     public createGame(gameId: string): void {
         this.games[gameId] = new Game();
     }
@@ -231,5 +246,7 @@ export class GameManager {
     public getData(gameId: string, player: number) {
         return this.games[gameId].data(player);
     }
+
+
 
 }

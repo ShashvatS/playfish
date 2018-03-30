@@ -166,6 +166,20 @@ var GameManager = (function () {
         this.games = {};
     }
     ;
+    GameManager.prototype.remove = function (key) {
+        if (this.games[key].time - Date.now() > 24 * 60 * 60 * 1000) {
+            delete this.games[key];
+            return true;
+        }
+        return false;
+    };
+    GameManager.prototype.removeOld = function () {
+        for (var key in this.games) {
+            if (this.games[key].time - Date.now() > 24 * 60 * 60 * 1000) {
+                delete this.games[key];
+            }
+        }
+    };
     GameManager.prototype.createGame = function (gameId) {
         this.games[gameId] = new Game();
     };
