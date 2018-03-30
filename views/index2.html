@@ -80,6 +80,7 @@
         <a href="#join" class="mdl-layout__tab">Join</a>
         <a href="#play" class="mdl-layout__tab">Play</a>
         <a href="#chat" class="mdl-layout__tab">Chat</a>
+        <a href="#randomizer" class="mdl-layout__tab">Randomizer</a>
       </div>
     </header>
 
@@ -224,25 +225,6 @@
                 <div id="playercards3" class="cardcontainer"></div>
                 <div id="playercards4" class="cardcontainer"></div>
 
-                <!-- <form action="javascript:ask()">
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="^[1-9][0-5]$" id="askcard" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="askcard">Card</label>
-                    <span class="mdl-textfield__error">Input must be a valid card!</span>
-                  </div>
-
-                  <br>
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="askplayer" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="player">Player</label>
-                    <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
-                  </div>
-
-                  <br>
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
-                    Ask
-                  </button>
-                </form> -->
               </div>
 
               <div id="form2" style="display:none">
@@ -260,12 +242,6 @@
                     <option value="8">Niggas</option>
 
                   </select>
-<!-- 
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="^[1-9]$" id="declaresuit" inputmode="numeric">
-                    <label class="mdl-textfield__label" for="askcard">Suit</label>
-                    <span class="mdl-textfield__error">Input must be a valid set!</span>
-                  </div> -->
 
                   <br>
                   <div class="mdl-textfield mdl-js-textfield">
@@ -313,8 +289,8 @@
                   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
                     Declare
                   </button>
-                </form>
 
+                </form>
               </div>
 
               <div id="form3" style="display:none">
@@ -358,6 +334,64 @@
         </section>
       </div>
 
+      <div class="mdl-layout__tab-panel" id="randomizer">
+        <section class="section--center mdl-grid mdl-grid--no-spacing">
+          <div class="mdl-cell mdl-cell--12-col">
+
+            <form action="javascript:randomize()">
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize1">
+                <label class="mdl-textfield__label" for="randimize1">Player 1</label>  
+              </div>
+
+              <br>
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize2">
+                <label class="mdl-textfield__label" for="randimize2">Player 2</label>  
+              </div>
+
+              <br>
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize3">
+                <label class="mdl-textfield__label" for="randimize3">Player 3</label>                 
+              </div>
+
+              <br>
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize4">
+                <label class="mdl-textfield__label" for="randimize4">Player 4</label>                
+              </div>
+
+              <br>
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize5">
+                <label class="mdl-textfield__label" for="randimize5">Player 5</label>                
+              </div>
+
+              <br>
+
+              <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="randomize6">
+                <label class="mdl-textfield__label" for="randimize6">Player 6</label>                
+              </div>
+
+              <br>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
+                Randomize
+              </button>
+
+            </form>
+
+          </div>
+        </section>
+      </div>
+
       <!-- <footer class="mdl-mega-footer">
 
       </footer> -->
@@ -384,7 +418,7 @@
   </script>
   <script src="scripts/host.js"></script>
   <script src="scripts/join.js"></script>
-  <script src="scripts/app2.js"></script>
+  <script src="scripts/app.js"></script>
   <script src="scripts/localchat.js"></script>
 
 
@@ -394,4 +428,3 @@
 </body>
 
 </html>
-
