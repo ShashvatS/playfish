@@ -250,7 +250,7 @@ img {
 }
 
 #numcardstable {
-  overflow: scroll;
+  overflow-x: auto;
   white-space: nowrap;
   width: 90%;
 }
