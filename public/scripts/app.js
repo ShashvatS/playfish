@@ -185,8 +185,8 @@ function updateFormsForNames(data) {
   }
 
   for (let i of document.getElementsByClassName("playerselectmenu2")) {
-    const one = (data.player + 2) % 6;
-    const two = (data.player + 4) % 6; 
+    let one = (data.player + 2) % 6;
+    let two = (data.player + 4) % 6; 
 
     if (two < one) {
       let tmp = two;
