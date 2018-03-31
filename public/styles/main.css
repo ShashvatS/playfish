@@ -248,3 +248,9 @@ img {
   height: 115px;
   padding: 5px;
 }
+
+#numcardstable {
+  overflow: scroll;
+  white-space: nowrap;
+  width: 90%;
+}

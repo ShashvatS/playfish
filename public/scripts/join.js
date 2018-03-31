@@ -3,7 +3,8 @@
 function join() {
   const data = {
     game: $('#gamecode').val(),
-    player: +$('#player').val() - 1
+    player: +$('#player').val() - 1,
+    name: $('#playername').val()
   };
 
   socket.emit('join', JSON.stringify(data));

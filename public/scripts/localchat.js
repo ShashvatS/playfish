@@ -3,9 +3,8 @@
 
 function sendMessage() {
     const text = $('#chatMessage').val();
-    const name = $('#chatUsername').val();
     
-    socket.emit('localMessage', JSON.stringify({message: text, user: name}));
+    socket.emit('localMessage', JSON.stringify({message: text}));
 
 }
 

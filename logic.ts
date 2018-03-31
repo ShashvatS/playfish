@@ -2,6 +2,8 @@
 import request = require('request');
 import sio = require('socket.io');
 
+import schedule = require('node-schedule');
+
 import * as util from './util';
 import * as game from './game';
 
@@ -34,6 +36,24 @@ const cookie2socket: { [cookie: string]: string } = {};
 const cookie2game: { [cookie: string]: string } = {}
 /* maintain at io/join */
 const cookie2player: { [cookie: string]: number } = {};
+/* create at post/create
+   maintain at join */
+const game2names: { [game: string]: string[] } = {};
+
+const task = schedule.scheduleJob('42 * * * *', () => {
+    for (let game in game2cookies) {
+        if (games.remove(game)) {
+            for (let client of game2cookies[game]) {
+                delete cookie2game[client];
+                delete cookie2player[client];
+            }
+            delete game2cookies[game];
+            delete game2names[game];
+        }
+    }
+
+    return;
+});
 
 //TODO: admin stuffz, admin backdoors
 export default (app: express.Application, io: SocketIO.Server) => {
@@ -54,6 +74,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const gameId: string = util.randomString(10);
             games.createGame(gameId);
             game2cookies[gameId] = [];
+            game2names[gameId] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"];
             res.json({ "pass": true, "code": gameId });
         });
     });
@@ -87,9 +108,16 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
         socket.on('localMessage', (string_data) => {
             const { a: client, b: game } = extractClientData(socket);
+            const player = cookie2player[client];
+            const name = game2names[game][player];
 
             if (game === undefined || game2cookies[game] === undefined)
                 return;
+
+            const data = JSON.parse(string_data);
+            data.user = name;
+            string_data = JSON.stringify(data);
+
 
             for (let client of game2cookies[game]) {
                 const socketid = cookie2socket[client];
@@ -113,6 +141,10 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 return;
             }
 
+            if (data.name === undefined) {
+                data.name = "Player " + (player + 1);
+            }
+
             const others = game2cookies[game];
 
             if (others.length >= util.numPlayers || others.indexOf(client) > -1) {
@@ -122,6 +154,15 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
             for (let other in game2cookies[game]) {
                 if (cookie2player[other] === player) {
+                    socket.emit('joinstatus', JSON.stringify({ success: false }));
+                    return;
+                }
+            }
+
+            /* cannot join game if same name */
+            for (let i = 0; i < 6; ++i) {
+                if (i == player) continue;
+                if (game2names[game][i] == data.name) {
                     socket.emit('joinstatus', JSON.stringify({ success: false }));
                     return;
                 }
@@ -144,6 +185,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
             game2cookies[data.game] = others;
             cookie2game[client] = game;
             cookie2player[client] = player;
+            game2names[data.game][player] = data.name;
 
             socket.emit('joinstatus', JSON.stringify({ success: true }));
             return;
@@ -173,7 +215,8 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 const rdata = {
                     gameCode: game,
                     data: games.getData(game, player),
-                    player: player
+                    player: player,
+                    names: game2names[game]
                 };
 
                 io.to(socketid).emit('gamestate', JSON.stringify(rdata));
@@ -198,7 +241,8 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const rdata = {
                 gameCode: game,
                 data: games.getData(game, player),
-                player: player
+                player: player,
+                names: game2names[game]
             };
             socket.emit('gamestate', JSON.stringify(rdata));
             socket.emit('gamestatestatus', JSON.stringify({ success: true }));
