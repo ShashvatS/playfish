@@ -184,6 +184,13 @@ function updateFormsForNames(data) {
       `<option value="${start + 4}">${data.names[start + 4]}</option>`;
   }
 
+  for (let i of document.getElementsByClassName("playerselectmenu3")) {
+    const start = (data.player % 2);
+    i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
+      `<option value="${start + 2}">${data.names[start + 2]}</option>` +
+      `<option value="${start + 4}">${data.names[start + 4]}</option>`;
+  }
+
   for (let i of document.getElementsByClassName("playerselectmenu2")) {
     let one = (data.player + 2) % 6;
     let two = (data.player + 4) % 6; 
