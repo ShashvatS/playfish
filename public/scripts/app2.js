@@ -177,16 +177,61 @@ function ask2(ccard) {
 
 function updateFormsForNames(data) {
 
-  for (let i of document.getElementsByClassName("playerselectmenu")) {
-    const start = ((data.player + 1) % 2);
-    i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
-      `<option value="${start + 2}">${data.names[start + 2]}</option>` +
-      `<option value="${start + 4}">${data.names[start + 4]}</option>`;
+  // for (let i of document.getElementsByClassName("playerselectmenu")) {
+  //   const start = ((data.player + 1) % 2);
+  //   i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
+  //     `<option value="${start + 2}">${data.names[start + 2]}</option>` +
+  //     `<option value="${start + 4}">${data.names[start + 4]}</option>`;
+  // }
+
+  // for (let i of document.getElementsByClassName("playerselectmenu3")) {
+  //   const start = (data.player % 2);
+  //   i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
+  //     `<option value="${start + 2}">${data.names[start + 2]}</option>` +
+  //     `<option value="${start + 4}">${data.names[start + 4]}</option>`;
+  // }
+
+  // for (let i of document.getElementsByClassName("playerselectmenu2")) {
+  //   let one = (data.player + 2) % 6;
+  //   let two = (data.player + 4) % 6;
+
+  //   if (two < one) {
+  //     let tmp = two;
+  //     two = one;
+  //     one = tmp;
+  //   }
+
+  //   i.innerHTML = `<option value="${one}">${data.names[one]}</option>` +
+  //     `<option value="${two}">${data.names[two]}</option>`;
+  // }
+
+  if (true) {
+    let start = ((data.player + 1) % 2);
+    $('.playerselectmenu .op1').text(data.names[start]);
+    $('.playerselectmenu .op1').val(start);
+
+    $('.playerselectmenu .op2').text(data.names[start + 2]);
+    $('.playerselectmenu .op2').val(start + 2);
+
+    $('.playerselectmenu .op3').text(data.names[start + 4]);
+    $('.playerselectmenu .op3').val(start + 4);
   }
 
-  for (let i of document.getElementsByClassName("playerselectmenu2")) {
+  if (true) {
+    start = (data.player % 2);
+    $('.playerselectmenu3 .op1').text(data.names[start]);
+    $('.playerselectmenu3 .op1').val(start);
+
+    $('.playerselectmenu3 .op2').text(data.names[start + 2]);
+    $('.playerselectmenu3 .op2').val(start + 2);
+
+    $('.playerselectmenu3 .op3').text(data.names[start + 4]);
+    $('.playerselectmenu3 .op3').val(start + 4);
+  }
+
+  if (true) {
     let one = (data.player + 2) % 6;
-    let two = (data.player + 4) % 6; 
+    let two = (data.player + 4) % 6;
 
     if (two < one) {
       let tmp = two;
@@ -194,10 +239,12 @@ function updateFormsForNames(data) {
       one = tmp;
     }
 
-    i.innerHTML = `<option value="${one}">${data.names[one]}</option>` +
-      `<option value="${two}">${data.names[two]}</option>`;
-  }
+    $('.playerselectmenu2 .op1').text(data.names[one]);
+    $('.playerselectmenu2 .op1').val(one);
 
+    $('.playerselectmenu2 .op2').text(data.names[two]);
+    $('.playerselectmenu2 .op2').val(two);
+  }
 }
 
 socket.on('gamestate', stringData => {

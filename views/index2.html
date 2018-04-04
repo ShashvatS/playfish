@@ -62,6 +62,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 
   <script src='https://www.google.com/recaptcha/api.js'></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116900375-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-116900375-1');
+  </script>
+
 </head>
 
 
@@ -233,8 +247,11 @@
 
                 <br>
                 <br>
-                <select id="askplayer2" class="playerselectmenu" name="askSELECT">
 
+                <select id="askplayer2" class="playerselectmenu" name="askSELECT">
+                  <option value="-1" class="op1">Loading</option>
+                  <option value="-1" class="op2">Loading</option>
+                  <option value="-1" class="op3">Loading</option>
                 </select>
 
                 <div id="playercards3" class="cardcontainer"></div>
@@ -260,43 +277,55 @@
                   <br>
                   <br>
                   <label>2/9/Nigga: </label>
-                  <select id="declare1" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare1" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
                   <br>
                   <label>3/10/Red: </label>
-                  <select id="declare2" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare2" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
                   <br>
                   <label>4/Jack/Club: </label>
-                  <select id="declare3" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare3" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
                   <br>
                   <label>5/Queen/Diamond: </label>
-                  <select id="declare4" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare4" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
                   <br>
                   <label>6/King/Spade: </label>
-                  <select id="declare5" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare5" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
                   <br>
                   <label>7/Ace/Heart: </label>
-                  <select id="declare6" class="playerselectmenu" name="askDECLARE">
-
+                  <select id="declare6" class="playerselectmenu3" name="askDECLARE">
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
+                    <option value="-1" class="op3">Loading</option>
                   </select>
 
                   <br>
@@ -314,7 +343,8 @@
 
                   <br>
                   <select id="transfer" class="playerselectmenu2" name="TRANSFER">
-
+                    <option value="-1" class="op1">Loading</option>
+                    <option value="-1" class="op2">Loading</option>
                   </select>
 
                   <br>
