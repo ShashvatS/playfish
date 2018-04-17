@@ -23,7 +23,7 @@ router.get('/chat', (req: express.Request, res: express.Response) => {
     res.sendFile(path.join(__dirname, '../views/chat.html'));
 });
 
-router.get('/promys', (req: express.Request, res: express.Response) => {
+router.get('/goonsquad', (req: express.Request, res: express.Response) => {
     res.sendFile(path.join(__dirname, '../views/index2.html'));
 });
 
