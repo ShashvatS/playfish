@@ -20,7 +20,7 @@ router.get('/', function (req, res) {
 router.get('/chat', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/chat.html'));
 });
-router.get('/promys', function (req, res) {
+router.get('/goonsquad', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/index2.html'));
 });
 exports.default = router;
