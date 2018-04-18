@@ -1,3 +1,5 @@
+let lastScoreOdd = -1, lastScoreEven = -1;
+
 function int2filename(card) {
   const type = card % 6;
   const set = (card - type) / 6;
@@ -267,6 +269,18 @@ socket.on('gamestate', stringData => {
   } else {
     $('#score').text("Score: " + gameData.scoreOdd + " (you) : " + gameData.scoreEven);
   }
+
+  if (lastScoreOdd !== -1 && (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)) {
+    //something changed
+    const notification = document.querySelector('.mdl-js-snackbar');
+    const data = {
+      message: 'A set was declared'
+    };
+    notification.MaterialSnackbar.showSnackbar(data);
+  } 
+
+  lastScoreEven = gameData.scoreEven;
+  lastScoreOdd = gameData.scoreOdd;
 
   makeLog(gameData, data.names);
   makeNumCardsTable(gameData);
