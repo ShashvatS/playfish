@@ -20,8 +20,8 @@ router.get('/', function (req, res) {
 router.get('/chat', function (req, res) {
     res.sendFile(path.join(__dirname, '../views/chat.html'));
 });
-router.get('/goonsquad', function (req, res) {
-    res.sendFile(path.join(__dirname, '../views/index2.html'));
-});
+//router.get('/goonsquad', (req: express.Request, res: express.Response) => {
+//    res.sendFile(path.join(__dirname, '../views/index2.html'));
+//});
 exports.default = router;
 //# sourceMappingURL=index.js.map

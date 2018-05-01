@@ -23,8 +23,8 @@ router.get('/chat', (req: express.Request, res: express.Response) => {
     res.sendFile(path.join(__dirname, '../views/chat.html'));
 });
 
-router.get('/goonsquad', (req: express.Request, res: express.Response) => {
-    res.sendFile(path.join(__dirname, '../views/index2.html'));
-});
+//router.get('/goonsquad', (req: express.Request, res: express.Response) => {
+//    res.sendFile(path.join(__dirname, '../views/index2.html'));
+//});
 
 export default router;
