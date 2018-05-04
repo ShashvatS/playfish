@@ -163,7 +163,8 @@ class Game {
         else if (data.type === "transfer") {
             if (util.checkNum(data.other, util.numPlayers)
                 || data.other % 2 != player % 2
-                || this.numCards[player] != 0) {
+                || this.numCards[player] != 0
+                || this.lastPlayer != player) {
                 return;
             }
 
