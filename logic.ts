@@ -40,6 +40,8 @@ const cookie2player: { [cookie: string]: number } = {};
    maintain at join */
 const game2names: { [game: string]: string[] } = {};
 
+const game2spectate: { [game: string]: string[] } = {};
+
 const task = schedule.scheduleJob('42 * * * *', () => {
     for (let game in game2cookies) {
         if (games.remove(game)) {
@@ -49,6 +51,7 @@ const task = schedule.scheduleJob('42 * * * *', () => {
             }
             delete game2cookies[game];
             delete game2names[game];
+            delete game2spectate[game];
         }
     }
 
@@ -74,6 +77,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const gameId: string = util.randomString(10);
             games.createGame(gameId);
             game2cookies[gameId] = [];
+            game2spectate[gameId] = [];
             game2names[gameId] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"];
             res.json({ "pass": true, "code": gameId });
         });
@@ -134,6 +138,19 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
             const game = data.game;
             const player = data.player;
+
+            if (player == -1) {
+                if (client === undefined || game === undefined
+                    || !games.gameExists(game)) {
+                    socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
+                    return;
+                } 
+
+                game2spectate[game].push(client);
+                socket.emit('joinstatus', JSON.stringify({ success: true }));
+                return;
+            }
+
             if (client === undefined || game === undefined
                 || !games.gameExists(game)
                 || util.checkNum(player, util.numPlayers)) {
@@ -194,7 +211,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
         socket.on('makemove', (string_data) => {
             const data = JSON.parse(string_data);
             const { a: client, b: game } = extractClientData(socket);
-            
+
             if (client == null || game == null
                 || cookie2player[client] === undefined) {
                 socket.emit('makemovestatus', JSON.stringify({ success: false }));
@@ -216,6 +233,23 @@ export default (app: express.Application, io: SocketIO.Server) => {
                     gameCode: game,
                     data: games.getData(game, player),
                     player: player,
+                    names: game2names[game]
+                };
+
+                io.to(socketid).emit('gamestate', JSON.stringify(rdata));
+            }
+
+            for (let spectator of game2spectate[game]) {
+                const socketid = cookie2socket[spectator];
+
+                if (socketid === undefined) {
+                    continue;
+                }
+
+                const rdata = {
+                    gameCode: game,
+                    data: games.getData(game, 0),
+                    player: -1,
                     names: game2names[game]
                 };
 

@@ -30,6 +30,7 @@ var cookie2player = {};
 /* create at post/create
    maintain at join */
 var game2names = {};
+var game2spectate = {};
 var task = schedule.scheduleJob('42 * * * *', function () {
     for (var game_1 in game2cookies) {
         if (games.remove(game_1)) {
@@ -40,6 +41,7 @@ var task = schedule.scheduleJob('42 * * * *', function () {
             }
             delete game2cookies[game_1];
             delete game2names[game_1];
+            delete game2spectate[game_1];
         }
     }
     return;
@@ -60,6 +62,7 @@ exports.default = function (app, io) {
             var gameId = util.randomString(10);
             games.createGame(gameId);
             game2cookies[gameId] = [];
+            game2spectate[gameId] = [];
             game2names[gameId] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"];
             res.json({ "pass": true, "code": gameId });
         });
@@ -110,6 +113,16 @@ exports.default = function (app, io) {
             var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
             var game = data.game;
             var player = data.player;
+            if (player == -1) {
+                if (client === undefined || game === undefined
+                    || !games.gameExists(game)) {
+                    socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
+                    return;
+                }
+                game2spectate[game].push(client);
+                socket.emit('joinstatus', JSON.stringify({ success: true }));
+                return;
+            }
             if (client === undefined || game === undefined
                 || !games.gameExists(game)
                 || util.checkNum(player, util.numPlayers)) {
@@ -181,6 +194,20 @@ exports.default = function (app, io) {
                     gameCode: game,
                     data: games.getData(game, player_1),
                     player: player_1,
+                    names: game2names[game]
+                };
+                io.to(socketid).emit('gamestate', JSON.stringify(rdata));
+            }
+            for (var _c = 0, _d = game2spectate[game]; _c < _d.length; _c++) {
+                var spectator = _d[_c];
+                var socketid = cookie2socket[spectator];
+                if (socketid === undefined) {
+                    continue;
+                }
+                var rdata = {
+                    gameCode: game,
+                    data: games.getData(game, 0),
+                    player: -1,
                     names: game2names[game]
                 };
                 io.to(socketid).emit('gamestate', JSON.stringify(rdata));

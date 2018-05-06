@@ -253,6 +253,42 @@ socket.on('gamestate', stringData => {
   const data = JSON.parse(stringData);
   const gameData = data.data;
 
+  if (data.player == -1) {
+    for (let i = 0; i < 6; ++i) {
+      $('#table' + (i + 1)).text(data.names[i]);
+      $('#gameroom').text("Game code: " + data.gameCode);
+      $('#gameplayer').text("Player: " + (data.player + 1));
+
+      if (data.player % 2 == 0) {
+        $('#score').text("Score: " + gameData.scoreOdd + " : " + gameData.scoreEven);
+      } else {
+        $('#score').text("Score: " + gameData.scoreOdd + " : "+ gameData.scoreEven);
+      }
+
+      if (lastScoreOdd !== -1 && (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)) {
+        //something changed
+        const notification = document.querySelector('.mdl-js-snackbar');
+        const data = {
+          message: 'A set was declared'
+        };
+        notification.MaterialSnackbar.showSnackbar(data);
+      } 
+    
+      lastScoreEven = gameData.scoreEven;
+      lastScoreOdd = gameData.scoreOdd;
+
+      makeLog(gameData, data.names);
+      makeNumCardsTable(gameData);
+      makeDeclaredSets(gameData);
+
+      return;
+
+    
+    }
+
+
+  }
+
   for (let i = 0; i < 6; ++i) {
     $('#table' + (i + 1)).text(data.names[i]);
   }
