@@ -179,34 +179,6 @@ function ask2(ccard) {
 
 function updateFormsForNames(data) {
 
-  // for (let i of document.getElementsByClassName("playerselectmenu")) {
-  //   const start = ((data.player + 1) % 2);
-  //   i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
-  //     `<option value="${start + 2}">${data.names[start + 2]}</option>` +
-  //     `<option value="${start + 4}">${data.names[start + 4]}</option>`;
-  // }
-
-  // for (let i of document.getElementsByClassName("playerselectmenu3")) {
-  //   const start = (data.player % 2);
-  //   i.innerHTML = `<option value="${start}">${data.names[start]}</option>` +
-  //     `<option value="${start + 2}">${data.names[start + 2]}</option>` +
-  //     `<option value="${start + 4}">${data.names[start + 4]}</option>`;
-  // }
-
-  // for (let i of document.getElementsByClassName("playerselectmenu2")) {
-  //   let one = (data.player + 2) % 6;
-  //   let two = (data.player + 4) % 6;
-
-  //   if (two < one) {
-  //     let tmp = two;
-  //     two = one;
-  //     one = tmp;
-  //   }
-
-  //   i.innerHTML = `<option value="${one}">${data.names[one]}</option>` +
-  //     `<option value="${two}">${data.names[two]}</option>`;
-  // }
-
   if (true) {
     let start = ((data.player + 1) % 2);
     $('.playerselectmenu .op1').text(data.names[start]);
@@ -301,6 +273,22 @@ function declare() {
 
   socket.emit('makemove', JSON.stringify(data));
 }
+
+function declarealert() {
+    //           declarealert 
+    socket.emit("declarealert", "");
+}
+
+socket.on('declarealert', (string_data) => {
+    const rdata = JSON.parse(string_data);
+
+    const notification = document.querySelector('.mdl-js-snackbar');
+    const data = {
+        message: `${rdata.name} is about to declare!`
+    };
+    notification.MaterialSnackbar.showSnackbar(data);
+
+});
 
 function transfer() {
   const data = {

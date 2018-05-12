@@ -34,6 +34,8 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\scripts\.eslintrc.json" />
+    <Content Include="public\scripts\main.min.js.map" />
     <Content Include="views\chat.html">
       <SubType>Code</SubType>
     </Content>
@@ -67,6 +69,8 @@
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
+    <Folder Include="public\scripts\" />
+    <Folder Include="public\scripts\sw\" />
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
@@ -78,6 +82,15 @@
     <Compile Include="public\javascripts\join.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="public\scripts\app.js" />
+    <Compile Include="public\scripts\appold.js" />
+    <Compile Include="public\scripts\host.js" />
+    <Compile Include="public\scripts\join.js" />
+    <Compile Include="public\scripts\localchat.js" />
+    <Compile Include="public\scripts\main.js" />
+    <Compile Include="public\scripts\main.min.js" />
+    <Compile Include="public\scripts\sw\runtime-caching.js" />
+    <Compile Include="public\scripts\sw\sw-toolbox.js" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

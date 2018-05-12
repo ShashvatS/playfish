@@ -90,10 +90,10 @@ exports.default = function (app, io) {
         });
         socket.on('localMessage', function (string_data) {
             var _a = extractClientData(socket), client = _a.a, game = _a.b;
-            var player = cookie2player[client];
-            var name = game2names[game][player];
             if (game === undefined || game2cookies[game] === undefined)
                 return;
+            var player = cookie2player[client];
+            var name = game2names[game][player];
             var data = JSON.parse(string_data);
             data.user = name;
             string_data = JSON.stringify(data);
@@ -104,6 +104,25 @@ exports.default = function (app, io) {
                     continue;
                 io.to(socketid).emit('localmessage', string_data);
             }
+        });
+        socket.on('declarealert', function (string_data) {
+            var _a = extractClientData(socket), client = _a.a, game = _a.b;
+            if (client == null || game == null || game2cookies[game] === undefined)
+                return;
+            var player = cookie2player[client];
+            var name = game2names[game][player];
+            for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
+                var client_2 = _b[_i];
+                var socketid = cookie2socket[client_2];
+                if (socketid === undefined || player === undefined) {
+                    continue;
+                }
+                var rdata = {
+                    name: name
+                };
+                io.to(socketid).emit('declarealert', JSON.stringify(rdata));
+            }
+            return;
         });
         socket.on('join', function (string_data) {
             var data = JSON.parse(string_data);
@@ -171,9 +190,9 @@ exports.default = function (app, io) {
             games.update(game, player, data);
             //do stuffz here
             for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
-                var client_2 = _b[_i];
-                var socketid = cookie2socket[client_2];
-                var player_1 = cookie2player[client_2];
+                var client_3 = _b[_i];
+                var socketid = cookie2socket[client_3];
+                var player_1 = cookie2player[client_3];
                 if (socketid === undefined || player_1 === undefined) {
                     continue;
                 }

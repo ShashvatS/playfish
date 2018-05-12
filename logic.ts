@@ -108,11 +108,12 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
         socket.on('localMessage', (string_data) => {
             const { a: client, b: game } = extractClientData(socket);
-            const player = cookie2player[client];
-            const name = game2names[game][player];
 
             if (game === undefined || game2cookies[game] === undefined)
                 return;
+
+            const player = cookie2player[client];
+            const name = game2names[game][player];
 
             const data = JSON.parse(string_data);
             data.user = name;
@@ -124,6 +125,32 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 if (socketid === undefined) continue;
                 io.to(socketid).emit('localmessage', string_data);
             }
+
+        });
+        socket.on('declarealert', (string_data) => {
+            const { a: client, b: game } = extractClientData(socket);
+
+            if (client == null || game == null || game2cookies[game] === undefined)
+                return;
+
+            const player = cookie2player[client];
+            const name = game2names[game][player];
+
+            for (let client of game2cookies[game]) {
+                const socketid = cookie2socket[client];
+
+                if (socketid === undefined || player === undefined) {
+                    continue;
+                }
+
+                const rdata = {
+                    name: name
+                };
+
+                io.to(socketid).emit('declarealert', JSON.stringify(rdata));
+            }
+
+            return;
 
         });
 
