@@ -10,6 +10,15 @@ function join() {
   socket.emit('join', JSON.stringify(data));
 }
 
+function wjoin() {
+    const data = {
+        game: $('#wgamecode').val(),
+        player: +$('#wplayer').val() - 1
+    };
+
+    socket.emit('watch', JSON.stringify(data));
+}
+
 socket.on('joinstatus', stringStatus => {
   const status = JSON.parse(stringStatus);
   let data = {};

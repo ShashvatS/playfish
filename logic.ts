@@ -218,6 +218,34 @@ export default (app: express.Application, io: SocketIO.Server) => {
             return;
 
         });
+        socket.on('watch', (string_data) => {
+            const data = JSON.parse(string_data);
+
+            const game = data.game;
+            const player = data.player;
+
+            if (game === undefined || !games.gameExists(game)
+                || util.checkNum(player, util.numPlayers)) {
+                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
+                return;
+            }
+
+            const clients = game2cookies[game];
+            for (let client of clients) {
+                if (cookie2player[client] == player) {
+                    const socketid = cookie2socket[client];
+
+                    //may leave the socket in multiple rooms
+                    //will need to refresh to way someone new
+                    socket.join(socketid);
+             
+                    return;
+                }
+            }
+           
+            return;
+
+        });
         socket.on('makemove', (string_data) => {
             const data = JSON.parse(string_data);
             const { a: client, b: game } = extractClientData(socket);

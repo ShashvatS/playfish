@@ -178,6 +178,28 @@ exports.default = function (app, io) {
             socket.emit('joinstatus', JSON.stringify({ success: true }));
             return;
         });
+        socket.on('watch', function (string_data) {
+            var data = JSON.parse(string_data);
+            var game = data.game;
+            var player = data.player;
+            if (game === undefined || !games.gameExists(game)
+                || util.checkNum(player, util.numPlayers)) {
+                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
+                return;
+            }
+            var clients = game2cookies[game];
+            for (var _i = 0, clients_1 = clients; _i < clients_1.length; _i++) {
+                var client = clients_1[_i];
+                if (cookie2player[client] == player) {
+                    var socketid = cookie2socket[client];
+                    //may leave the socket in multiple rooms
+                    //will need to refresh to way someone new
+                    socket.join(socketid);
+                    return;
+                }
+            }
+            return;
+        });
         socket.on('makemove', function (string_data) {
             var data = JSON.parse(string_data);
             var _a = extractClientData(socket), client = _a.a, game = _a.b;
