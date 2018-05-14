@@ -239,6 +239,15 @@ export default (app: express.Application, io: SocketIO.Server) => {
                     //will need to refresh to way someone new
                     socket.emit('joinstatus', JSON.stringify({ success: true }));
                     socket.join(socketid);
+
+                    const rdata = {
+                        gameCode: game,
+                        data: games.getData(game, player),
+                        player: player,
+                        names: game2names[game]
+                    };
+
+                    socket.emit('gamestate', JSON.stringify(rdata));
              
                     return;
                 }

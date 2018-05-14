@@ -196,6 +196,13 @@ exports.default = function (app, io) {
                     //will need to refresh to way someone new
                     socket.emit('joinstatus', JSON.stringify({ success: true }));
                     socket.join(socketid);
+                    var rdata = {
+                        gameCode: game,
+                        data: games.getData(game, player),
+                        player: player,
+                        names: game2names[game]
+                    };
+                    socket.emit('gamestate', JSON.stringify(rdata));
                     return;
                 }
             }
