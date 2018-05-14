@@ -12,8 +12,8 @@ function join() {
 
 function wjoin() {
     const data = {
-        game: $('#wgamecode').val(),
-        player: +$('#wplayer').val() - 1
+        game: $('#gamecode').val(),
+        player: +$('#player').val() - 1
     };
 
     socket.emit('watch', JSON.stringify(data));

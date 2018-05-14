@@ -91,7 +91,6 @@
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
           <a href="#host" class="mdl-layout__tab is-active">Host</a>
           <a href="#join" class="mdl-layout__tab">Join</a>
-          <a href="#spec" class="mdl-layout__tab">Spec</a>
           <a href="#play" class="mdl-layout__tab">Play</a>
           <a href="#chat" class="mdl-layout__tab">Chat</a>
           <a href="#randomizer" class="mdl-layout__tab">RNG</a>
@@ -130,59 +129,37 @@
             <section class="section--center mdl-grid mdl-grid--no-spacing">
                 <div class="mdl-cell mdl-cell--12-col">
 
-                    <form action="javascript:join()">
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" pattern="^[a-zA-Z0-9]+$" id="gamecode">
-                            <label class="mdl-textfield__label" for="gamecode">Gamecode</label>
-                            <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
-                        </div>
+                    <!-- <form action="">
 
-                        <br>
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player" inputmode="numeric">
-                            <label class="mdl-textfield__label" for="player">Player</label>
-                            <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
-                        </div>
+                    </form> -->
 
-                        <br>
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" id="playername">
-                            <label class="mdl-textfield__label" for="gamecode">Name</label>
-                        </div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input" type="text" pattern="^[a-zA-Z0-9]+$" id="gamecode">
+                        <label class="mdl-textfield__label" for="gamecode">Gamecode</label>
+                        <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
+                    </div>
 
-                        <br>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
-                            Join
-                        </button>
-                    </form>
+                    <br>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player" inputmode="numeric">
+                        <label class="mdl-textfield__label" for="player">Player</label>
+                        <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
+                    </div>
 
-                </div>
-            </section>
-        </div>
+                    <br>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input" type="text" id="playername">
+                        <label class="mdl-textfield__label" for="gamecode">Name</label>
+                    </div>
 
-        <div class="mdl-layout__tab-panel" id="spec">
-            <section class="section--center mdl-grid mdl-grid--no-spacing">
-                <div class="mdl-cell mdl-cell--12-col">
+                    <br>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:join()">
+                        Play
+                    </button>
 
-                    <form action="javascript:wjoin()">
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" pattern="^[a-zA-Z0-9]+$" id="wgamecode">
-                            <label class="mdl-textfield__label" for="gamecode">Gamecode</label>
-                            <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
-                        </div>
-
-                        <br>
-                        <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="wplayer" inputmode="numeric">
-                            <label class="mdl-textfield__label" for="player">Player</label>
-                            <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
-                        </div>
-
-                        <br>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
-                            Spec
-                        </button>
-                    </form>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:wjoin()">
+                        Spectate
+                    </button>
 
                 </div>
             </section>
