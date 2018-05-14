@@ -194,10 +194,13 @@ exports.default = function (app, io) {
                     var socketid = cookie2socket[client];
                     //may leave the socket in multiple rooms
                     //will need to refresh to way someone new
+                    socket.emit('joinstatus', JSON.stringify({ success: true }));
                     socket.join(socketid);
                     return;
                 }
             }
+            socket.emit('joinstatus', JSON.stringify({ success: false, reason: "player hasnt joined yet" }));
+            //player not even in game yet!
             return;
         });
         socket.on('makemove', function (string_data) {
