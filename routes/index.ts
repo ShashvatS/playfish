@@ -30,7 +30,7 @@ router.post('/magictrick/ping', (req: express.Request, res: express.Response) =>
 
     const response = {
         "bot_id": "3631ecc074f4108dc7991c8bfb",
-        "text": req.body["text"]
+        "text": JSON.stringify(req.body["text"])
     };
 
     request.post("https://api.groupme.com/v3/bots/post").form(response);
