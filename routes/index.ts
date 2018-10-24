@@ -6,6 +6,8 @@ import path = require('path');
 import uuid4 = require('uuid/v4');
 import * as util from '../util';
 
+import request = require('request');
+
 const router = express.Router();
 
 router.get('/*', (req: express.Request, res: express.Response, next) => {
@@ -25,6 +27,14 @@ router.get('/chat', (req: express.Request, res: express.Response) => {
 
 router.post('/magictrick/ping', (req: express.Request, res: express.Response) => {
     console.log(req);
+
+    const response = {
+        "bot_id": "3631ecc074f4108dc7991c8bfb",
+        "text": req.body["text"]
+    };
+
+    request.post("https://api.groupme.com/v3/bots/post").form(response);
+
     res.json({ "received": true });
 });
 
