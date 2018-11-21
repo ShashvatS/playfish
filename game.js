@@ -8,6 +8,9 @@ var Game = (function () {
         this.scoreEven = 0;
         this.lastPlayer = 0;
         this.moves = [];
+        this.lastDeclarePlayer = -1;
+        this.lastDeclareWasCorrect = false;
+        this.lastDeclareSet = -1;
         this.time = Date.now();
         this.declares = [];
         this.declaresLog = [];
@@ -95,6 +98,9 @@ var Game = (function () {
                     break;
                 }
             }
+            this.lastDeclarePlayer = player;
+            this.lastDeclareSet = data.set;
+            this.lastDeclareWasCorrect = success;
             if (success) {
                 if (player % 2) {
                     ++this.scoreOdd;
@@ -136,6 +142,13 @@ var Game = (function () {
         }
         return;
     };
+    Game.prototype.lastDeclareData = function () {
+        return {
+            player: this.lastDeclarePlayer,
+            set: this.lastDeclareSet,
+            success: this.lastDeclareWasCorrect
+        };
+    };
     Game.prototype.data = function (player) {
         var playerCards = [];
         for (var i = 0; i < util.numCards; ++i) {
@@ -157,7 +170,8 @@ var Game = (function () {
             turn: this.lastPlayer,
             numCards: this.numCards,
             declares: this.declares,
-            declaresLog: this.declaresLog
+            declaresLog: this.declaresLog,
+            lastDeclare: this.lastDeclareData()
         };
     };
     return Game;

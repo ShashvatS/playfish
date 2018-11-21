@@ -245,10 +245,19 @@ socket.on('gamestate', stringData => {
   if (lastScoreOdd !== -1 && (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)) {
     //something changed
     const notification = document.querySelector('.mdl-js-snackbar');
-    const data = {
-      message: 'A set was declared'
+    const notificationData = {
+      message: 'A set was declared!'
     };
-    notification.MaterialSnackbar.showSnackbar(data);
+
+    const lastDeclare = gameData.lastDeclare;
+    if (lastDeclare !== undefined) {
+      const playerName = data.names[lastDeclare.player];
+      const correctnessString = (lastDeclare.success) ? "correctly" : "incorrectly";
+      const suits = ["High Clubs", "Low Hearts", "High Diamonds", "Low Spades", "High Spades", "Low Diamonds", "High Hearts", "Low Clubs", "Jokers"];
+      const suitName = suits[lastDeclare.set];
+      notificationData.message = `${playerName} ${correctnessString} declared the ${suitName}!`;
+    }
+    notification.MaterialSnackbar.showSnackbar(notificationData);
   } 
 
   lastScoreEven = gameData.scoreEven;

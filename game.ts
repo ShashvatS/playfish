@@ -12,6 +12,10 @@ class Game {
     private readonly numCards: number[];
     private readonly numCardsBySet: number[][];
 
+    private lastDeclarePlayer: number = -1;
+    private lastDeclareWasCorrect: boolean = false;
+    private lastDeclareSet: number = -1;
+
     /* -1 not declared 
     0 wrong even declare
     1 wrong odd declare
@@ -127,6 +131,10 @@ class Game {
                 }
             }
 
+            this.lastDeclarePlayer = player;
+            this.lastDeclareSet = data.set;
+            this.lastDeclareWasCorrect = success;
+
             if (success) {
                 if (player % 2) {
                     ++this.scoreOdd;
@@ -175,6 +183,14 @@ class Game {
         return;
     }
 
+    private lastDeclareData() {
+        return {
+            player: this.lastDeclarePlayer,
+            set: this.lastDeclareSet,
+            success: this.lastDeclareWasCorrect
+        };
+    }
+    
     public data(player: number) {
         const playerCards: number[] = [];
         for (let i = 0; i < util.numCards; ++i) {
@@ -197,9 +213,11 @@ class Game {
             turn: this.lastPlayer,
             numCards: this.numCards,
             declares: this.declares,
-            declaresLog: this.declaresLog
+            declaresLog: this.declaresLog,
+            lastDeclare: this.lastDeclareData()
         };
     }
+
 }
 
 export class GameManager {
