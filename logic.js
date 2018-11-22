@@ -140,12 +140,13 @@ exports.default = function (app, io) {
             }
             var others = game2cookies[game];
             if (others.length >= util.numPlayers || others.indexOf(client) > -1) {
-                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "already joined" }));
+                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "you already joined" }));
                 return;
             }
-            for (var other in game2cookies[game]) {
+            for (var _i = 0, others_1 = others; _i < others_1.length; _i++) {
+                var other = others_1[_i];
                 if (cookie2player[other] === player) {
-                    socket.emit('joinstatus', JSON.stringify({ success: false }));
+                    socket.emit('joinstatus', JSON.stringify({ success: false, reason: "someone else already joined" }));
                     return;
                 }
             }
@@ -163,8 +164,8 @@ exports.default = function (app, io) {
                 var curGame = cookie2game[client];
                 var curGameOthers = game2cookies[curGame];
                 var newothers = [];
-                for (var _i = 0, curGameOthers_1 = curGameOthers; _i < curGameOthers_1.length; _i++) {
-                    var other = curGameOthers_1[_i];
+                for (var _a = 0, curGameOthers_1 = curGameOthers; _a < curGameOthers_1.length; _a++) {
+                    var other = curGameOthers_1[_a];
                     if (other != client)
                         newothers.push(other);
                 }
@@ -176,8 +177,8 @@ exports.default = function (app, io) {
             cookie2player[client] = player;
             game2names[data.game][player] = data.name;
             socket.emit('joinstatus', JSON.stringify({ success: true }));
-            for (var _a = 0, _b = game2cookies[game]; _a < _b.length; _a++) {
-                var client_3 = _b[_a];
+            for (var _b = 0, _c = game2cookies[game]; _b < _c.length; _b++) {
+                var client_3 = _c[_b];
                 var socketid = cookie2socket[client_3];
                 if (socketid === undefined) {
                     continue;

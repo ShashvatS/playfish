@@ -175,13 +175,13 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const others = game2cookies[game];
 
             if (others.length >= util.numPlayers || others.indexOf(client) > -1) {
-                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "already joined" }));
+                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "you already joined" }));
                 return;
             }
 
-            for (let other in game2cookies[game]) {
+            for (let other of others) {                
                 if (cookie2player[other] === player) {
-                    socket.emit('joinstatus', JSON.stringify({ success: false }));
+                    socket.emit('joinstatus', JSON.stringify({ success: false, reason: "someone else already joined" }));
                     return;
                 }
             }
