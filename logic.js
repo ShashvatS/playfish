@@ -176,22 +176,45 @@ exports.default = function (app, io) {
             cookie2player[client] = player;
             game2names[data.game][player] = data.name;
             socket.emit('joinstatus', JSON.stringify({ success: true }));
+            for (var _a = 0, _b = game2cookies[game]; _a < _b.length; _a++) {
+                var client_3 = _b[_a];
+                var socketid = cookie2socket[client_3];
+                if (socketid === undefined) {
+                    continue;
+                }
+                io.to(socketid).emit('refresh', "");
+            }
             return;
         });
         socket.on('watch', function (string_data) {
             var data = JSON.parse(string_data);
+            var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
             var game = data.game;
             var player = data.player;
-            if (game === undefined || !games.gameExists(game)
+            if (client === undefined || game === undefined
+                || !games.gameExists(game)
                 || util.checkNum(player, util.numPlayers)) {
                 socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
                 return;
             }
+            /* remove client if they are already in a game */
+            if (cookie2game[client] !== undefined) {
+                var curGame = cookie2game[client];
+                var curGameOthers = game2cookies[curGame];
+                var newothers = [];
+                for (var _i = 0, curGameOthers_2 = curGameOthers; _i < curGameOthers_2.length; _i++) {
+                    var other = curGameOthers_2[_i];
+                    if (other != client)
+                        newothers.push(other);
+                }
+                game2cookies[curGame] = newothers;
+            }
+            delete cookie2game[client];
             var clients = game2cookies[game];
-            for (var _i = 0, clients_1 = clients; _i < clients_1.length; _i++) {
-                var client = clients_1[_i];
-                if (cookie2player[client] == player) {
-                    var socketid = cookie2socket[client];
+            for (var _a = 0, clients_1 = clients; _a < clients_1.length; _a++) {
+                var client_4 = clients_1[_a];
+                if (cookie2player[client_4] == player) {
+                    var socketid = cookie2socket[client_4];
                     //may leave the socket in multiple rooms
                     //will need to refresh to way someone new
                     socket.emit('joinstatus', JSON.stringify({ success: true }));
@@ -222,9 +245,9 @@ exports.default = function (app, io) {
             games.update(game, player, data);
             //do stuffz here
             for (var _i = 0, _b = game2cookies[game]; _i < _b.length; _i++) {
-                var client_3 = _b[_i];
-                var socketid = cookie2socket[client_3];
-                var player_1 = cookie2player[client_3];
+                var client_5 = _b[_i];
+                var socketid = cookie2socket[client_5];
+                var player_1 = cookie2player[client_5];
                 if (socketid === undefined || player_1 === undefined) {
                     continue;
                 }

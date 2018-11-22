@@ -83,6 +83,8 @@ function refresh() {
   socket.emit('gamestate', '');
 }
 
+socket.on('refresh', refresh);
+
 function connect() {
   socket.emit('gamestate', '');
 

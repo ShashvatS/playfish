@@ -215,20 +215,48 @@ export default (app: express.Application, io: SocketIO.Server) => {
             game2names[data.game][player] = data.name;
 
             socket.emit('joinstatus', JSON.stringify({ success: true }));
+
+            for (let client of game2cookies[game]) {
+                const socketid = cookie2socket[client];
+
+                if (socketid === undefined) {
+                    continue;
+                }
+
+                io.to(socketid).emit('refresh', "");
+            }
+
             return;
 
         });
         socket.on('watch', (string_data) => {
             const data = JSON.parse(string_data);
+            const client = util.getCookie(socket.request.headers.cookie,
+                util.cookiestring);
 
             const game = data.game;
             const player = data.player;
 
-            if (game === undefined || !games.gameExists(game)
+            if (client === undefined || game === undefined
+                || !games.gameExists(game)
                 || util.checkNum(player, util.numPlayers)) {
                 socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
                 return;
             }
+
+            /* remove client if they are already in a game */
+            if (cookie2game[client] !== undefined) {
+                const curGame = cookie2game[client];
+                const curGameOthers = game2cookies[curGame];
+                const newothers: string[] = [];
+                for (let other of curGameOthers) {
+                    if (other != client)
+                        newothers.push(other);
+                }
+
+                game2cookies[curGame] = newothers;
+            }
+            delete cookie2game[client];
 
             const clients = game2cookies[game];
             for (let client of clients) {

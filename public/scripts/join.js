@@ -11,12 +11,16 @@ function join() {
 }
 
 function wjoin() {
-    const data = {
-        game: $('#gamecode').val(),
-        player: +$('#player').val() - 1
-    };
+  const data = {
+    game: $('#gamecode').val(),
+    player: +$('#player').val() - 1
+  };
 
-    socket.emit('watch', JSON.stringify(data));
+  //don't think we need this
+  // socket.close();
+  // socket.open();
+
+  socket.emit('watch', JSON.stringify(data));
 }
 
 socket.on('joinstatus', stringStatus => {
