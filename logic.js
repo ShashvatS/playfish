@@ -50,7 +50,7 @@ exports.default = function (app, io) {
         if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
             return res.json({ "pass": false, "reason": "no recaptcha" });
         }
-        var secretKey = "6LdX6UAUAAAAACSKbCPDc47NSkfjk-wY3Z6oAfO5";
+        var secretKey = process.env.recaptcha_key;
         var verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
         request(verificationURL, function (error, response, body) {
             body = JSON.parse(body);

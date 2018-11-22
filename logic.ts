@@ -61,7 +61,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
         if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
             return res.json({ "pass": false, "reason": "no recaptcha" });
         }
-        const secretKey = "6LdX6UAUAAAAACSKbCPDc47NSkfjk-wY3Z6oAfO5";
+        const secretKey = process.env.recaptcha_key;
         const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
 
         request(verificationURL, (error, response, body) => {

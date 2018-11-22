@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 var debug = require("debug");
 var express = require("express");
 var path = require("path");
@@ -15,6 +16,16 @@ var server = http.createServer(app);
 var io = sio(server);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.enable('trust proxy');
+if (process.env.NODE_ENV === "production") {
+    app.use(function (req, res, next) {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            res.redirect('https://' + req.header('host') + req.url);
+        }
+        else
+            next();
+    });
+}
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(bodyParser.urlencoded({ extended: true }));

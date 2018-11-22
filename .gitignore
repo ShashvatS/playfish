@@ -1,1 +1,2 @@
 frontfish/node_modules/**
+.env

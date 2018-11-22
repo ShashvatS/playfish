@@ -1,4 +1,6 @@
-﻿import debug = require('debug');
+﻿require('dotenv').config();
+
+import debug = require('debug');
 import express = require('express');
 import path = require('path');
 
@@ -18,6 +20,16 @@ const io: SocketIO.Server = sio(server);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.enable('trust proxy');
+if (process.env.NODE_ENV === "production") {
+    app.use((req: express.Request, res: express.Response, next) => {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            res.redirect('https://' + req.header('host') + req.url);
+        }
+        else next();
+    });
+}
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
