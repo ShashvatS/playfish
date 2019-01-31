@@ -16,7 +16,7 @@ self.addEventListener('install', function (event) {
                     '/favicon-32x32.png',
                     '/favicon-16x16.png',
                     'https://fonts.googleapis.com/icon?family=Material+Icons',
-                    'https://code.getmdl.io/1.2.1/material.indigo-pink.min.css',
+                    // 'https://code.getmdl.io/1.2.1/material.indigo-pink.min.css',
                     '/styles/main.css',
                     'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js',
                     'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js',
