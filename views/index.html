@@ -247,7 +247,8 @@
                                     <ul>
                                         <li>You must join a game to use the game chat; it is not a global chat.</li>
                                         <li>Currently, only players (not spectators) can use the game chat.</li>
-                                        <li>The game chat is not the best, but it is intended as the communication method
+                                        <li>The game chat is not the best, but it is intended as the communication
+                                            method
                                             of last resort. Use video or voice chat
                                             instead.</li>
                                     </ul>
@@ -444,9 +445,27 @@
                                     <option value="-1" class="op2">Loading</option>
                                     <option value="-1" class="op3">Loading</option>
                                 </select>
+                                <br>
+                                <br>
+                                <div id="askplayer2a">
+                                    <button class="op1 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(0)">
+                                        -1
+                                    </button>
+                                    <button class="op2 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(1)">
+                                        -1
+                                    </button>
+                                    <button class="op3 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(2)">
+                                        -1
+                                    </button>
+                                </div>
 
-                                <div id="playercards3" class="cardcontainer"></div>
-                                <div id="playercards4" class="cardcontainer"></div>
+                                <div id="playercards3" class="cardcontainer"  style="display:none"></div>
+                                <div id="playercards3a" class="cardcontainer"></div>
+                                <div id="playercards4" class="cardcontainer"  style="display:none"></div>
+                                <div id="playercards4a" class="cardcontainer"></div>
 
                             </div>
 

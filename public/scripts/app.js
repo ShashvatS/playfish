@@ -1,4 +1,5 @@
-let lastScoreOdd = -1, lastScoreEven = -1;
+let lastScoreOdd = -1,
+  lastScoreEven = -1;
 
 function int2filename(card) {
   const type = card % 6;
@@ -147,6 +148,18 @@ function shrink_enlarge() {
   button = document.getElementById('shrink-enlarge2');
   toggle(button);
 }
+
+function changeAskSelection(idx) {
+  const div2 = document.getElementById("playercards3");
+  div2.style.display = "block";
+
+  const div2a = document.getElementById("playercards3a");
+  div2a.style.display = "none";
+
+  let sel = document.getElementById('askplayer2');
+  sel.selectedIndex = idx;
+}
+
 function makePlayerCards(gameData) {
 
   const div = document.getElementById("playercards2");
@@ -166,7 +179,7 @@ function makePlayerCards(gameData) {
     image.style.left = div2apos + "px";
     image.style.zIndex = div2azpos;
     div2a.appendChild(image);
-   
+
     div2apos += 20;
     div2azpos += 1;
   }
@@ -174,16 +187,31 @@ function makePlayerCards(gameData) {
   $('#playercards3 input').remove();
 
   const div2 = document.getElementById("playercards3");
+  div2.style.display = "none";
+
+  const div3 = document.getElementById("playercards3a");
+  div3.style.display = "block";
+
   for (let card of gameData.cards) {
     // div2.innerHTML += `<button onlick="javascript:askTrigger(${card})"><img src="${int2filename(card)}"></button>`;
     div2.innerHTML += `<input type="image" class="cardinput" onClick="javascript:askTrigger(${card})" src="${int2filename(card)}" />`
   }
+
+  const div4 = document.getElementById("playercards4");
+  div4.style.display = "none";
+
+  const div4a = document.getElementById("playercards4a");
+  div4a.style.display = "block";
 
 }
 
 function askTrigger(card) {
   $('#playercards4 input').remove();
   const div = document.getElementById("playercards4");
+  div.style.display = "block";
+
+  const div4a = document.getElementById("playercards4a");
+  div4a.style.display = "none";  
 
   const type = card % 6;
   const set = (card - type) / 6;
@@ -196,6 +224,18 @@ function askTrigger(card) {
 }
 
 function ask2(ccard) {
+  const div3 = document.getElementById("playercards3");
+  div3.style.display = "none";
+
+  const div3a = document.getElementById("playercards3a");
+  div3a.style.display = "block";  
+
+  const div4 = document.getElementById("playercards4");
+  div4.style.display = "none";
+
+  const div4a = document.getElementById("playercards4a");
+  div4a.style.display = "block";  
+
   const data = {
     type: "ask",
     card: ccard,
@@ -217,6 +257,10 @@ function updateFormsForNames(data) {
 
     $('.playerselectmenu .op3').text(data.names[start + 4]);
     $('.playerselectmenu .op3').val(start + 4);
+
+    $('#askplayer2a .op1').text(data.names[start]);
+    $('#askplayer2a .op2').text(data.names[start + 2]);
+    $('#askplayer2a .op3').text(data.names[start + 4]);
   }
 
   if (true) {
@@ -286,7 +330,7 @@ socket.on('gamestate', stringData => {
       notificationData.message = `${playerName} ${correctnessString} declared the ${suitName}!`;
     }
     notification.MaterialSnackbar.showSnackbar(notificationData);
-  } 
+  }
 
   lastScoreEven = gameData.scoreEven;
   lastScoreOdd = gameData.scoreOdd;
@@ -312,18 +356,18 @@ function declare() {
 }
 
 function declarealert() {
-    //           declarealert 
-    socket.emit("declarealert", "");
+  //           declarealert 
+  socket.emit("declarealert", "");
 }
 
 socket.on('declarealert', (string_data) => {
-    const rdata = JSON.parse(string_data);
+  const rdata = JSON.parse(string_data);
 
-    const notification = document.querySelector('.mdl-js-snackbar');
-    const data = {
-        message: `${rdata.name} is about to declare!`
-    };
-    notification.MaterialSnackbar.showSnackbar(data);
+  const notification = document.querySelector('.mdl-js-snackbar');
+  const data = {
+    message: `${rdata.name} is about to declare!`
+  };
+  notification.MaterialSnackbar.showSnackbar(data);
 
 });
 
