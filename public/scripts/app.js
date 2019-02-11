@@ -137,12 +137,38 @@ function makeDeclaredSets(gameData) {
   $('#declaredsets').text(declaredStr);
 }
 
+function shrink_enlarge() {
+  let div = document.getElementById('playercards2');
+  toggle(div);
+  div = document.getElementById('playercards2a');
+  toggle(div);
+  let button = document.getElementById('shrink-enlarge1');
+  toggle(button);
+  button = document.getElementById('shrink-enlarge2');
+  toggle(button);
+}
 function makePlayerCards(gameData) {
 
   const div = document.getElementById("playercards2");
   $('#playercards2 img').remove();
   for (let card of gameData.cards) {
-    div.innerHTML += `<img src="${int2filename(card)}">`
+    div.innerHTML += `<img src="${int2filename(card)}">`;
+  }
+
+  const div2a = document.getElementById("playercards2a");
+  let div2apos = 0;
+  let div2azpos = 0;
+  $('#playercards2a img').remove();
+  for (let card of gameData.cards) {
+    let image = document.createElement("img");
+    image.style.position = "absolute";
+    image.src = `${int2filename(card)}`;
+    image.style.left = div2apos + "px";
+    image.style.zIndex = div2azpos;
+    div2a.appendChild(image);
+   
+    div2apos += 20;
+    div2azpos += 1;
   }
 
   $('#playercards3 input').remove();

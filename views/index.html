@@ -87,7 +87,7 @@
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
             </div>
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-                <img id = "logoimage" src='images/touch/chrome-touch-icon-192x192.png' alt="">
+                <img id="logoimage" src='images/touch/chrome-touch-icon-192x192.png' alt="">
                 <h3>Play Fish</h3>
             </div>
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
@@ -137,10 +137,12 @@
                                         <br>
                                         <li>When it is your turn: ask a member of the opposing team for a card. You can
                                             only ask for a card if you have a card in that half-set.</li>
-                                        <li>If you're right: you take the card from the other player. It's your turn again.</li>
+                                        <li>If you're right: you take the card from the other player. It's your turn
+                                            again.</li>
                                         <li>If you're wrong: its the other player's turn.</li>
                                         <br>
-                                        <li>A player from can declare at any point in the game if they think their team has all six cards of a set.
+                                        <li>A player from can declare at any point in the game if they think their team
+                                            has all six cards of a set.
                                             This is the only way to score a point.</li>
                                         <li>One player from the team must state exactly who on their team has which
                                             card. If they are right, they get one point. Otherwise, the other team gets
@@ -178,9 +180,11 @@
                                             Then send the code to your friends.
                                             The copy button might not work on Safari.
                                         </li>
-                                        <li><b>Assign numbers:</b> Give each a player a number. The game is odd players versus even players. Player 1 always goes first. Can use RNG tab for
+                                        <li><b>Assign numbers:</b> Give each a player a number. The game is odd players
+                                            versus even players. Player 1 always goes first. Can use RNG tab for
                                             random teams.</li>
-                                        <li><b>Joining a game:</b> Join a game via the join tab. Can also spectate games
+                                        <li><b>Joining a game:</b> Join a game via the join tab. Can also spectate
+                                            games
                                             and leave games (so someone else can hop in) through the join tab.
                                             Screen name needed only for players, not spectators.</li>
                                         <li><b>Playing the game:</b> Go to the play tab and click the button in the
@@ -231,11 +235,13 @@
                                     </ul>
                                     <h5>I accidently closed the tab!!!</h5>
                                     <ul>
-                                        <li>You can rejoin the game without doing anything unless you close the browser. Go to the play tab.</li>
+                                        <li>You can rejoin the game without doing anything unless you close the
+                                            browser. Go to the play tab.</li>
                                     </ul>
                                     <h5>I can't join the game!!!!!</h5>
                                     <ul>
-                                        <li>You're probably already in it and are trying to join again. Go to the play tab.</li>
+                                        <li>You're probably already in it and are trying to join again. Go to the play
+                                            tab.</li>
                                     </ul>
                                 </div>
 
@@ -376,9 +382,16 @@
                             </div>
 
                             <h4>Your Cards</h4>
+                            <button id = "shrink-enlarge1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="javascript:shrink_enlarge()">
+                                Collapse
+                            </button>
+                            <button id = "shrink-enlarge2" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="display: none" onclick="javascript:shrink_enlarge()">
+                                    Expand
+                            </button>
                             <!-- <h5 id="playercards"></h5> -->
                             <!-- <div id="playercards"></div> -->
                             <div id="playercards2" class="cardcontainer"></div>
+                            <div id="playercards2a" class="cardcontainer2a" style="display:none"></div>
 
 
                             <h4 id="lastmove"></h4>

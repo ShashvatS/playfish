@@ -36,15 +36,30 @@
     height: 150px;
     padding: 10px;
   }
+
+  .cardcontainer2a {
+    width: auto;
+    overflow-x: scroll;
+    overflow-y: auto;
+    position: relative;
+    white-space: nowrap;
+    height: 150px;
+    padding: 10px;
+  }
   
   #playercards2 img {
-    /* width: auto;
+    width: auto;
     height: 120px;
-    padding: 5px; */
-    width: 10%;
-    height: auto;
     padding: 5px;
   }
+
+  #playercards2a img {
+    width: auto;
+    height: 120px;
+    padding: 5px;
+  }
+
+
 
   #logoimage {
     width: auto;
