@@ -140,7 +140,7 @@ function makeDeclaredSets(gameData) {
 function makePlayerCards(gameData) {
 
   const div = document.getElementById("playercards2");
-  $('img').remove();
+  $('#playercards2 img').remove();
   for (let card of gameData.cards) {
     div.innerHTML += `<img src="${int2filename(card)}">`
   }
