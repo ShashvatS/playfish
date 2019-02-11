@@ -1,0 +1,61 @@
+.demo-card-wide.mdl-card {
+    width: 100%
+}
+
+.demo-card-wide>.mdl-card__title {
+    color: #fff;
+    height: 300px;
+    background: url('../tom_fishing.jpg') center / cover;
+}
+
+.demo-card-wide>.mdl-card__menu {
+    color: #fff;
+}
+
+
+.card {
+    box-sizing: border-box;
+    width: 35px;
+    height: 25px;
+    margin: 5px;
+    border-style: solid;
+    border-color: black;
+    text-align: center;
+    display: inline-block;
+  }
+  
+  .card span {
+    vertical-align: middle;
+  }
+  
+  .cardcontainer {
+    width: 90%;
+    overflow-x: scroll;
+    overflow-y: auto;
+    white-space: nowrap;
+    height: 150px;
+    padding: 10px;
+  }
+  
+  img {
+    width: auto;
+    height: 120px;
+    padding: 5px;
+  }
+  
+  .cardinput {
+    width: auto;
+    height: 115px;
+    padding: 5px;
+  }
+  
+  #numcardstable {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 90%;
+  }
+  
+  select {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
+    font-size: 18px;
+  }
