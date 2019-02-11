@@ -33,3 +33,19 @@ socket.on('joinstatus', stringStatus => {
   const notification = document.querySelector('.mdl-js-snackbar');
   notification.MaterialSnackbar.showSnackbar(data);
 });
+
+function leaveGame() {
+    const data = "";
+    socket.emit('leave', data);
+}
+
+socket.on('leavestatus', stringStatus => {
+  const status = JSON.parse(stringStatus);
+  let data = {};
+  if (status.success && status.reason === "left game") data.message = "Left game!";
+  else if (status.success && status.reason === "nothing to leave") data.message = "Currently not in a game!"
+  else data.message = 'Failed to leave game!';
+
+  const notification = document.querySelector('.mdl-js-snackbar');
+  notification.MaterialSnackbar.showSnackbar(data);
+});

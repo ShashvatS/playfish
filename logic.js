@@ -263,6 +263,26 @@ exports.default = function (app, io) {
             socket.emit('makemovestatus', JSON.stringify({ success: true }));
             return;
         });
+        socket.on('leave', function (string_data) {
+            var client = util.getCookie(socket.request.headers.cookie, util.cookiestring);
+            /* remove client if they are already in a game */
+            if (cookie2game[client] !== undefined) {
+                var curGame = cookie2game[client];
+                var curGameOthers = game2cookies[curGame];
+                var newothers = [];
+                for (var _i = 0, curGameOthers_3 = curGameOthers; _i < curGameOthers_3.length; _i++) {
+                    var other = curGameOthers_3[_i];
+                    if (other != client)
+                        newothers.push(other);
+                }
+                game2cookies[curGame] = newothers;
+                delete cookie2game[client];
+                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "left game" }));
+            }
+            else {
+                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "nothing to leave" }));
+            }
+        });
         socket.on('gamestate', function (should_not_need_to_use_this) {
             var _a = extractClientData(socket), client = _a.a, game = _a.b;
             if (client == null || game == null

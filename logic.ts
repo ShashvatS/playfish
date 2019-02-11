@@ -179,7 +179,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 return;
             }
 
-            for (let other of others) {                
+            for (let other of others) {
                 if (cookie2player[other] === player) {
                     socket.emit('joinstatus', JSON.stringify({ success: false, reason: "someone else already joined" }));
                     return;
@@ -276,7 +276,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
                     };
 
                     socket.emit('gamestate', JSON.stringify(rdata));
-             
+
                     return;
                 }
             }
@@ -290,7 +290,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
         socket.on('makemove', (string_data) => {
             const data = JSON.parse(string_data);
             const { a: client, b: game } = extractClientData(socket);
-            
+
             if (client == null || game == null
                 || cookie2player[client] === undefined) {
                 socket.emit('makemovestatus', JSON.stringify({ success: false }));
@@ -320,6 +320,31 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
             socket.emit('makemovestatus', JSON.stringify({ success: true }));
             return;
+        });
+        socket.on('leave', (string_data) => {
+            const client = util.getCookie(socket.request.headers.cookie,
+                util.cookiestring);
+
+            /* remove client if they are already in a game */
+            if (cookie2game[client] !== undefined) {
+                const curGame = cookie2game[client];
+                const curGameOthers = game2cookies[curGame];
+                const newothers: string[] = [];
+                for (let other of curGameOthers) {
+                    if (other != client)
+                        newothers.push(other);
+                }
+
+                game2cookies[curGame] = newothers;
+                delete cookie2game[client];
+
+                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "left game" }));
+            }
+
+            else {
+                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "nothing to leave" }));
+            }
+
         });
 
         socket.on('gamestate', (should_not_need_to_use_this) => {
