@@ -135,12 +135,19 @@ exports.default = function (app, io) {
                 socket.emit('joinstatus', JSON.stringify({ success: false, reason: "invalid" }));
                 return;
             }
-            if (data.name === undefined) {
-                data.name = "Player " + (player + 1);
+            if (data.name !== undefined && data.name != null) {
+                data.name = data.name.toString();
+            }
+            if (data.name === undefined || data.name === "Player " + (player + 1) || data.name.length == 0) {
+                data.name = "Playah #" + (player + 1);
             }
             var others = game2cookies[game];
-            if (others.length >= util.numPlayers || others.indexOf(client) > -1) {
+            if (others.indexOf(client) > -1) {
                 socket.emit('joinstatus', JSON.stringify({ success: false, reason: "you already joined" }));
+                return;
+            }
+            else if (others.length >= util.numPlayers) {
+                socket.emit('joinstatus', JSON.stringify({ success: false, reason: "already 6 players" }));
                 return;
             }
             for (var _i = 0, others_1 = others; _i < others_1.length; _i++) {
@@ -155,7 +162,7 @@ exports.default = function (app, io) {
                 if (i == player)
                     continue;
                 if (game2names[game][i] == data.name) {
-                    socket.emit('joinstatus', JSON.stringify({ success: false }));
+                    socket.emit('joinstatus', JSON.stringify({ success: false, reason: "duplicate name" }));
                     return;
                 }
             }
