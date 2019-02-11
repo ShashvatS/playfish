@@ -29,7 +29,7 @@
   }
   
   .cardcontainer {
-    width: 90%;
+    width: 100%;
     overflow-x: scroll;
     overflow-y: auto;
     white-space: nowrap;
@@ -37,7 +37,16 @@
     padding: 10px;
   }
   
-  img {
+  #playercards2 img {
+    /* width: auto;
+    height: 120px;
+    padding: 5px; */
+    width: 10%;
+    height: auto;
+    padding: 5px;
+  }
+
+  #logoimage {
     width: auto;
     height: 120px;
     padding: 5px;
