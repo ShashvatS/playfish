@@ -158,6 +158,9 @@ function changeAskSelection(idx) {
 
   let sel = document.getElementById('askplayer2');
   sel.selectedIndex = idx;
+
+  let display = document.getElementById("displayaskplayer");
+  display.textContent = sel.options[idx].text;
 }
 
 function makePlayerCards(gameData) {
@@ -243,6 +246,9 @@ function ask2(ccard) {
   }
 
   socket.emit('makemove', JSON.stringify(data));
+
+  let display = document.getElementById("displayaskplayer");
+  display.textContent = "";
 }
 
 function updateFormsForNames(data) {
