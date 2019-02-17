@@ -62,6 +62,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -199,7 +200,8 @@
                                         <li><b>Log</b> Shows the last ask.</li>
                                         <li><b>Declare Alert</b> Quickly tell players that you are about to declare.
                                             Non-binding, but please don't spam.</li>
-                                        <li> <b>Asking for cards</b> Click ask. To ask for a low heart, first click the player you want
+                                        <li> <b>Asking for cards</b> Click ask. To ask for a low heart, first click the
+                                            player you want
                                             to ask. Then click one of your low hearts. Then click for the card you want
                                             to ask for. Do
                                             not be the person that asks the wrong player.
@@ -277,8 +279,10 @@
                                 <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
                             </div>
 
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()"
-                                type="button">
+                            <button class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                data-clipboard-target="#code" type="button">
+                                <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()"
+                                type="button"> -->
                                 <i class="material-icons">content_copy</i>
                             </button>
                         </form>
@@ -389,6 +393,46 @@
                                 </table>
                             </div>
 
+                            <!-- <span class="mdl-chip"><span class="mdl-chip__text">a</span></span>
+                            <div id="hexagon">
+                                <div class="hexitem hex1">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                                <div class="hexitem hex2">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                                <div class="hexitem hex3">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                                <div class="hexitem hex4">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                                <div class="hexitem hex5">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                                <div class="hexitem hex6">
+                                    <span class="mdl-chip">
+                                        <span class="mdl-chip__text">a</span>
+                                    </span>
+                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
+                                </div>
+                            </div> -->
+
                             <h4>Your Cards</h4>
                             <button id="shrink-enlarge1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                 onclick="javascript:shrink_enlarge()">
@@ -463,9 +507,9 @@
                                     </button>
                                 </div>
 
-                                <div id="playercards3" class="cardcontainer"  style="display:none"></div>
+                                <div id="playercards3" class="cardcontainer" style="display:none"></div>
                                 <div id="playercards3a" class="cardcontainer"></div>
-                                <div id="playercards4" class="cardcontainer"  style="display:none"></div>
+                                <div id="playercards4" class="cardcontainer" style="display:none"></div>
                                 <div id="playercards4a" class="cardcontainer"></div>
 
                             </div>
@@ -667,6 +711,8 @@
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/main2.js"></script>
     <script>
+        new ClipboardJS('.clipboardjsbtn');
+
         const socket = io();
         socket.on('connection', () => {});
 
