@@ -92,6 +92,11 @@ select {
   line-height: 150%;
 }
 
+#buttonarray button {
+  display: inline;
+  margin-right: 5px;
+}
+
 /* 
 #hexagon {
   width: 200px;

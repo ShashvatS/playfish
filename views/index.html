@@ -448,6 +448,8 @@
                             </div> -->
 
                             <h4>Your Cards</h4>
+                            <span id="buttonarray">
+                                <span>
                             <button id="shrink-enlarge1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                 onclick="javascript:shrink_enlarge()">
                                 Collapse
@@ -456,6 +458,19 @@
                                 style="display: none" onclick="javascript:shrink_enlarge()">
                                 Expand
                             </button>
+                            </span>
+
+                            <button id="refresh" onclick="javascript:refresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                <i class="material-icons">autorenew</i>
+                            </button>
+
+                            <button onclick="javascript:declarealert();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                    Declare Alert
+                                </button>
+                            </span>
+
+
+
                             <!-- <h5 id="playercards"></h5> -->
                             <!-- <div id="playercards"></div> -->
                             <div id="playercards2" class="cardcontainer"></div>
@@ -467,11 +482,11 @@
                             <!--<button onlick="javascript:declarealert()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                         Declare Alert
                     </button>-->
-                            <button onclick="javascript:declarealert();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                            <!-- <button onclick="javascript:declarealert();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
                                 Declare Alert
-                            </button>
+                            </button> -->
 
-                            <br />
+                            <!-- <br /> -->
                             <br />
 
                             <button onclick="javascript:toggle(form1); hide(form2); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">

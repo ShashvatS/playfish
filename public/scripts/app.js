@@ -44,6 +44,14 @@ function toggle(id) {
   }
 }
 
+function toggle2(id, mode) {
+  if (id.style.display === "none") {
+    id.style.display = mode;
+  } else {
+    id.style.display = "none";
+  }
+}
+
 function hide(obj) {
   obj.style.display = "none";
 }
@@ -144,9 +152,9 @@ function shrink_enlarge() {
   div = document.getElementById('playercards2a');
   toggle(div);
   let button = document.getElementById('shrink-enlarge1');
-  toggle(button);
+  toggle2(button, "inline");
   button = document.getElementById('shrink-enlarge2');
-  toggle(button);
+  toggle2(button, "inline");
 }
 
 function changeAskSelection(idx) {
