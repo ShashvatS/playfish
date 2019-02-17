@@ -97,7 +97,7 @@ select {
   margin-right: 5px;
 }
 
-#playercards2a img:hover, #playercards2a img:active{
+#playercards2a img:hover, #playercards2a img.hover_effect {
   transform: scale(1.2);
   z-index: 999 !important;
 }
