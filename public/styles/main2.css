@@ -97,6 +97,11 @@ select {
   margin-right: 5px;
 }
 
+#playercards2a img:hover, #playercards2a img:active{
+  transform: scale(1.2);
+  z-index: 999 !important;
+}
+
 /* 
 #hexagon {
   width: 200px;
