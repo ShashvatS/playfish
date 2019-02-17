@@ -310,7 +310,7 @@ socket.on('gamestate', stringData => {
   updateFormsForNames(data);
 
   //update the view
-  $('#gameroom').text("Game code: " + data.gameCode);
+  $('#gameroom').text("" + data.gameCode);
   $('#gameplayer').text("Player: " + (data.player + 1));
   //$('#turn').text("Turn: Player " + (gameData.turn + 1));
 

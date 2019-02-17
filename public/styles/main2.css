@@ -83,6 +83,15 @@ select {
   font-family: 'Roboto', 'Helvetica', sans-serif;
   font-size: 18px;
 }
+
+.displayinfo {
+  font-size: 2em;
+}
+
+#declaredsets {
+  line-height: 150%;
+}
+
 /* 
 #hexagon {
   width: 200px;

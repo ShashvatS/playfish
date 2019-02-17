@@ -345,15 +345,29 @@
                         </button>
                         <br>
                         <div id="maingame" style="display: hidden">
-                            <button id="refresh" onclick="javascript:refresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <!-- <button id="refresh" onclick="javascript:refresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 <i class="material-icons">autorenew</i>
-                            </button>
-                            <h3 id="gameroom"></h3>
-                            <h4 id="gameplayer"></h4>
-                            <h4 id="score"></h4>
-
-                            <h4 id="declaredsets"></h4>
-
+                            </button> -->
+                            <!-- <h3 id="gameroom"></h3> -->
+                            <!-- <h4 id="gameplayer"></h4>
+                            <h4 id="score"></h4> -->
+                            <span>
+                            <span class="displayinfo">Game code: </span><span id="gameroom" class="displayinfo"></span>                            <button class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            data-clipboard-target="#gameroom" type="button">
+                            <i class="material-icons">content_copy</i>
+                        </button>
+                        </span>
+                            <br>
+                            <br>
+                            <span id="gameplayer" class="displayinfo"></span>
+                            <span class="displayinfo">|</span>
+                            <span id="score" class="displayinfo"></span>
+                            <br>
+                            <br>
+                            <span id="declaredsets" class="displayinfo"></span>
+                            <!-- <h4 id="declaredsets"></h4> -->
+                            <br>
+                            <br>
                             <div id="numcardstable">
                                 <table class="mdl-data-table mdl-js-data-table" style="font-size: 1em; overflow: auto">
                                     <thead>
