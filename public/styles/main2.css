@@ -145,3 +145,8 @@ select {
   display: block;
   height: 220px;
 }
+
+#chatMessage {
+  display: inline-block;
+  width: 80%;
+}

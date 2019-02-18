@@ -20,7 +20,7 @@ function sendMessage() {
     const text = $('#chatMessage').val();
     
     socket.emit('localMessage', JSON.stringify({message: text}));
-
+    $('#chatMessage').val('');
 }
 
 socket.on('localmessage', string_data => {

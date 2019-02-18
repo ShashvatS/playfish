@@ -673,8 +673,11 @@
                                 <br>
 
                                 <div id="message-container"></div>
-                                <input type="text" id="chatMessage">
-                                <button type="button" name="button" onclick="sendMessage()">Send</button>
+                                <input class="mdl-textfield__input" type="text" id="chatMessage">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="sendmessagebutton" type="button"
+                                    name="button" onclick="sendMessage()">
+                                    <i class="material-icons">send</i>
+                                </button>
                             </div>
 
                         </div>
@@ -799,6 +802,12 @@
             },
             animation: 150,
             draggable: ".declareitem"
+        });
+
+        $("#chatMessage").keyup(function (event) {
+            if (event.keyCode === 13) {
+                $("#sendmessagebutton").click();
+            }
         });
 
         const socket = io();
