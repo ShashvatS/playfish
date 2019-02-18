@@ -117,6 +117,7 @@ function makeLog(gameData, names) {
     }
     $('#lastmove').text("Log: " + str);
   }
+  $('#reproducedlog').text($('#lastmove').text());
 }
 
 function makeNumCardsTable(gameData) {

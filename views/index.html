@@ -98,7 +98,7 @@
                 <a href="#host" class="mdl-layout__tab">Host</a>
                 <a href="#join" class="mdl-layout__tab">Join</a>
                 <a href="#play" class="mdl-layout__tab">Play</a>
-                <a href="#chat" class="mdl-layout__tab">Chat</a>
+                <!-- <a href="#chat" class="mdl-layout__tab">Chat</a> -->
                 <a href="#randomizer" class="mdl-layout__tab">RNG</a>
             </div>
         </header>
@@ -489,18 +489,25 @@
                             <!-- <br /> -->
                             <br />
 
-                            <button onclick="javascript:toggle(form1); hide(form2); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form1); hide(form2); hide(form3); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Ask
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
-                            <button onclick="javascript:toggle(form2); hide(form1); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form2); hide(form1); hide(form3); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Declare
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
-                            <button onclick="javascript:toggle(form3); hide(form2); hide(form1)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form3); hide(form2); hide(form1); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Transfer
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
+
+                            <span onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                Chat
+                                <i class="material-icons">arrow_drop_down</i>
+                            </span>
+
+
 
                             <div id="form1" style="display:none">
                                 <!-- <div class="mdl-textfield mdl-js-textfield">
@@ -642,13 +649,24 @@
                                 </form>
                             </div>
 
+                            <div id="chatbox" style="display:none">
+                                <br>
+                                <span class="mdl-layout-title">Game Chat</span>
+                                <span id="reproducedlog"></span>
+                                <br>
+
+                                <div id="message-container"></div>
+                                <input type="text" id="chatMessage">
+                                <button type="button" name="button" onclick="sendMessage()">Send</button>
+                            </div>
+
                         </div>
 
                     </div>
                 </section>
             </div>
 
-            <div class="mdl-layout__tab-panel" id="chat">
+            <!-- <div class="mdl-layout__tab-panel" id="chat">
                 <section class="section--center mdl-grid mdl-grid--no-spacing">
                     <div class="mdl-cell mdl-cell--12-col">
 
@@ -662,7 +680,7 @@
 
                     </div>
                 </section>
-            </div>
+            </div> -->
 
             <div class="mdl-layout__tab-panel" id="randomizer">
                 <section class="section--center mdl-grid mdl-grid--no-spacing">
@@ -731,7 +749,7 @@
                 <button type="button" class="mdl-snackbar__action"></button>
             </div>
         </main>
-        
+
     </div>
 
     <!-- <script src="https://code.getmdl.io/1.2.1/material.min.js"></script> -->

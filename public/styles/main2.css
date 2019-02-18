@@ -102,6 +102,23 @@ select {
   z-index: 999 !important;
 }
 
+#message-container {
+  height: 200px;
+  overflow-y: auto;
+}
+
+/* #chatbadge {
+  align-items: center;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(255,64,129);
+  color: rgb(255,255,255)
+} */
+
 /* 
 #hexagon {
   width: 200px;
