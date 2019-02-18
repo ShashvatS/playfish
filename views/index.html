@@ -63,6 +63,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -407,46 +408,6 @@
                                 </table>
                             </div>
 
-                            <!-- <span class="mdl-chip"><span class="mdl-chip__text">a</span></span>
-                            <div id="hexagon">
-                                <div class="hexitem hex1">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                                <div class="hexitem hex2">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                                <div class="hexitem hex3">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                                <div class="hexitem hex4">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                                <div class="hexitem hex5">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                                <div class="hexitem hex6">
-                                    <span class="mdl-chip">
-                                        <span class="mdl-chip__text">a</span>
-                                    </span>
-                                    <span class="mdl-chip"><span class="mdl-chip__text">9</span></span>
-                                </div>
-                            </div> -->
-
                             <h4>Your Cards</h4>
                             <span id="buttonarray">
                                 <span>
@@ -473,7 +434,7 @@
 
                             <!-- <h5 id="playercards"></h5> -->
                             <!-- <div id="playercards"></div> -->
-                            <div id="playercards2" class="cardcontainer"  style="display:none"></div>
+                            <div id="playercards2" class="cardcontainer" style="display:none"></div>
                             <div id="playercards2a" class="cardcontainer2a"></div>
 
 
@@ -487,7 +448,6 @@
                             </button> -->
 
                             <!-- <br /> -->
-                            <br />
 
                             <button onclick="javascript:toggle(form1); hide(form2); hide(form3); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Ask
@@ -502,11 +462,12 @@
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
 
-                            <button id="chatbutton" onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button id="chatbutton" onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 <span id="chatbadge" data-badge="0">Chat</span>
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
-                           
+
 
                             <div id="form1" style="display:none">
                                 <!-- <div class="mdl-textfield mdl-js-textfield">
@@ -563,62 +524,120 @@
                                         <option value="5">Low Diamonds</option>
                                         <option value="8">Jokers</option>
                                     </select>
+                                    <br>
+                                    <br>
+                                    <div id="declareform2">
+                                        <div class="column">
+                                            <span id="declare2player1" class="mdl-layout-title">Player 1</span>
+                                            <br>
+                                            <div id="declarebox1" class="declarebox">
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">2/9/Black</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">3/10/Red</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">4/Jack/Club</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">5/Queen/Diamond</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">6/King/Spade</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip">
+                                                        <span class="mdl-chip__text declarechip">7/Ace/Heart</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <span id="declare2player2" class="mdl-layout-title">Player 3</span>
+                                            <br>
+                                            <div id="declarebox2" class="declarebox">
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <span id="declare2player3" class="mdl-layout-title">Player 5</span>
+                                            <br>
+                                            <div id="declarebox3" class="declarebox">
+                                                </divs>
+                                            </div>
 
-                                    <br>
-                                    <br>
-                                    <label>2/9/Black: </label>
-                                    <select id="declare1" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                        </div>
+                                    </div>
 
-                                    <br>
-                                    <br>
-                                    <label>3/10/Red: </label>
-                                    <select id="declare2" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                    <div style="display: none;">
+                                        <br>
+                                        <br>
+                                        <label>2/9/Black: </label>
+                                        <select id="declare1" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
 
-                                    <br>
-                                    <br>
-                                    <label>4/Jack/Club: </label>
-                                    <select id="declare3" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                        <br>
+                                        <br>
+                                        <label>3/10/Red: </label>
+                                        <select id="declare2" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
 
-                                    <br>
-                                    <br>
-                                    <label>5/Queen/Diamond: </label>
-                                    <select id="declare4" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                        <br>
+                                        <br>
+                                        <label>4/Jack/Club: </label>
+                                        <select id="declare3" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
 
-                                    <br>
-                                    <br>
-                                    <label>6/King/Spade: </label>
-                                    <select id="declare5" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                        <br>
+                                        <br>
+                                        <label>5/Queen/Diamond: </label>
+                                        <select id="declare4" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
 
-                                    <br>
-                                    <br>
-                                    <label>7/Ace/Heart: </label>
-                                    <select id="declare6" class="playerselectmenu3" name="askDECLARE">
-                                        <option value="-1" class="op1">Loading</option>
-                                        <option value="-1" class="op2">Loading</option>
-                                        <option value="-1" class="op3">Loading</option>
-                                    </select>
+                                        <br>
+                                        <br>
+                                        <label>6/King/Spade: </label>
+                                        <select id="declare5" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
 
-                                    <br>
+                                        <br>
+                                        <br>
+                                        <label>7/Ace/Heart: </label>
+                                        <select id="declare6" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                    </div>
+
                                     <br>
                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
                                         type="submit">
@@ -758,6 +777,30 @@
     <script src="scripts/main2.js"></script>
     <script>
         new ClipboardJS('.clipboardjsbtn');
+
+        new Sortable(document.getElementById("declarebox1"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
+
+        new Sortable(document.getElementById("declarebox2"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
+
+        new Sortable(document.getElementById("declarebox3"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
 
         const socket = io();
         socket.on('connection', () => {});

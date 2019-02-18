@@ -97,7 +97,8 @@ select {
   margin-right: 5px;
 }
 
-#playercards2a img:hover, #playercards2a img:active {
+#playercards2a img:hover,
+#playercards2a img:active {
   transform: scale(1.2);
   z-index: 999 !important;
 }
@@ -108,77 +109,39 @@ select {
 }
 
 .numberbadge {
-  position:relative;
-}
-.numberbadge[data-badge]:after {
-  content:attr(data-badge);
-  position:absolute;
-  top:-10px;
-  right:-10px;
-  font-size:.7em;
-  background: rgb(255,64,129);
-  color: rgb(255,255,255);
-  width:18px;height:18px;
-  text-align:center;
-  line-height:18px;
-  border-radius:50%;
-  box-shadow:0 0 1px #333;
-}
-
-/* #chatbadge {
-  align-items: center;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgb(255,64,129);
-  color: rgb(255,255,255)
-} */
-
-/* 
-#hexagon {
-  width: 200px;
-  height: 200px;
-  border: 1px black solid;
   position: relative;
-  text-align: center;
 }
 
-
-#hexagon .hexitem {
+.numberbadge[data-badge]:after {
+  content: attr(data-badge);
   position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: .7em;
+  background: rgb(255, 64, 129);
+  color: rgb(255, 255, 255);
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 18px;
+  border-radius: 50%;
+  box-shadow: 0 0 1px #333;
 }
 
-.hex1 {
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, 0%);
+#declareform2 {
+  position: relative;
 }
 
-.hex2 {
-  top: 25%;
+#declareform2 .column {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
   left: 0%;
+  border-right: 1px solid black;
 }
 
-.hex3 {
-  top: 25%;
-  right: 0%;
+.declarebox {
+  display: block;
+  height: 220px;
 }
-
-.hex4 {
-  bottom: 25%;
-  left: 0%;
-}
-
-.hex5 {
-  bottom: 25%;
-  right: 0%;
-}
-
-.hex6 {
-  bottom: 0%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-} */

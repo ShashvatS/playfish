@@ -288,6 +288,10 @@ function updateFormsForNames(data) {
 
     $('.playerselectmenu3 .op3').text(data.names[start + 4]);
     $('.playerselectmenu3 .op3').val(start + 4);
+
+    $('#declare2player1').text(data.names[start]);
+    $('#declare2player2').text(data.names[start + 2]);
+    $('#declare2player3').text(data.names[start + 4]);
   }
 
   if (true) {
@@ -357,7 +361,35 @@ socket.on('gamestate', stringData => {
 
 });
 
+function predeclare() {
+    let chips = document.getElementsByClassName("declarechip");
+    for (let i = 0; i < chips.length; ++i) {
+        let chip = chips[i];
+        let box = chip.parentNode.parentNode.parentNode;
+
+        let idx = 0;
+        if (box.id == "declarebox1") idx = 0;
+        else if (box.id == "declarebox2") idx = 1;
+        else if (box.id == "declarebox3") idx = 2;
+        else console.log("wtf???");
+
+        let item = "";
+        if (chip.innerText == "2/9/Black") item = "declare1";
+        else if (chip.innerText == "3/10/Red") item = "declare2";
+        else if (chip.innerText == "4/Jack/Club") item = "declare3";
+        else if (chip.innerText == "5/Queen/Diamond") item = "declare4";
+        else if (chip.innerText == "6/King/Spade") item = "declare5";
+        else if (chip.innerText == "7/Ace/Heart") item = "declare6";
+        else console.log("wtf2.0????");
+
+        let sel = document.getElementById(item);
+        sel.selectedIndex = idx;
+    }
+}
+
 function declare() {
+  predeclare();
+
   const data = {};
   for (let i = 1; i <= 6; ++i) {
     let id = "#declare" + i;
