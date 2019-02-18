@@ -376,9 +376,9 @@ function predeclare() {
         let item = "";
         if (chip.innerText == "2/9/Black") item = "declare1";
         else if (chip.innerText == "3/10/Red") item = "declare2";
-        else if (chip.innerText == "4/Jack/Club") item = "declare3";
-        else if (chip.innerText == "5/Queen/Diamond") item = "declare4";
-        else if (chip.innerText == "6/King/Spade") item = "declare5";
+        else if (chip.innerText == "4/J/Club") item = "declare3";
+        else if (chip.innerText == "5/Q/Diamond") item = "declare4";
+        else if (chip.innerText == "6/K/Spade") item = "declare5";
         else if (chip.innerText == "7/Ace/Heart") item = "declare6";
         else console.log("wtf2.0????");
 
