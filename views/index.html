@@ -502,12 +502,11 @@
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
 
-                            <span onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                                Chat
+                            <button id="chatbutton" onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                <span id="chatbadge" data-badge="0">Chat</span>
                                 <i class="material-icons">arrow_drop_down</i>
-                            </span>
-
-
+                            </button>
+                           
 
                             <div id="form1" style="display:none">
                                 <!-- <div class="mdl-textfield mdl-js-textfield">

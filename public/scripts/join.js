@@ -8,6 +8,7 @@ function join() {
   };
 
   socket.emit('join', JSON.stringify(data));
+  clearChat();
 }
 
 function wjoin() {
@@ -21,6 +22,7 @@ function wjoin() {
   // socket.open();
 
   socket.emit('watch', JSON.stringify(data));
+  clearChat();
 }
 
 socket.on('joinstatus', stringStatus => {
