@@ -361,6 +361,33 @@ socket.on('gamestate', stringData => {
 
 });
 
+document.getElementById("declareSET").onchange = function() {
+  const index = this.selectedIndex;
+  let elements = document.getElementsByClassName("decarechip1");
+  for (let i = 0; i < elements.length; ++i) {
+    hide(elements[i]);
+  }
+  elements = document.getElementsByClassName("declarechip2");
+  for (let i = 0; i < elements.length; ++i) {
+    hide(elements[i]);
+  }
+  elements = document.getElementsByClassName("declarechip3");
+  for (let i = 0; i < elements.length; ++i) {
+    hide(elements[i]);
+  }
+
+  let classname = "";
+  if (index == 8) classname = "declarechip3";
+  else if (index % 2 == 0) classname = "decarechip1";
+  else classname = "declarechip2";
+
+
+  elements = document.getElementsByClassName(classname);
+  for (let i = 0; i < elements.length; ++i) {
+    toggle2(elements[i], "inline-block");
+  }
+}
+
 function predeclare() {
     let chips = document.getElementsByClassName("declarechip");
     for (let i = 0; i < chips.length; ++i) {
