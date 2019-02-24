@@ -9,9 +9,6 @@ import * as game from './game';
 
 const games: game.GameManager = new game.GameManager;
 
-/* chat hacks */
-const users: string[] = [];
-
 function extractClientData(socket: SocketIO.Socket) {
     const client = util.getCookie(socket.request.headers.cookie,
         util.cookiestring);
@@ -90,22 +87,6 @@ export default (app: express.Application, io: SocketIO.Server) => {
         next();
     });
     io.on('connection', (socket: SocketIO.Socket) => {
-        /* chat hacks */
-        socket.on('setUsername', function (data) {
-            console.log(data);
-
-            if (users.indexOf(data) > -1) {
-                socket.emit('userExists', data + ' username is taken! Try some other username.');
-            } else {
-                users.push(data);
-                socket.emit('userSet', { username: data });
-            }
-        });
-        socket.on('msg', function (data) {
-            //Send message to everyone
-            io.sockets.emit('newmsg', data);
-        });
-
         socket.on('localMessage', (string_data) => {
             const { a: client, b: game } = extractClientData(socket);
 
