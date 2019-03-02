@@ -37,9 +37,6 @@
     <Content Include=".env" />
     <Content Include="public\scripts\.eslintrc.json" />
     <Content Include="public\scripts\main.min.js.map" />
-    <Content Include="views\chat.html">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="views\error.pug">
       <SubType>Code</SubType>
     </Content>

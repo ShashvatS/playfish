@@ -12,16 +12,24 @@ const games: game.GameManager = new game.GameManager;
 function extractClientData(socket: SocketIO.Socket) {
     const client = util.getCookie(socket.request.headers.cookie,
         util.cookiestring);
-    if (client === undefined) {
-        return { a: null, b: null };
+    if (client === undefined || client == null) {
+        return { a: null, b: null, c: 1 };
+    }
+
+    if (cookie2player[client] === undefined || cookie2player[client] == null) {
+        return { a: null, b: null, c: 2 };
     }
 
     const game = cookie2game[client];
-    if (game === undefined) {
-        return { a: null, b: null };
+    if (game === undefined || game == null) {
+        return { a: null, b: null, c: 3 };
     }
 
-    return { a: client, b: game };
+    if (game2cookies[game] === undefined || game2cookies[game] == null) {
+        return { a: null, b: null, c: 4 };
+    }
+
+    return { a: client, b: game, c: 0 };
 }
 
 /* create at post/create
@@ -36,6 +44,35 @@ const cookie2player: { [cookie: string]: number } = {};
 /* create at post/create
    maintain at join */
 const game2names: { [game: string]: string[] } = {};
+
+/* remove client if they are already in a game */
+function removeClientFromGame(client: string): number {
+    if (cookie2game[client] !== undefined) {
+        const curGame = cookie2game[client];
+        const curGameOthers = game2cookies[curGame];
+        const newothers: string[] = [];
+        for (let other of curGameOthers) {
+            if (other != client)
+                newothers.push(other);
+        }
+
+        game2cookies[curGame] = newothers;
+        delete cookie2game[client];
+
+        // success
+        return 0;
+    }
+
+    else {
+        //not in a game right now
+        return 1;
+    }
+}
+
+function leaveJoinedRooms(socket: SocketIO.Socket, cb): void {
+    socket.leaveAll();
+    socket.join(socket.id, cb);
+}
 
 const task = schedule.scheduleJob('42 * * * *', () => {
     for (let game in game2cookies) {
@@ -88,10 +125,9 @@ export default (app: express.Application, io: SocketIO.Server) => {
     });
     io.on('connection', (socket: SocketIO.Socket) => {
         socket.on('localMessage', (string_data) => {
-            const { a: client, b: game } = extractClientData(socket);
+            const { a: client, b: game, c: status } = extractClientData(socket);
 
-            if (game === undefined || game2cookies[game] === undefined)
-                return;
+            if (status != 0) return;
 
             const player = cookie2player[client];
             const name = game2names[game][player];
@@ -109,10 +145,9 @@ export default (app: express.Application, io: SocketIO.Server) => {
 
         });
         socket.on('declarealert', (string_data) => {
-            const { a: client, b: game } = extractClientData(socket);
+            const { a: client, b: game, c: status } = extractClientData(socket);
 
-            if (client == null || game == null || game2cookies[game] === undefined)
-                return;
+            if (status != 0) return;
 
             const player = cookie2player[client];
             const name = game2names[game][player];
@@ -183,39 +218,29 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 }
             }
 
-            /* remove client if they are already in a game */
-            if (cookie2game[client] !== undefined) {
-                const curGame = cookie2game[client];
-                const curGameOthers = game2cookies[curGame];
-                const newothers: string[] = [];
-                for (let other of curGameOthers) {
-                    if (other != client)
-                        newothers.push(other);
-                }
-
-                game2cookies[curGame] = newothers;
-            }
+            removeClientFromGame(client);
 
             others.push(client);
-            game2cookies[data.game] = others;
+            game2cookies[game] = others;
             cookie2game[client] = game;
             cookie2player[client] = player;
-            game2names[data.game][player] = data.name;
+            game2names[game][player] = data.name;
 
-            socket.emit('joinstatus', JSON.stringify({ success: true }));
+            leaveJoinedRooms(socket, () => {
+                socket.emit('joinstatus', JSON.stringify({ success: true }));
 
-            for (let client of game2cookies[game]) {
-                const socketid = cookie2socket[client];
+                for (let client of game2cookies[game]) {
+                    const socketid = cookie2socket[client];
 
-                if (socketid === undefined) {
-                    continue;
+                    if (socketid === undefined) {
+                        continue;
+                    }
+
+                    io.to(socketid).emit('refresh', "");
                 }
-
-                io.to(socketid).emit('refresh', "");
-            }
+            });
 
             return;
-
         });
         socket.on('watch', (string_data) => {
             const data = JSON.parse(string_data);
@@ -232,38 +257,29 @@ export default (app: express.Application, io: SocketIO.Server) => {
                 return;
             }
 
-            /* remove client if they are already in a game */
-            if (cookie2game[client] !== undefined) {
-                const curGame = cookie2game[client];
-                const curGameOthers = game2cookies[curGame];
-                const newothers: string[] = [];
-                for (let other of curGameOthers) {
-                    if (other != client)
-                        newothers.push(other);
-                }
-
-                game2cookies[curGame] = newothers;
-            }
-            delete cookie2game[client];
+            removeClientFromGame(client);
 
             const clients = game2cookies[game];
             for (let client of clients) {
                 if (cookie2player[client] == player) {
                     const socketid = cookie2socket[client];
 
-                    //may leave the socket in multiple rooms
-                    //will need to refresh to way someone new
-                    socket.emit('joinstatus', JSON.stringify({ success: true }));
-                    socket.join(socketid);
+                    leaveJoinedRooms(socket, () => {
+                        //may leave the socket in multiple rooms
+                        //will need to refresh to way someone new
+                        socket.emit('joinstatus', JSON.stringify({ success: true }));
 
-                    const rdata = {
-                        gameCode: game,
-                        data: games.getData(game, player),
-                        player: player,
-                        names: game2names[game]
-                    };
+                        socket.join(socketid);
 
-                    socket.emit('gamestate', JSON.stringify(rdata));
+                        const rdata = {
+                            gameCode: game,
+                            data: games.getData(game, player),
+                            player: player,
+                            names: game2names[game]
+                        };
+
+                        socket.emit('gamestate', JSON.stringify(rdata));
+                    });
 
                     return;
                 }
@@ -277,10 +293,9 @@ export default (app: express.Application, io: SocketIO.Server) => {
         });
         socket.on('makemove', (string_data) => {
             const data = JSON.parse(string_data);
-            const { a: client, b: game } = extractClientData(socket);
+            const { a: client, b: game, c: status } = extractClientData(socket);
 
-            if (client == null || game == null
-                || cookie2player[client] === undefined) {
+            if (status != 0) {
                 socket.emit('makemovestatus', JSON.stringify({ success: false }));
                 return;
             }
@@ -313,25 +328,10 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const client = util.getCookie(socket.request.headers.cookie,
                 util.cookiestring);
 
-            /* remove client if they are already in a game */
-            if (cookie2game[client] !== undefined) {
-                const curGame = cookie2game[client];
-                const curGameOthers = game2cookies[curGame];
-                const newothers: string[] = [];
-                for (let other of curGameOthers) {
-                    if (other != client)
-                        newothers.push(other);
-                }
-
-                game2cookies[curGame] = newothers;
-                delete cookie2game[client];
-
-                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "left game" }));
-            }
-
-            else {
-                socket.emit("leavestatus", JSON.stringify({ success: true, reason: "nothing to leave" }));
-            }
+            const status : number = removeClientFromGame(client);
+            if (status == 0) socket.emit("leavestatus", JSON.stringify({ success: true, reason: "left game" }));
+            else if (status == 1) socket.emit("leavestatus", JSON.stringify({ success: true, reason: "nothing to leave" }));
+            else socket.emit("leavestatus", JSON.stringify({ success: false, reason: "unknown" }));
 
         });
 
