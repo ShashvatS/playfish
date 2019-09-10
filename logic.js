@@ -74,7 +74,7 @@ var task = schedule.scheduleJob('42 * * * *', function () {
     return;
 });
 //TODO: admin stuffz, admin backdoors
-exports.default = function (app, io) {
+exports.default = (function (app, io) {
     app.post('/create', function (req, res) {
         if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
             return res.json({ "pass": false, "reason": "no recaptcha" });
@@ -302,5 +302,5 @@ exports.default = function (app, io) {
             return;
         });
     });
-};
+});
 //# sourceMappingURL=logic.js.map

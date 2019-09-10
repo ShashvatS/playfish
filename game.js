@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var util = require("./util");
 /* Player 0 always starts */
-var Game = (function () {
+var Game = /** @class */ (function () {
     function Game() {
         this.scoreOdd = 0;
         this.scoreEven = 0;
@@ -62,6 +62,7 @@ var Game = (function () {
             // (5)
             if (this.numCards[data.other] == 0)
                 return;
+            // (3)
             else if (this.numCardsBySet[player][set] == 0)
                 return;
             /*  transfer the card */
@@ -73,6 +74,7 @@ var Game = (function () {
                 this.numCards[data.other] -= 1;
                 this.numCardsBySet[data.other][set] -= 1;
             }
+            /* dont transfer the card */
             else {
                 this.lastPlayer = data.other;
                 this.moves.push([player, data.other, data.card, 0]);
@@ -176,7 +178,7 @@ var Game = (function () {
     };
     return Game;
 }());
-var GameManager = (function () {
+var GameManager = /** @class */ (function () {
     function GameManager() {
         this.games = {};
     }
