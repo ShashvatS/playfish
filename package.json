@@ -23,8 +23,7 @@
     "pug": "^2.0.4",
     "request": "^2.88.0",
     "socket.io": "^2.2.0",
-    "uuid": "^3.3.3",
-    "websocket": "^1.0.29"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
