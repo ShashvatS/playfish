@@ -76,5 +76,5 @@ app.use((err: any, req, res, next) => {
 app.set('port', process.env.PORT);
 
 server.listen(app.get('port'), () => {
-    debug('Express server listening on port ' + server.address().port);
+    debug('Express server listening on port ' + server.address());
 });
