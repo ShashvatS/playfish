@@ -1,3 +1,0 @@
-c:\users\neel\source\repos\fish500gif\fish500gif\obj\Debug\fish500gif.njsproj.CoreCompileInputs.cache
-c:\users\neel\source\repos\fish500gif\fish500gif\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\Neel\source\repos\fish500gif\fish500gif\obj\Debug\fish500gif.njsprojAssemblyReference.cache
