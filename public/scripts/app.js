@@ -28,8 +28,6 @@ function int2filename(card) {
     const stringsarr = ["2", "3", "4", "5", "6", "7"];
     const suitsarr = ["hearts", "spades", "diamonds", "clubs"];
     return stringsarr[type] + "_of_" + suitsarr[(set - 1) / 2] + ".png";
-  } else {
-    console.log("wtf");
   }
 
 }
@@ -83,8 +81,6 @@ function convertNumToName(card) {
     const stringsarr = ["2", "3", "4", "5", "6", "7"];
     const suitsarr = ["Hearts", "Spades", "Diamonds", "Clubs"];
     return stringsarr[type] + " of " + suitsarr[(set - 1) / 2];
-  } else {
-    console.log("wtf");
   }
 }
 
@@ -177,7 +173,7 @@ function makePlayerCards(gameData) {
   const div = document.getElementById("playercards2");
   $('#playercards2 img').remove();
   for (let card of gameData.cards) {
-    div.innerHTML += `<img src="${int2filename(card)}">`;
+    div.innerHTML += `<img src="cardimages/${int2filename(card)}">`;
   }
 
   const div2a = document.getElementById("playercards2a");
@@ -187,7 +183,7 @@ function makePlayerCards(gameData) {
   for (let card of gameData.cards) {
     let image = document.createElement("img");
     image.style.position = "absolute";
-    image.src = `${int2filename(card)}`;
+    image.src = `cardimages/${int2filename(card)}`;
     image.style.left = div2apos + "px";
     image.style.zIndex = div2azpos;
     div2a.appendChild(image);
@@ -398,7 +394,6 @@ function predeclare() {
         if (box.id == "declarebox1") idx = 0;
         else if (box.id == "declarebox2") idx = 1;
         else if (box.id == "declarebox3") idx = 2;
-        else console.log("wtf???");
 
         let item = "";
         if (chip.innerText == "2/9/Black") item = "declare1";
@@ -407,7 +402,6 @@ function predeclare() {
         else if (chip.innerText == "5/Q/Diamond") item = "declare4";
         else if (chip.innerText == "6/K/Spade") item = "declare5";
         else if (chip.innerText == "7/Ace/Heart") item = "declare6";
-        else console.log("wtf2.0????");
 
         let sel = document.getElementById(item);
         sel.selectedIndex = idx;
