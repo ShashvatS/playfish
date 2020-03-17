@@ -1,6 +1,3 @@
-
-//$('#laGameChat').resizable();
-
 let messageCounter = 0;
 
 function clearChat() {
@@ -18,15 +15,21 @@ function resetChatCounter() {
 
 function sendMessage() {
     const text = $('#chatMessage').val();
-    
-    socket.emit('localMessage', JSON.stringify({message: text}));
+
+    socket.emit('localMessage', JSON.stringify({
+        message: text
+    }));
     $('#chatMessage').val('');
+}
+
+function changeTitle(new_title) {
+    document.title = `Fish ${new_title}`;
 }
 
 socket.on('localmessage', string_data => {
     const data = JSON.parse(string_data);
     const container = document.getElementById('message-container');
-    
+
     //vulnerable to javascript injection
     //but doesnt really matter; nothing to steal
     container.innerHTML += `<div><b> ${data.user}:</b> ${data.message} </div>`;
@@ -40,6 +43,9 @@ socket.on('localmessage', string_data => {
         $('#chatbadge').addClass("numberbadge");
     }
 
-
+    console.log("hiya friends\n");
+    if (document.hidden) {
+        changeTitle(" | " + `${data.user}: ${data.message}`);
+    }
 
 });

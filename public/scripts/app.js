@@ -1,7 +1,7 @@
 let lastScoreOdd = -1,
   lastScoreEven = -1;
 
-function int2filename(card) {
+function int2filenameOld(card) {
   const type = card % 6;
   const set = (card - type) / 6;
 
@@ -32,6 +32,9 @@ function int2filename(card) {
 
 }
 
+function int2filename(card) {
+  return "images/cardimages/" + int2filenameOld(card);
+}
 /* socket already declared in index.html */
 
 function toggle(id) {
@@ -100,8 +103,19 @@ function connect() {
 
 }
 
+function changeTitle(new_title) {
+  document.title = `Fish ${new_title}`;
+}
+
+document.addEventListener('visibilitychange', (event) => {
+  if (!document.hidden) {
+    changeTitle("");
+  }
+});
 
 function makeLog(gameData, names) {
+  const prev_message = $('#lastmove').text();
+
   if (gameData.lastMove === undefined) {
     $('#lastmove').text("Log: Game start");
   } else {
@@ -114,6 +128,14 @@ function makeLog(gameData, names) {
     $('#lastmove').text("Log: " + str);
   }
   $('#reproducedlog').text($('#lastmove').text());
+
+  const cur_message = $('#lastmove').text();
+  if (cur_message != prev_message) {
+    if (document.hidden) {
+      changeTitle(" | " + cur_message);
+    }
+  }
+
 }
 
 function makeNumCardsTable(gameData) {
@@ -173,7 +195,7 @@ function makePlayerCards(gameData) {
   const div = document.getElementById("playercards2");
   $('#playercards2 img').remove();
   for (let card of gameData.cards) {
-    div.innerHTML += `<img src="cardimages/${int2filename(card)}">`;
+    div.innerHTML += `<img src="${int2filename(card)}">`;
   }
 
   const div2a = document.getElementById("playercards2a");
@@ -183,7 +205,7 @@ function makePlayerCards(gameData) {
   for (let card of gameData.cards) {
     let image = document.createElement("img");
     image.style.position = "absolute";
-    image.src = `cardimages/${int2filename(card)}`;
+    image.src = `${int2filename(card)}`;
     image.style.left = div2apos + "px";
     image.style.zIndex = div2azpos;
     div2a.appendChild(image);
@@ -447,14 +469,6 @@ function transfer() {
 
   socket.emit('makemove', JSON.stringify(data));
 }
-
-socket.on('makemovestatus', stringStatus => {
-
-});
-
-socket.on('gamestatestatus', stringStatus => {
-
-});
 
 function shuffle(array) {
   var currentIndex = array.length,
