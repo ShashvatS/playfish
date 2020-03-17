@@ -351,7 +351,10 @@ socket.on('gamestate', stringData => {
     $('#score').text("Score: " + gameData.scoreOdd + " (you) : " + gameData.scoreEven);
   }
 
-  if (lastScoreOdd !== -1 && (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)) {
+  let cur_total_score = gameData.scoreEven + gameData.scoreOdd;
+  let last_total_score = lastScoreEven + lastScoreOdd;
+
+  if (cur_total_score > last_total_score && lastScoreOdd !== -1 && (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)) {
     //something changed
     const notification = document.querySelector('.mdl-js-snackbar');
     const notificationData = {
@@ -379,8 +382,10 @@ socket.on('gamestate', stringData => {
 
 });
 
-document.getElementById("declareSET").onchange = function() {
-  const index = this.selectedIndex;
+function updateDeclareDragUI() {
+  const index = document.getElementById("declareSET").selectedIndex - 1;
+
+  //TODO: change to nested for but javascript linter acting strange...
   let elements = document.getElementsByClassName("decarechip1");
   for (let i = 0; i < elements.length; ++i) {
     hide(elements[i]);
@@ -393,18 +398,27 @@ document.getElementById("declareSET").onchange = function() {
   for (let i = 0; i < elements.length; ++i) {
     hide(elements[i]);
   }
+  elements = document.getElementsByClassName("declarechip4");
+  for (let i = 0; i < elements.length; ++i) {
+    hide(elements[i]);
+  }
 
   let classname = "";
   if (index == 8) classname = "declarechip3";
+  else if (index == -1) classname = "declarechip4";
   else if (index % 2 == 0) classname = "decarechip1";
   else classname = "declarechip2";
-
 
   elements = document.getElementsByClassName(classname);
   for (let i = 0; i < elements.length; ++i) {
     toggle2(elements[i], "inline-block");
   }
 }
+document.getElementById("declareSET").onchange = updateDeclareDragUI;
+
+window.onload = () => {
+  updateDeclareDragUI();
+};
 
 function predeclare() {
     let chips = document.getElementsByClassName("declarechip");
@@ -412,11 +426,13 @@ function predeclare() {
         let chip = chips[i];
         let box = chip.parentNode.parentNode.parentNode;
 
+        // get what player the chip is assigned to
         let idx = 0;
         if (box.id == "declarebox1") idx = 0;
         else if (box.id == "declarebox2") idx = 1;
         else if (box.id == "declarebox3") idx = 2;
 
+        //set the values of the old form to be correct
         let item = "";
         if (chip.innerText == "2/9/Black") item = "declare1";
         else if (chip.innerText == "3/10/Red") item = "declare2";
@@ -431,16 +447,22 @@ function predeclare() {
 }
 
 function declare() {
+  const data = {};
+  data.set = +$('#declareSET').val();
+  if (data.set == -1) {
+    // don't declare when the selected option is not correct...
+    return;
+  }
+
   predeclare();
 
-  const data = {};
   for (let i = 1; i <= 6; ++i) {
     let id = "#declare" + i;
     data[i - 1] = $(id).val();
   }
   data.type = "declare";
   //data.set = +$('#declaresuit').val() - 1;
-  data.set = +$('#declareSET').val();
+
 
   socket.emit('makemove', JSON.stringify(data));
 }
