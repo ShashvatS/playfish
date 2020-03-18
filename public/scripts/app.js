@@ -103,6 +103,10 @@ function connect() {
 
 }
 
+function play_notif_sound() {
+  document.getElementById("notification-sound").play();
+}
+
 function changeTitle(new_title) {
   document.title = `Fish ${new_title}`;
 }
@@ -131,6 +135,7 @@ function makeLog(gameData, names) {
 
   const cur_message = $('#lastmove').text();
   if (cur_message != prev_message) {
+    play_notif_sound();
     if (document.hidden) {
       changeTitle(" | " + cur_message);
     }
