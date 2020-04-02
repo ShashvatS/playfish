@@ -119,7 +119,7 @@ class Game {
 
             for (let i = 0; i < util.cardsPerSet; ++i) {
                 if (util.checkNum(data[i], util.numPlayers)
-                || (+data[i] % 2) != (player % 2)) return;
+                    || (+data[i] % 2) != (player % 2)) return;
             }
 
             let success: boolean = true;
@@ -161,7 +161,7 @@ class Game {
                 this.numCards[i] -= this.numCardsBySet[i][data.set];
                 this.numCardsBySet[i][data.set] = 0;
             }
-            
+
             for (let i = 0; i < util.cardsPerSet; ++i) {
                 const card: number = data.set * util.cardsPerSet + i;
                 this.cards[card] = -1;
@@ -169,9 +169,17 @@ class Game {
 
         }
         else if (data.type === "transfer") {
+            // if (util.checkNum(data.other, util.numPlayers)
+            //     || data.other % 2 != player % 2
+            //     || this.numCards[player] != 0
+            //     || this.lastPlayer != player) {
+            //     return;
+            // }
+
+            // no longer enforce that player must have no cards to be able to transfer
+            // changed upon request of some player to accomodate their play style
             if (util.checkNum(data.other, util.numPlayers)
                 || data.other % 2 != player % 2
-                || this.numCards[player] != 0
                 || this.lastPlayer != player) {
                 return;
             }
@@ -190,7 +198,7 @@ class Game {
             success: this.lastDeclareWasCorrect
         };
     }
-    
+
     public data(player: number) {
         const playerCards: number[] = [];
         for (let i = 0; i < util.numCards; ++i) {
@@ -228,7 +236,7 @@ export class GameManager {
         if (this.games[key].time - Date.now() > 24 * 60 * 60 * 1000) {
             delete this.games[key];
             return true;
-        } 
+        }
         return false;
     }
     public removeOld() {

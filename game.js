@@ -134,9 +134,16 @@ var Game = /** @class */ (function () {
             }
         }
         else if (data.type === "transfer") {
+            // if (util.checkNum(data.other, util.numPlayers)
+            //     || data.other % 2 != player % 2
+            //     || this.numCards[player] != 0
+            //     || this.lastPlayer != player) {
+            //     return;
+            // }
+            // no longer enforce that player must have no cards to be able to transfer
+            // changed upon request of some player to accomodate their play style
             if (util.checkNum(data.other, util.numPlayers)
                 || data.other % 2 != player % 2
-                || this.numCards[player] != 0
                 || this.lastPlayer != player) {
                 return;
             }
