@@ -279,6 +279,14 @@ export default (app: express.Application, io: SocketIO.Server) => {
                         };
 
                         socket.emit('gamestate', JSON.stringify(rdata));
+
+                        if (data.name == null || data.name == "") {
+                            io.to(socketid).emit("spectatorjoinedgame", JSON.stringify({}));
+                        } else {
+                            io.to(socketid).emit("spectatorjoinedgame", JSON.stringify({
+                                name: data.name
+                            }));
+                        }
                     });
 
                     return;
@@ -328,7 +336,7 @@ export default (app: express.Application, io: SocketIO.Server) => {
             const client = util.getCookie(socket.request.headers.cookie,
                 util.cookiestring);
 
-            const status : number = removeClientFromGame(client);
+            const status: number = removeClientFromGame(client);
             if (status == 0) socket.emit("leavestatus", JSON.stringify({ success: true, reason: "left game" }));
             else if (status == 1) socket.emit("leavestatus", JSON.stringify({ success: true, reason: "nothing to leave" }));
             else socket.emit("leavestatus", JSON.stringify({ success: false, reason: "unknown" }));

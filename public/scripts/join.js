@@ -14,7 +14,8 @@ function join() {
 function wjoin() {
   const data = {
     game: $('#gamecode').val(),
-    player: +$('#player').val() - 1
+    player: +$('#player').val() - 1,
+    name: $('#playername').val()
   };
 
   //don't think we need this
@@ -28,7 +29,14 @@ function wjoin() {
 socket.on('joinstatus', stringStatus => {
   const status = JSON.parse(stringStatus);
   let data = {};
-  if (status.success) data.message = "Game joined!";
+  if (status.success) {
+    data.message = "Game joined!";
+    if (status.spectator === true) {
+      joinstatus = "spectate";
+    } else {
+      joinstatus = "player";
+    }
+  }
   else if (status.reason !== undefined) {
     if (status.reason === "invalid") data.message = "Sent invalid data to the server! Try checking the game code.";
     else if (status.reason === "you already joined") data.message = "Already in this game!";
@@ -44,8 +52,10 @@ socket.on('joinstatus', stringStatus => {
 });
 
 function leaveGame() {
-    const data = "";
-    socket.emit('leave', data);
+  const data = "";
+  socket.emit('leave', data);
+
+  joinstatus = null;
 }
 
 socket.on('leavestatus', stringStatus => {
@@ -57,4 +67,23 @@ socket.on('leavestatus', stringStatus => {
 
   const notification = document.querySelector('.mdl-js-snackbar');
   notification.MaterialSnackbar.showSnackbar(data);
+});
+
+socket.on("spectatorjoinedgame", stringData => {
+  const data = JSON.parse(stringData);
+
+  const message = {
+    message: ""
+  };
+
+  console.log(data);
+
+  if (data.name == null) {
+    message.message = "An unknown player is now spectating the game.";
+  } else {
+    message.message = `${data.name} is now spectating your game!`;
+  }
+
+  const notification = document.querySelector('.mdl-js-snackbar');
+  notification.MaterialSnackbar.showSnackbar(message);
 });

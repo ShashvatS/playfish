@@ -227,6 +227,14 @@ exports.default = (function (app, io) {
                             names: game2names[game]
                         };
                         socket.emit('gamestate', JSON.stringify(rdata));
+                        if (data.name == null || data.name == "") {
+                            io.to(socketid_1).emit("spectatorjoinedgame", JSON.stringify({}));
+                        }
+                        else {
+                            io.to(socketid_1).emit("spectatorjoinedgame", JSON.stringify({
+                                name: data.name
+                            }));
+                        }
                     });
                     return { value: void 0 };
                 }
