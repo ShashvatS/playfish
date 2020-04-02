@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Play Fish! Play the popular card game Candian Fish, Fish for short, (also called Literature) here.">
+    <meta name="description"
+        content="Play Fish! Play the popular card game Candian Fish, Fish for short, (also called Literature) here.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fish</title>
 
@@ -72,13 +73,13 @@
     <script>
         window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-    gtag('config', 'UA-116900375-1');
-  </script>
+        gtag('config', 'UA-116900375-1');
+    </script>
 
 </head>
 
@@ -120,7 +121,8 @@
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border">
-                                <a class="mdl-button mdl-js-button mdl-button--primary" onclick="javascript:toggle(rules)">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(rules)">
                                     What's Fish??????????
                                 </a>
 
@@ -150,7 +152,8 @@
                                             card. If they are right, they get one point. Otherwise, the other team gets
                                             the point.</li>
                                         <br>
-                                        <li>This website aims to accomodate as many variations of the game as possible.</li>
+                                        <li>This website aims to accomodate as many variations of the game as possible.
+                                        </li>
                                         <li>In some variations of the game, players are not allowed to bluff by asking
                                             for cards they already have. This form of bluffing is allowed on this
                                             website.</li>
@@ -158,13 +161,21 @@
                                             The play then transfers to one of their teammates. In some variations, the
                                             play must transfer in a specific direction. This website allows the player
                                             to transfer to any teammate.</li>
+                                        <li>In one variation of the game, a player can transfer their turn over to a
+                                            teammate after declaring a set. This website allows players to transfer
+                                            their
+                                            turn to a teammate whenever they want (as long as it is their turn already)
+                                            to allow for all possible house rules.</li>
                                         <br>
-                                        <li> A more detailed overview of the game is available on <a href="https://en.wikipedia.org/wiki/Literature_(card_game)">Wikipedia</a>.</li>
+                                        <li> A more detailed overview of the game is available on <a
+                                                href="https://en.wikipedia.org/wiki/Literature_(card_game)">Wikipedia</a>.
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="mdl-card__actions mdl-card--border">
-                                <a class="mdl-button mdl-js-button mdl-button--primary" onclick="javascript:toggle(howtouse)">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(howtouse)">
                                     How do I use this website?
                                 </a>
 
@@ -187,7 +198,10 @@
                                         <li><b>Joining a game:</b> Join a game via the join tab. Can also spectate
                                             games
                                             and leave games (so someone else can hop in) through the join tab.
-                                            Screen name needed only for players, not spectators.</li>
+                                            Screen name is optional for spectators. When a spectator watches a player,
+                                            the player is notified and their screen name revealed to the player if
+                                            given.
+                                        </li>
                                         <li><b>Playing the game:</b> Go to the play tab and click the button in the
                                             center.</li>
 
@@ -217,7 +231,8 @@
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border">
-                                <a class="mdl-button mdl-js-button mdl-button--primary" onclick="javascript:toggle(halp)">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(halp)">
                                     HAAALP!!!
                                 </a>
 
@@ -269,7 +284,8 @@
                         <form id="captcha" action="/create" method="post">
                             <div class="g-recaptcha" data-sitekey="6LdWWXwUAAAAAOmiqh2HaPS01fSp2xC3aY5lwHfY"></div>
                             <br>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                type="submit">
                                 Create
                             </button>
 
@@ -279,7 +295,8 @@
                                 <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
                             </div>
 
-                            <button class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            <button
+                                class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
                                 data-clipboard-target="#code" type="button">
                                 <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()"
                                 type="button"> -->
@@ -307,7 +324,8 @@
 
                         <br>
                         <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player" inputmode="numeric">
+                            <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player"
+                                inputmode="numeric">
                             <label class="mdl-textfield__label" for="player">Player</label>
                             <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
                         </div>
@@ -319,15 +337,18 @@
                         </div>
 
                         <br>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:join()">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:join()">
                             Play
                         </button>
 
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:wjoin()">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:wjoin()">
                             Spectate
                         </button>
 
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:leaveGame()">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:leaveGame()">
                             Leave
                         </button>
 
@@ -339,7 +360,8 @@
                 <section class="section--center mdl-grid mdl-grid--no-spacing">
                     <div class="mdl-cell mdl-cell--12-col">
 
-                        <button id="connect" onclick="javascript:connect()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        <button id="connect" onclick="javascript:connect()" type="button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                             Start
                             <!-- <i class="material-icons">polymer</i> -->
                         </button>
@@ -351,9 +373,11 @@
                             <!-- <h4 id="gameplayer"></h4>
                             <h4 id="score"></h4> -->
                             <span>
-                                <span class="displayinfo">Game code: </span><span id="gameroom" class="displayinfo"></span>
+                                <span class="displayinfo">Game code: </span><span id="gameroom"
+                                    class="displayinfo"></span>
 
-                                <button class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                <button
+                                    class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
                                     data-clipboard-target="#gameroom" type="button">
                                     <i class="material-icons">content_copy</i>
                                 </button>
@@ -411,21 +435,25 @@
                             <h4>Your Cards</h4>
                             <span id="buttonarray">
                                 <span>
-                                    <button id="shrink-enlarge1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                    <button id="shrink-enlarge1"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                         onclick="javascript:shrink_enlarge()">
                                         Expand
                                     </button>
-                                    <button id="shrink-enlarge2" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                    <button id="shrink-enlarge2"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                         style="display: none" onclick="javascript:shrink_enlarge()">
                                         Collapse
                                     </button>
                                 </span>
 
-                                <button id="refresh" onclick="javascript:refresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                <button id="refresh" onclick="javascript:refresh()" type="button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                     <i class="material-icons">autorenew</i>
                                 </button>
 
-                                <button onclick="javascript:declarealert();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                <button onclick="javascript:declarealert();"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
                                     Declare Alert
                                 </button>
                             </span>
@@ -449,20 +477,24 @@
 
                             <!-- <br /> -->
 
-                            <button onclick="javascript:toggle(form1); hide(form2); hide(form3); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form1); hide(form2); hide(form3); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Ask
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
-                            <button onclick="javascript:toggle(form2); hide(form1); hide(form3); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form2); hide(form1); hide(form3); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Declare
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
-                            <button onclick="javascript:toggle(form3); hide(form2); hide(form1); hide(chatbox)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            <button onclick="javascript:toggle(form3); hide(form2); hide(form1); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 Transfer
                                 <i class="material-icons">arrow_drop_down</i>
                             </button>
 
-                            <button id="chatbutton" onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()"
+                            <button id="chatbutton"
+                                onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                                 <span id="chatbadge" data-badge="0">Chat</span>
                                 <i class="material-icons">arrow_drop_down</i>
@@ -729,8 +761,8 @@
 
                                 <div id="message-container"></div>
                                 <input class="mdl-textfield__input" type="text" id="chatMessage">
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="sendmessagebutton"
-                                    type="button" name="button" onclick="sendMessage()">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                    id="sendmessagebutton" type="button" name="button" onclick="sendMessage()">
                                     <i class="material-icons">send</i>
                                 </button>
                             </div>
@@ -805,7 +837,8 @@
 
                             <br>
 
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="submit">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                type="submit">
                                 Randomize
                             </button>
 
@@ -824,10 +857,10 @@
                 <button type="button" class="mdl-snackbar__action"></button>
             </div>
 
-            <audio id = "notification-sound" style="display: none;">
+            <audio id="notification-sound" style="display: none;">
                 <source src="definite.mp3" type="audio/mpeg">
             </audio>
-              
+
         </main>
 
     </div>
@@ -871,7 +904,7 @@
         });
 
         const socket = io();
-        socket.on('connection', () => {});
+        socket.on('connection', () => { });
 
         const gamediv = document.getElementById("maingame");
         gamediv.style.display = "none";
