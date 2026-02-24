@@ -14,6 +14,18 @@ function randomString(length: number): string {
   ).join("");
 }
 
+function getLocationHint(request: Request): DurableObjectLocationHint | undefined {
+  const map: Partial<Record<string, DurableObjectLocationHint>> = {
+    AF: "afr",
+    AS: "apac",
+    EU: "weur",
+    NA: "wnam",
+    OC: "oc",
+    SA: "sam",
+  };
+  return map[request.cf?.continent as string] ?? undefined;
+}
+
 function parseCookies(cookieHeader: string | null): Record<string, string> {
   if (!cookieHeader) return {};
   return Object.fromEntries(
@@ -64,10 +76,11 @@ async function handleCreate(
     }
   }
 
-  // Create a new game room via Durable Object
+  // Create a new game room via Durable Object, hinting at the creator's region
   const gameId = randomString(GAME_CODE_LENGTH);
   const id = env.GAME_ROOM.idFromName(gameId);
-  const room = env.GAME_ROOM.get(id);
+  const hint = getLocationHint(request);
+  const room = env.GAME_ROOM.get(id, hint ? { locationHint: hint } : undefined);
 
   const createResponse = await room.fetch(
     new Request(`https://internal/create?gameId=${gameId}`, { method: "GET" })
@@ -99,7 +112,8 @@ async function handleWebSocket(
 
   // Route WebSocket upgrade to the appropriate Durable Object
   const id = env.GAME_ROOM.idFromName(gameCode);
-  const room = env.GAME_ROOM.get(id);
+  const hint = getLocationHint(request);
+  const room = env.GAME_ROOM.get(id, hint ? { locationHint: hint } : undefined);
 
   // Forward the full request (including Cookie header) to the DO
   return room.fetch(
