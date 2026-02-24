@@ -26,10 +26,12 @@ socket.on('localmessage', function (string_data) {
   const data = JSON.parse(string_data);
   const container = document.getElementById('message-container');
 
-  // Escape HTML to prevent injection
-  const user = $('<span>').text(data.user).html();
-  const msg = $('<span>').text(data.message).html();
-  container.innerHTML += '<div><b> ' + user + ':</b> ' + msg + ' </div>';
+  const row = document.createElement('div');
+  const bold = document.createElement('b');
+  bold.textContent = ' ' + data.user + ':';
+  row.appendChild(bold);
+  row.append(' ' + data.message + ' ');
+  container.appendChild(row);
 
   const chatbox = document.getElementById('chatbox');
   if (chatbox.style.display === 'none') {
