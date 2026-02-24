@@ -2,3 +2,5 @@
 .env
 .code-workspace
 fish500gif.njsproj
+.wrangler/**/*
+
