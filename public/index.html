@@ -1,0 +1,1016 @@
+﻿<!doctype html>
+<!-- <html lang="en" manifest="playfish.appcache"> -->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+        content="Play Fish! Play the popular card game Candian Fish, Fish for short, (also called Literature) here.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish</title>
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Web Application Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Play Fish">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-title" content="Play Fish">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/touch/apple-touch-icon.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+
+    <!-- Color the status bar on mobile devices -->
+    <meta name="theme-color" content="#2F3BA2">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <!-- Material Design icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Material Design Lite page styles:
+    You can choose other color schemes from the CDN, more info here http://www.getmdl.io/customize/index.html
+    Format: material.color1-color2.min.css, some examples:
+    material.red-teal.min.css
+    material.blue-orange.min.css
+    material.purple-indigo.min.css
+    -->
+    <!-- <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css"> -->
+    <link rel="stylesheet" href="lib/material.indigo-pink.min.css">
+
+    <!-- Your styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/main2.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116900375-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-116900375-1');
+    </script>
+
+</head>
+
+
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+            <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            </div>
+            <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                <img id="logoimage" src='images/touch/chrome-touch-icon-192x192.png' alt="">
+                <h3>Play Fish</h3>
+            </div>
+            <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            </div>
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+                <a href="#home" class="mdl-layout__tab is-active">Home</a>
+                <a href="#host" class="mdl-layout__tab">Host</a>
+                <a href="#join" class="mdl-layout__tab">Join</a>
+                <a href="#play" class="mdl-layout__tab">Play</a>
+                <!-- <a href="#chat" class="mdl-layout__tab">Chat</a> -->
+                <a href="#randomizer" class="mdl-layout__tab">RNG</a>
+            </div>
+        </header>
+
+        <main class="mdl-layout__content">
+
+
+            <div class="mdl-layout__tab-panel is-active" id="home">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Welcome</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text">
+                                This website was created by Shashvat Srivastava.
+                            </div>
+
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(rules)">
+                                    What's Fish??????????
+                                </a>
+
+                                <div id="rules" style="display:none">
+                                    <ul>
+                                        <li>
+                                            Fish (Canadian Fish, Literature, or Recollection) is a 6 player card game
+                                            played in two teams of three. Each team aims to score as many half-sets as
+                                            possible.
+                                        </li>
+                                        <br>
+                                        <li>54 cards and 9 half-sets</li>
+                                        <li>The high sets: 9-A of each suit</li>
+                                        <li>The low sets: 2-7 of each suit</li>
+                                        <li>The jokers: the 4 8s and the two jokers</li>
+                                        <br>
+                                        <li>When it is your turn: ask a member of the opposing team for a card. You can
+                                            only ask for a card if you have a card in that half-set.</li>
+                                        <li>If you're right: you take the card from the other player. It's your turn
+                                            again.</li>
+                                        <li>If you're wrong: its the other player's turn.</li>
+                                        <br>
+                                        <li>A player can declare at any point in the game if they think their team
+                                            has all six cards of a set.
+                                            This is the only way to score a point.</li>
+                                        <li>One player from the team must state exactly who on their team has which
+                                            card. If they are right, they get one point. Otherwise, the other team gets
+                                            the point.</li>
+                                        <br>
+                                        <li>This website aims to accomodate as many variations of the game as possible.
+                                        </li>
+                                        <li>In some variations of the game, players are not allowed to bluff by asking
+                                            for cards they already have. This form of bluffing is allowed on this
+                                            website.</li>
+                                        <li>Sometimes, a player may declare when it is their turn and run out of cards.
+                                            The play then transfers to one of their teammates. In some variations, the
+                                            play must transfer in a specific direction. This website allows the player
+                                            to transfer to any teammate.</li>
+                                        <li>In one variation of the game, a player can transfer their turn over to a
+                                            teammate after declaring a set. This website allows players to transfer
+                                            their
+                                            turn to a teammate whenever they want (as long as it is their turn already)
+                                            to allow for all possible house rules.</li>
+                                        <br>
+                                        <li> A more detailed overview of the game is available on <a
+                                                href="https://en.wikipedia.org/wiki/Literature_(card_game)">Wikipedia</a>.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(howtouse)">
+                                    How do I use this website?
+                                </a>
+
+                                <div id="howtouse" style="display:none">
+                                    <ul>
+                                        <h3>Setting up</h3>
+                                        <li>
+                                            <b>Gather yo party:</b> Get 5 friends to play the game. Hardest part
+                                            of the game. It is too easy to cheat in online Fish to be able to trust
+                                            strangers, so this website does not have a lobby system.
+                                        </li>
+                                        <li>
+                                            <b>Get a code:</b> Fill out the reCAPTCHA in the host tab.
+                                            Hopefully you're not a robot.
+                                            Then send the code to your friends.
+                                        </li>
+                                        <li><b>Assign numbers:</b> Give each a player a number. The game is odd players
+                                            versus even players. Player 1 always goes first. Can use RNG tab for
+                                            random teams.</li>
+                                        <li><b>Joining a game:</b> Join a game via the join tab. Can also spectate
+                                            games
+                                            and leave games (so someone else can hop in) through the join tab.
+                                            Screen name is optional for spectators. When a spectator watches a player,
+                                            the player is notified and their screen name revealed to the player if
+                                            given.
+                                        </li>
+                                        <li><b>Playing the game:</b> Go to the play tab and click the button in the
+                                            center.</li>
+
+                                        <h3>Playing the game</h3>
+                                        <li><b>Top</b> Displays the game code, your player number, the game score, and
+                                            a list of declared sets.</li>
+                                        <li><b>Table</b> Shows how many cards each player has. The current player is in
+                                            bold.</li>
+                                        <li><b>Card list</b> Shows your cards.</li>
+                                        <li><b>Log</b> Shows the last ask.</li>
+                                        <li><b>Declare Alert</b> Quickly tell players that you are about to declare.
+                                            Non-binding, but please don't spam.</li>
+                                        <li> <b>Asking for cards</b> Click ask. To ask for a low heart, first click the
+                                            player you want
+                                            to ask. Then click one of your low hearts. Then click for the card you want
+                                            to ask for. Do
+                                            not be the person that asks the wrong player.
+                                            <br></li>
+                                        <li> <b>Declaring</b> Select which set you want to declare, and then specify
+                                            which player has which card.</li>
+                                        <li> <b>Transferring</b> If it's your turn and you are out of cards, you can
+                                            transfer your turn to a teammate through the transfer button.</li>
+
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-js-button mdl-button--primary"
+                                    onclick="javascript:toggle(halp)">
+                                    HAAALP!!!
+                                </a>
+
+                                <div id="halp" style="display:none">
+                                    <h5>Nothing is working!</h5>
+                                    <ul>
+                                        <li>This website was tested on Chrome, Firefox, and Opera.</li>
+                                        <li>Make sure you have no other Play Fish tabs open.</li>
+                                        <li>If it breaks on Safari (desktop), try using Chrome.</li>
+                                        <li>Try clearing the cache and reloading.</li>
+                                        <li>If all else fails, use incognito.</li>
+                                    </ul>
+                                    <h5>I'm not near my laptop right now!!</h5>
+                                    <ul>
+                                        <li>This website works well on phones, too.</li>
+                                    </ul>
+                                    <h5>I accidently closed the tab!!!</h5>
+                                    <ul>
+                                        <li>You can rejoin the game without doing anything unless you close the
+                                            browser. Go to the play tab.</li>
+                                    </ul>
+                                    <h5>I can't join the game!!!!!</h5>
+                                    <ul>
+                                        <li>You're probably already in it and are trying to join again. Go to the play
+                                            tab.</li>
+                                    </ul>
+                                    <h5>Game chat is not working/game chat sucks!!!!!!!!</h5>
+                                    <ul>
+                                        <li>You must join a game to use the game chat; it is not a global chat.</li>
+                                        <li>Currently, only players (not spectators) can use the game chat.</li>
+                                        <li>The game chat is not the best, but it is intended as the communication
+                                            method
+                                            of last resort. Use video or voice chat
+                                            instead.</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="mdl-layout__tab-panel" id="host">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <form id="captcha" action="/create" method="post">
+                            <div class="g-recaptcha" data-sitekey="6LdWWXwUAAAAAOmiqh2HaPS01fSp2xC3aY5lwHfY"></div>
+                            <br>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                type="submit">
+                                Create
+                            </button>
+
+                            <br>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" pattern="^[a-zA-Z0-9]+$" id="code">
+                                <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
+                            </div>
+
+                            <button
+                                class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                data-clipboard-target="#code" type="button">
+                                <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="javascript:copyGameCode()"
+                                type="button"> -->
+                                <i class="material-icons">content_copy</i>
+                            </button>
+                        </form>
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="mdl-layout__tab-panel" id="join">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <!-- <form action="">
+
+                    </form> -->
+
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" pattern="^[a-zA-Z0-9]+$" id="gamecode">
+                            <label class="mdl-textfield__label" for="gamecode">Gamecode</label>
+                            <span class="mdl-textfield__error">Input is not an alphanumeric string!</span>
+                        </div>
+
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="player"
+                                inputmode="numeric">
+                            <label class="mdl-textfield__label" for="player">Player</label>
+                            <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
+                        </div>
+
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="playername">
+                            <label class="mdl-textfield__label" for="gamecode">Name</label>
+                        </div>
+
+                        <br>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:join()">
+                            Play
+                        </button>
+
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:wjoin()">
+                            Spectate
+                        </button>
+
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="javascript:leaveGame()">
+                            Leave
+                        </button>
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="mdl-layout__tab-panel" id="play">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <button id="connect" onclick="javascript:connect()" type="button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                            Start
+                            <!-- <i class="material-icons">polymer</i> -->
+                        </button>
+                        <div id="maingame" style="display: hidden">
+                            <!-- <button id="refresh" onclick="javascript:refresh()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                <i class="material-icons">autorenew</i>
+                            </button> -->
+                            <!-- <h3 id="gameroom"></h3> -->
+                            <!-- <h4 id="gameplayer"></h4>
+                            <h4 id="score"></h4> -->
+                            <span>
+                                <span class="displayinfo">Game code: </span><span id="gameroom"
+                                    class="displayinfo"></span>
+
+                                <button
+                                    class="clipboardjsbtn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                    data-clipboard-target="#gameroom" type="button">
+                                    <i class="material-icons">content_copy</i>
+                                </button>
+                            </span>
+                            <br>
+                            <br>
+                            <span id="gameplayer" class="displayinfo"></span>
+                            <span class="displayinfo">|</span>
+                            <span id="score" class="displayinfo"></span>
+                            <br>
+                            <br>
+                            <span id="declaredsets" class="displayinfo"></span>
+                            <!-- <h4 id="declaredsets"></h4> -->
+                            <br>
+                            <br>
+                            <div id="numcardstable">
+                                <table class="mdl-data-table mdl-js-data-table" style="font-size: 1em; overflow: auto">
+                                    <thead>
+                                        <tr>
+                                            <td class="mdl-data-table__cell--non-numeric">Player</td>
+                                            <td id="table1">1</td>
+                                            <td id="table2">2</td>
+                                            <td id="table3">3</td>
+                                            <td id="table4">4</td>
+                                            <td id="table5">5</td>
+                                            <td id="table6">6</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="mdl-data-table__cell--non-numeric"># of Cards</td>
+                                            <td>
+                                                <div id="numcards0"></div>
+                                            </td>
+                                            <td>
+                                                <div id="numcards1"></div>
+                                            </td>
+                                            <td>
+                                                <div id="numcards2"></div>
+                                            </td>
+                                            <td>
+                                                <div id="numcards3"></div>
+                                            </td>
+                                            <td>
+                                                <div id="numcards4"></div>
+                                            </td>
+                                            <td>
+                                                <div id="numcards5"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4>Your Cards</h4>
+                            <span id="buttonarray">
+                                <span>
+                                    <button id="shrink-enlarge1"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                        onclick="javascript:shrink_enlarge()">
+                                        Expand
+                                    </button>
+                                    <button id="shrink-enlarge2"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                        style="display: none" onclick="javascript:shrink_enlarge()">
+                                        Collapse
+                                    </button>
+                                </span>
+
+                                <button id="refresh" onclick="javascript:refresh()" type="button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                    <i class="material-icons">autorenew</i>
+                                </button>
+
+                                <button onclick="javascript:declarealert();"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                    Declare Alert
+                                </button>
+                            </span>
+
+
+
+                            <!-- <h5 id="playercards"></h5> -->
+                            <!-- <div id="playercards"></div> -->
+                            <div id="playercards2" class="cardcontainer" style="display:none"></div>
+                            <div id="playercards2a" class="cardcontainer2a"></div>
+
+
+                            <h4 id="lastmove"></h4>
+
+                            <!--<button onlick="javascript:declarealert()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                        Declare Alert
+                    </button>-->
+                            <!-- <button onclick="javascript:declarealert();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                Declare Alert
+                            </button> -->
+
+                            <!-- <br /> -->
+
+                            <button onclick="javascript:toggle(form1); hide(form2); hide(form3); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                Ask
+                                <i class="material-icons">arrow_drop_down</i>
+                            </button>
+                            <button onclick="javascript:toggle(form2); hide(form1); hide(form3); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                Declare
+                                <i class="material-icons">arrow_drop_down</i>
+                            </button>
+                            <button onclick="javascript:toggle(form3); hide(form2); hide(form1); hide(chatbox)"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                Transfer
+                                <i class="material-icons">arrow_drop_down</i>
+                            </button>
+
+                            <button id="chatbutton"
+                                onclick="javascript:toggle(chatbox); hide(form2); hide(form1); hide(form3); resetChatCounter()"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                <span id="chatbadge" data-badge="0">Chat</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                            </button>
+
+
+                            <div id="form1" style="display:none">
+                                <!-- <div class="mdl-textfield mdl-js-textfield">
+                          <input class="mdl-textfield__input" type="text" pattern="^[1-6]$" id="askplayer2" inputmode="numeric">
+                          <label class="mdl-textfield__label" for="player">Player</label>
+                          <span class="mdl-textfield__error">Input is not a number from 1 to 6!</span>
+                        </div> -->
+
+                                <br>
+                                <br>
+
+                                <select id="askplayer2" class="playerselectmenu" name="askSELECT" style="display:none">
+                                    <option value="-1" class="op1">Loading</option>
+                                    <option value="-1" class="op2">Loading</option>
+                                    <option value="-1" class="op3">Loading</option>
+                                </select>
+                                <span><b>Selected player: </b></span>
+                                <span id="displayaskplayer"></span>
+                                <br>
+                                <br>
+                                <div id="askplayer2a">
+                                    <button class="op1 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(0)">
+                                        -1
+                                    </button>
+                                    <button class="op2 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(1)">
+                                        -1
+                                    </button>
+                                    <button class="op3 mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        onclick="javascript:changeAskSelection(2)">
+                                        -1
+                                    </button>
+                                </div>
+
+                                <div id="playercards3" class="cardcontainer" style="display:none"></div>
+                                <div id="playercards3a" class="cardcontainer"></div>
+                                <div id="playercards4" class="cardcontainer" style="display:none"></div>
+                                <div id="playercards4a" class="cardcontainer"></div>
+
+                            </div>
+
+                            <div id="form2" style="display:none">
+                                <form action="javascript:declare()">
+                                    <br>
+                                    <select id="declareSET" name="declareSET">
+                                        <option value="-1"></option>
+                                        <option value="0">High Clubs</option>
+                                        <option value="7">Low Clubs</option>
+                                        <option value="6">High Hearts</option>
+                                        <option value="1">Low Hearts</option>
+                                        <option value="4">High Spades</option>
+                                        <option value="3">Low Spades</option>
+                                        <option value="2">High Diamonds</option>
+                                        <option value="5">Low Diamonds</option>
+                                        <option value="8">Jokers</option>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <div id="declareform2">
+                                        <div class="column">
+                                            <span id="declare2player1" class="mdl-layout-title">Player 1</span>
+                                            <br>
+                                            <div id="declarebox1" class="declarebox">
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">Nine</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Two</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Black</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">2/9/Black</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">Ten</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Three</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Red</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">3/10/Red</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">Jack</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Four</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Clubs</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">4/J/Club</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">Queen</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Five</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Diamonds</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">5/Q/Diamond</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">King</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Six</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Spades</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">6/K/Spade</span>
+                                                    </span>
+                                                </div>
+                                                <div class="declareitem">
+                                                    <span class="mdl-chip decarechip1">
+                                                        <span class="mdl-chip__text">Ace</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip2" style="display: none;">
+                                                        <span class="mdl-chip__text">Seven</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip3" style="display: none;">
+                                                        <span class="mdl-chip__text">Hearts</span>
+                                                    </span>
+                                                    <span class="mdl-chip declarechip4" style="display: none;">
+                                                        <span class="mdl-chip__text declarechip">7/Ace/Heart</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <span id="declare2player2" class="mdl-layout-title">Player 3</span>
+                                            <br>
+                                            <div id="declarebox2" class="declarebox">
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <span id="declare2player3" class="mdl-layout-title">Player 5</span>
+                                            <br>
+                                            <div id="declarebox3" class="declarebox">
+                                                </divs>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div style="display: none;">
+                                        <br>
+                                        <br>
+                                        <label>2/9/Black: </label>
+                                        <select id="declare1" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                        <label>3/10/Red: </label>
+                                        <select id="declare2" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                        <label>4/Jack/Club: </label>
+                                        <select id="declare3" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                        <label>5/Queen/Diamond: </label>
+                                        <select id="declare4" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                        <label>6/King/Spade: </label>
+                                        <select id="declare5" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                        <label>7/Ace/Heart: </label>
+                                        <select id="declare6" class="playerselectmenu3" name="askDECLARE">
+                                            <option value="-1" class="op1">Loading</option>
+                                            <option value="-1" class="op2">Loading</option>
+                                            <option value="-1" class="op3">Loading</option>
+                                        </select>
+
+                                        <br>
+                                        <br>
+                                    </div>
+
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        type="submit">
+                                        Declare
+                                    </button>
+
+                                </form>
+                            </div>
+
+                            <div id="form3" style="display:none">
+                                <form action="javascript:transfer()">
+
+
+                                    <br>
+                                    <select id="transfer" class="playerselectmenu2" name="TRANSFER">
+                                        <option value="-1" class="op1">Loading</option>
+                                        <option value="-1" class="op2">Loading</option>
+                                    </select>
+
+                                    <br>
+                                    <br>
+
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                        type="submit">
+                                        Transfer
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div id="chatbox" style="display:none">
+                                <br>
+                                <span class="mdl-layout-title">Game Chat</span>
+                                <span id="reproducedlog"></span>
+                                <br>
+
+                                <div id="message-container"></div>
+                                <input class="mdl-textfield__input" type="text" id="chatMessage">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                    id="sendmessagebutton" type="button" name="button" onclick="sendMessage()">
+                                    <i class="material-icons">send</i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- <div class="mdl-layout__tab-panel" id="chat">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <span class="mdl-layout-title">Game Chat</span>
+                        <br>
+                        <br>
+
+                        <div id="message-container"></div>
+                        <input type="text" id="chatMessage">
+                        <button type="button" name="button" onclick="sendMessage()">Send</button>
+
+                    </div>
+                </section>
+            </div> -->
+
+            <div class="mdl-layout__tab-panel" id="randomizer">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                        <form action="javascript:randomize()">
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize1">
+                                <label class="mdl-textfield__label" for="randimize1">Player 1</label>
+                            </div>
+
+                            <br>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize2">
+                                <label class="mdl-textfield__label" for="randimize2">Player 2</label>
+                            </div>
+
+                            <br>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize3">
+                                <label class="mdl-textfield__label" for="randimize3">Player 3</label>
+                            </div>
+
+                            <br>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize4">
+                                <label class="mdl-textfield__label" for="randimize4">Player 4</label>
+                            </div>
+
+                            <br>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize5">
+                                <label class="mdl-textfield__label" for="randimize5">Player 5</label>
+                            </div>
+
+                            <br>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="randomize6">
+                                <label class="mdl-textfield__label" for="randimize6">Player 6</label>
+                            </div>
+
+                            <br>
+
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                                type="submit">
+                                Randomize
+                            </button>
+
+                        </form>
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- <footer class="mdl-mega-footer">
+
+    </footer> -->
+            <!-- snackbar -->
+            <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+                <div class="mdl-snackbar__text"></div>
+                <button type="button" class="mdl-snackbar__action"></button>
+            </div>
+
+            <audio id="notification-sound" style="display: none;">
+                <source src="definite.mp3" type="audio/mpeg">
+            </audio>
+
+        </main>
+
+    </div>
+
+    <!-- <script src="https://code.getmdl.io/1.2.1/material.min.js"></script> -->
+    <script src="lib/material.min.js"></script>
+
+    <!-- build:js scripts/main.min.js -->
+    <script src="scripts/main2.js"></script>
+    <script>
+        new ClipboardJS('.clipboardjsbtn');
+
+        new Sortable(document.getElementById("declarebox1"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
+
+        new Sortable(document.getElementById("declarebox2"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
+
+        new Sortable(document.getElementById("declarebox3"), {
+            group: {
+                name: 'declare',
+            },
+            animation: 150,
+            draggable: ".declareitem"
+        });
+
+        $("#chatMessage").keyup(function (event) {
+            if (event.keyCode === 13) {
+                $("#sendmessagebutton").click();
+            }
+        });
+
+        // Ensure client has a persistent ID stored in a cookie
+        (function ensureClientId() {
+            const hasCookie = document.cookie.split(';').some(function(c) {
+                return c.trim().startsWith('clientid=');
+            });
+            if (!hasCookie) {
+                const id = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+                    .map(function(b) { return b.toString(16).padStart(2, '0'); })
+                    .join('');
+                const secure = location.protocol === 'https:' ? '; Secure' : '';
+                document.cookie = 'clientid=' + id + '; path=/; SameSite=Strict' + secure;
+            }
+        })();
+
+        /**
+         * GameSocket — a drop-in Socket.io replacement backed by native WebSocket.
+         *
+         * API surface used by this app:
+         *   socket.on(event, handler)  — register event listener
+         *   socket.emit(event, jsonString) — send message to server
+         *   socket.connect(gameCode, onOpen) — connect/reconnect to a game room
+         */
+        class GameSocket {
+            constructor() {
+                this._ws = null;
+                this._handlers = {};
+                this._pendingMessages = [];
+            }
+
+            /** Open (or reopen) a WebSocket to the given game room. */
+            connect(gameCode, onOpen) {
+                if (this._ws) {
+                    this._ws.onclose = null; // suppress reconnect logic
+                    this._ws.close();
+                }
+
+                const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+                const ws = new WebSocket(proto + '://' + location.host + '/ws?game=' + encodeURIComponent(gameCode));
+                this._ws = ws;
+
+                ws.onopen = () => {
+                    // Flush queued messages
+                    while (this._pendingMessages.length > 0) {
+                        ws.send(this._pendingMessages.shift());
+                    }
+                    if (onOpen) onOpen();
+                };
+
+                ws.onmessage = (ev) => {
+                    let msg;
+                    try { msg = JSON.parse(ev.data); } catch (e) { return; }
+
+                    const { event, ...rest } = msg;
+                    const handlers = this._handlers[event] || [];
+                    // Pass remaining fields as a JSON string — same shape the original
+                    // socket.io handlers expected.
+                    const dataStr = JSON.stringify(rest);
+                    handlers.forEach(function(h) { h(dataStr); });
+                };
+
+                ws.onclose = () => {
+                    // Silently drop; caller manages reconnection via connect()
+                };
+
+                ws.onerror = (err) => {
+                    console.error('WebSocket error', err);
+                };
+            }
+
+            /** Register a listener for a server-sent event. */
+            on(event, handler) {
+                if (!this._handlers[event]) this._handlers[event] = [];
+                this._handlers[event].push(handler);
+            }
+
+            /**
+             * Send a message to the server.
+             * `dataStr` is an optional JSON string whose fields are merged into
+             * the outgoing message alongside the `event` key.
+             */
+            emit(event, dataStr) {
+                let extra = {};
+                if (dataStr && dataStr !== '') {
+                    try { extra = JSON.parse(dataStr); } catch (e) {}
+                }
+                const payload = JSON.stringify(Object.assign({ event: event }, extra));
+
+                if (this._ws && this._ws.readyState === WebSocket.OPEN) {
+                    this._ws.send(payload);
+                } else {
+                    this._pendingMessages.push(payload);
+                }
+            }
+        }
+
+        const socket = new GameSocket();
+
+        const gamediv = document.getElementById("maingame");
+        gamediv.style.display = "none";
+    </script>
+    <script src="scripts/host.js"></script>
+    <script src="scripts/join.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/localchat.js"></script>
+
+
+    <!-- endbuild -->
+
+    <!-- Built with love using Web Starter Kit -->
+</body>
+
+</html>

@@ -19,7 +19,6 @@ self.addEventListener('install', function (event) {
                     //'https://code.getmdl.io/1.2.1/material.indigo-pink.min.css',
                     '/lib/material.indigo-pink.min.css',
                     '/styles/main.css',
-                    'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js',
                     'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js',
                     'https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js',
                     //'https://code.getmdl.io/1.2.1/material.min.js',

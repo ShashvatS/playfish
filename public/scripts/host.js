@@ -1,33 +1,37 @@
 $(document).ready(() => {
-  $('#captcha').submit(function() {
-    $(this).ajaxSubmit({
-      url: 'create',
-      error: xhr => {
-        return status('Error: ' + xhr.status);
+  $('#captcha').submit(function (e) {
+    e.preventDefault();
+
+    if ($('#code').val() !== '') {
+      return;
+    }
+
+    // Serialize form so the reCAPTCHA token is included
+    const formData = new FormData(this);
+
+    fetch('/create', {
+      method: 'POST',
+      body: new URLSearchParams(formData),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      success: response => {
-        if ($('#code').text() !== '') {
-          return;
-        }
+    })
+      .then(res => res.json())
+      .then(response => {
+        const notification = document.querySelector('.mdl-js-snackbar');
         if (response.pass) {
           $('#code').val(response.code);
-
-          const notification = document.querySelector('.mdl-js-snackbar');
-          const data = {
-            message: 'Game created'
-          };
-          notification.MaterialSnackbar.showSnackbar(data);
+          notification.MaterialSnackbar.showSnackbar({ message: 'Game created!' });
         } else {
-          const notification = document.querySelector('.mdl-js-snackbar');
-          const data = {
-            message: 'reCAPTCHA failed'
-          };
-          notification.MaterialSnackbar.showSnackbar(data);
+          notification.MaterialSnackbar.showSnackbar({ message: 'reCAPTCHA failed — please try again.' });
+          // Reset reCAPTCHA so user can try again
+          if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
         }
-      }
-    });
-
-    return false;
+      })
+      .catch(() => {
+        const notification = document.querySelector('.mdl-js-snackbar');
+        notification.MaterialSnackbar.showSnackbar({ message: 'Network error — please try again.' });
+      });
   });
 });
 
@@ -38,8 +42,5 @@ function copyGameCode() {
   copyText.blur();
 
   const notification = document.querySelector('.mdl-js-snackbar');
-  const data = {
-    message: 'Gamecode copied!'
-  };
-  notification.MaterialSnackbar.showSnackbar(data);
+  notification.MaterialSnackbar.showSnackbar({ message: 'Game code copied!' });
 }

@@ -1,51 +1,46 @@
-let messageCounter = 0;
+/* socket declared in index.html */
+
+var messageCounter = 0;
 
 function clearChat() {
-    $('#message-container div').remove();
+  $('#message-container div').remove();
 }
 
 function resetChatCounter() {
-    messageCounter = 0;
+  messageCounter = 0;
 
-    const chatbadge = document.getElementById("chatbadge");
-    chatbadge.dataset.badge = messageCounter;
+  const chatbadge = document.getElementById('chatbadge');
+  chatbadge.dataset.badge = messageCounter;
 
-    $('#chatbadge').removeClass("numberbadge");
+  $('#chatbadge').removeClass('numberbadge');
 }
 
 function sendMessage() {
-    const text = $('#chatMessage').val();
+  const text = $('#chatMessage').val();
 
-    socket.emit('localMessage', JSON.stringify({
-        message: text
-    }));
-    $('#chatMessage').val('');
+  socket.emit('localMessage', JSON.stringify({ message: text }));
+  $('#chatMessage').val('');
 }
 
-function changeTitle(new_title) {
-    document.title = `Fish ${new_title}`;
-}
+socket.on('localmessage', function (string_data) {
+  const data = JSON.parse(string_data);
+  const container = document.getElementById('message-container');
 
-socket.on('localmessage', string_data => {
-    const data = JSON.parse(string_data);
-    const container = document.getElementById('message-container');
+  // Escape HTML to prevent injection
+  const user = $('<span>').text(data.user).html();
+  const msg = $('<span>').text(data.message).html();
+  container.innerHTML += '<div><b> ' + user + ':</b> ' + msg + ' </div>';
 
-    //vulnerable to javascript injection
-    //but doesnt really matter; nothing to steal
-    container.innerHTML += `<div><b> ${data.user}:</b> ${data.message} </div>`;
+  const chatbox = document.getElementById('chatbox');
+  if (chatbox.style.display === 'none') {
+    messageCounter += 1;
 
-    let chatbox = document.getElementById("chatbox");
-    if (chatbox.style.display === "none") {
-        messageCounter += 1;
+    const chatbadge = document.getElementById('chatbadge');
+    chatbadge.dataset.badge = messageCounter;
+    $('#chatbadge').addClass('numberbadge');
+  }
 
-        const chatbadge = document.getElementById("chatbadge");
-        chatbadge.dataset.badge = messageCounter;
-        $('#chatbadge').addClass("numberbadge");
-    }
-
-    console.log("hiya friends\n");
-    if (document.hidden) {
-        changeTitle(" | " + `${data.user}: ${data.message}`);
-    }
-
+  if (document.hidden) {
+    document.title = 'Fish | ' + data.user + ': ' + data.message;
+  }
 });

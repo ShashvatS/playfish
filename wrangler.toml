@@ -1,0 +1,21 @@
+name = "playfish"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./public"
+# Worker handles dynamic routes (/create, /ws); assets handle everything else
+run_worker_first = false
+not_found_handling = "none"
+
+[durable_objects]
+bindings = [
+  { name = "GAME_ROOM", class_name = "GameRoom" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["GameRoom"]
+
+# Set RECAPTCHA_SECRET via: wrangler secret put RECAPTCHA_SECRET
