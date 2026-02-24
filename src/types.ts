@@ -102,4 +102,5 @@ export interface SerializedGame {
 export interface Env {
   GAME_ROOM: DurableObjectNamespace;
   RECAPTCHA_SECRET: string;
+  DISABLE_CAPTCHA?: string; // set to "true" in wrangler.toml to skip verification
 }

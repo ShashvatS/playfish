@@ -19,3 +19,8 @@ tag = "v1"
 new_classes = ["GameRoom"]
 
 # Set RECAPTCHA_SECRET via: wrangler secret put RECAPTCHA_SECRET
+
+[vars]
+# Set to "true" to skip CAPTCHA verification (useful for testing).
+# Set to "false" or remove to re-enable CAPTCHA for production.
+DISABLE_CAPTCHA = "true"

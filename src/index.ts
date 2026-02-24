@@ -41,25 +41,27 @@ async function handleCreate(
     captchaToken = formData.get("g-recaptcha-response") as string | null;
   }
 
-  if (!captchaToken) {
-    return Response.json({ pass: false, reason: "no recaptcha" });
-  }
+  if (env.DISABLE_CAPTCHA !== "true") {
+    if (!captchaToken) {
+      return Response.json({ pass: false, reason: "no recaptcha" });
+    }
 
-  // Verify reCAPTCHA with Google
-  const ip = request.headers.get("CF-Connecting-IP") ?? "";
-  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${env.RECAPTCHA_SECRET}&response=${captchaToken}&remoteip=${ip}`;
+    // Verify reCAPTCHA with Google
+    const ip = request.headers.get("CF-Connecting-IP") ?? "";
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${env.RECAPTCHA_SECRET}&response=${captchaToken}&remoteip=${ip}`;
 
-  let captchaOk = false;
-  try {
-    const verifyResponse = await fetch(verifyUrl);
-    const verifyData = (await verifyResponse.json()) as { success: boolean };
-    captchaOk = verifyData.success === true;
-  } catch {
-    return Response.json({ pass: false, reason: "recaptcha verification failed" });
-  }
+    let captchaOk = false;
+    try {
+      const verifyResponse = await fetch(verifyUrl);
+      const verifyData = (await verifyResponse.json()) as { success: boolean };
+      captchaOk = verifyData.success === true;
+    } catch {
+      return Response.json({ pass: false, reason: "recaptcha verification failed" });
+    }
 
-  if (!captchaOk) {
-    return Response.json({ pass: false, reason: "recaptcha failed" });
+    if (!captchaOk) {
+      return Response.json({ pass: false, reason: "recaptcha failed" });
+    }
   }
 
   // Create a new game room via Durable Object
