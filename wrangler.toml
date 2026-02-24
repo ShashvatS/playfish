@@ -16,7 +16,7 @@ bindings = [
 
 [[migrations]]
 tag = "v1"
-new_classes = ["GameRoom"]
+new_sqlite_classes = ["GameRoom"]
 
 # Set RECAPTCHA_SECRET via: wrangler secret put RECAPTCHA_SECRET
 
