@@ -1,328 +1,388 @@
-/* socket declared in index.html */
+/* socket, showToast, showGameScreen defined in index.html */
 
-var lastScoreOdd = -1,
-  lastScoreEven = -1;
+var lastScoreOdd = -1, lastScoreEven = -1;
 
-function int2filenameOld(card) {
+/* ─── Card helpers ─── */
+function int2filenameBase(card) {
   const type = card % 6;
-  const set = (card - type) / 6;
-
+  const set  = (card - type) / 6;
   if (set === 8) {
-    if (type === 0) return 'black_joker.png';
-    if (type === 1) return 'red_joker.png';
-    if (type === 2) return '8_of_clubs.png';
-    if (type === 3) return '8_of_diamonds.png';
-    if (type === 4) return '8_of_spades.png';
-    if (type === 5) return '8_of_hearts.png';
+    const names = ['black_joker','red_joker','8_of_clubs','8_of_diamonds','8_of_spades','8_of_hearts'];
+    return names[type] + '.png';
   } else if (set % 2 === 0) {
-    const vals = ['9', '10', 'jack', 'queen', 'king', 'ace'];
-    const suits = ['clubs', 'diamonds', 'spades', 'hearts'];
+    const vals  = ['9','10','jack','queen','king','ace'];
+    const suits = ['clubs','diamonds','spades','hearts'];
     return vals[type] + '_of_' + suits[set / 2] + '.png';
   } else {
-    const vals = ['2', '3', '4', '5', '6', '7'];
-    const suits = ['hearts', 'spades', 'diamonds', 'clubs'];
+    const vals  = ['2','3','4','5','6','7'];
+    const suits = ['hearts','spades','diamonds','clubs'];
     return vals[type] + '_of_' + suits[(set - 1) / 2] + '.png';
   }
 }
-
-function int2filename(card) {
-  return 'images/cardimages/' + int2filenameOld(card);
-}
+function int2filename(card) { return 'images/cardimages/' + int2filenameBase(card); }
 
 function convertNumToName(card) {
   const type = card % 6;
-  const set = (card - type) / 6;
-
+  const set  = (card - type) / 6;
   if (set === 8) {
-    if (type === 0) return 'Black Joker';
-    if (type === 1) return 'Red Joker';
-    if (type === 2) return '8 of Clubs';
-    if (type === 3) return '8 of Diamonds';
-    if (type === 4) return '8 of Spades';
-    if (type === 5) return '8 of Hearts';
+    return ['Black Joker','Red Joker','8 of Clubs','8 of Diamonds','8 of Spades','8 of Hearts'][type];
   } else if (set % 2 === 0) {
-    const vals = ['9', '10', 'Jack', 'Queen', 'King', 'Ace'];
-    const suits = ['Clubs', 'Diamonds', 'Spades', 'Hearts'];
+    const vals  = ['9','10','Jack','Queen','King','Ace'];
+    const suits = ['Clubs','Diamonds','Spades','Hearts'];
     return vals[type] + ' of ' + suits[set / 2];
   } else {
-    const vals = ['2', '3', '4', '5', '6', '7'];
-    const suits = ['Hearts', 'Spades', 'Diamonds', 'Clubs'];
+    const vals  = ['2','3','4','5','6','7'];
+    const suits = ['Hearts','Spades','Diamonds','Clubs'];
     return vals[type] + ' of ' + suits[(set - 1) / 2];
   }
 }
 
-function toggle(id) {
-  if (id.style.display === 'none') {
-    id.style.display = 'block';
-  } else {
-    id.style.display = 'none';
-  }
-}
-
-function toggle2(id, mode) {
-  if (id.style.display === 'none') {
-    id.style.display = mode;
-  } else {
-    id.style.display = 'none';
-  }
-}
-
-function hide(obj) {
-  obj.style.display = 'none';
-}
-
-function refresh() {
-  socket.emit('gamestate', '');
-}
-
+/* ─── Utility ─── */
+function refresh() { socket.emit('gamestate', ''); }
 socket.on('refresh', refresh);
 
-function connect() {
-  socket.emit('gamestate', '');
-
-  const gamediv = document.getElementById('maingame');
-  const connectbtn = document.getElementById('connect');
-  toggle(gamediv);
-  toggle(connectbtn);
-}
-
 function play_notif_sound() {
-  document.getElementById('notification-sound').play();
+  const el = document.getElementById('notification-sound');
+  if (el) el.play().catch(() => {});
 }
 
-function changeTitle(new_title) {
-  document.title = 'Fish ' + new_title;
-}
+function changeTitle(suffix) { document.title = 'Playfish' + suffix; }
 
-document.addEventListener('visibilitychange', function () {
-  if (!document.hidden) {
-    changeTitle('');
-  }
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) changeTitle('');
 });
 
-function makeLog(gameData, names) {
-  const prev_message = $('#lastmove').text();
-
-  if (gameData.lastMove == null || gameData.lastMove === undefined) {
-    $('#lastmove').text('Log: Game start');
-  } else {
-    let str = '';
-    if (gameData.lastMove[3] === 1) {
-      str = names[gameData.lastMove[0]] + ' took the ' + convertNumToName(gameData.lastMove[2]) + ' from ' + names[gameData.lastMove[1]];
-    } else {
-      str = names[gameData.lastMove[0]] + ' asked ' + names[gameData.lastMove[1]] + ' for the ' + convertNumToName(gameData.lastMove[2]);
-    }
-    $('#lastmove').text('Log: ' + str);
-  }
-  $('#reproducedlog').text($('#lastmove').text());
-
-  const cur_message = $('#lastmove').text();
-  if (cur_message !== prev_message) {
-    play_notif_sound();
-    if (document.hidden) {
-      changeTitle(' | ' + cur_message);
-    }
-  }
-}
-
-function makeNumCardsTable(gameData) {
-  for (let i = 0; i < 6; ++i) {
-    $('#numcards' + i).text(String(gameData.numCards[i]));
-    $('#table' + (i + 1)).css('font-weight', '');
-  }
-  $('#table' + (gameData.turn + 1)).css('font-weight', 'bold');
-}
-
-function makeDeclaredSets(gameData) {
-  const suits = ['High Clubs', 'Low Hearts', 'High Diamonds', 'Low Spades', 'High Spades', 'Low Diamonds', 'High Hearts', 'Low Clubs', 'Jokers'];
-  let declaredStr = 'Declared Sets:';
-  if (gameData.declaresLog.length === 0) {
-    declaredStr += ' None';
-  } else {
-    for (const i of gameData.declaresLog) {
-      declaredStr += ' ' + suits[i] + ' |';
-    }
-  }
-  $('#declaredsets').text(declaredStr);
-}
-
+/* ─── Card view toggle ─── */
+let cardsExpanded = false;
 function shrink_enlarge() {
-  let div = document.getElementById('playercards2');
-  toggle(div);
-  div = document.getElementById('playercards2a');
-  toggle(div);
-  let button = document.getElementById('shrink-enlarge1');
-  toggle2(button, 'inline');
-  button = document.getElementById('shrink-enlarge2');
-  toggle2(button, 'inline');
+  cardsExpanded = !cardsExpanded;
+  const expanded = document.getElementById('playercards2');
+  const compact  = document.getElementById('playercards2a');
+  const btn      = document.getElementById('toggle-card-view');
+  if (cardsExpanded) {
+    expanded.style.display = 'flex';
+    compact.style.display  = 'none';
+    if (btn) btn.textContent = 'Compact';
+  } else {
+    expanded.style.display = 'none';
+    compact.style.display  = 'block';
+    if (btn) btn.textContent = 'Expand';
+  }
 }
 
-function changeAskSelection(idx) {
-  const div2 = document.getElementById('playercards3');
-  div2.style.display = 'block';
+/* ─── Game log ─── */
+function makeLog(gameData, names) {
+  const el = document.getElementById('lastmove');
+  const prev = el.textContent;
+  let str;
+  if (!gameData.lastMove) {
+    str = 'Game start';
+  } else if (gameData.lastMove[3] === 1) {
+    str = names[gameData.lastMove[0]] + ' took the ' +
+          convertNumToName(gameData.lastMove[2]) + ' from ' + names[gameData.lastMove[1]];
+  } else {
+    str = names[gameData.lastMove[0]] + ' asked ' + names[gameData.lastMove[1]] +
+          ' for the ' + convertNumToName(gameData.lastMove[2]);
+  }
+  el.textContent = str;
 
-  const div2a = document.getElementById('playercards3a');
-  div2a.style.display = 'none';
-
-  const sel = document.getElementById('askplayer2');
-  sel.selectedIndex = idx;
-
-  const display = document.getElementById('displayaskplayer');
-  display.textContent = sel.options[idx].text;
+  if (str !== prev) {
+    play_notif_sound();
+    if (document.hidden) changeTitle(' | ' + str);
+  }
 }
 
+/* ─── Player row ─── */
+function makeNumCardsTable(gameData) {
+  for (let i = 0; i < 6; i++) {
+    const nc = document.getElementById('numcards' + i);
+    if (nc) nc.textContent = gameData.numCards[i];
+    const cell = document.getElementById('pcell-' + i);
+    if (cell) cell.classList.toggle('is-turn', gameData.turn === i);
+  }
+}
+
+/* ─── Declared sets ─── */
+const SET_NAMES = ['High Clubs','Low Hearts','High Diamonds','Low Spades',
+                   'High Spades','Low Diamonds','High Hearts','Low Clubs','Jokers & 8s'];
+// declares array: 0=undeclared,1=odd won,2=even won,3=?
+// Team: even indices (0,2,4) = "even team"; odd indices (1,3,5) = "odd team"
+// declares[set]: 2 = even team declared, 3 = odd team declared (from game.ts)
+function makeDeclaredSets(gameData) {
+  // Sidebar text
+  const sidebar = document.getElementById('declaredsets');
+  // Declared bar
+  const inner = document.getElementById('declaredsets-inner');
+  if (!inner) return;
+  inner.innerHTML = '';
+
+  if (!gameData.declaresLog || gameData.declaresLog.length === 0) {
+    if (sidebar) sidebar.textContent = 'None yet';
+    return;
+  }
+
+  let sidebarText = '';
+  for (const setIdx of gameData.declaresLog) {
+    const name = SET_NAMES[setIdx] || ('Set ' + setIdx);
+    // declares[set]: 2=even team scored, 3=odd team scored, 0=odd team scored (wrong declare by even), 1=even team scored (wrong declare by odd)
+    const val  = gameData.declares[setIdx];
+    const team = (val === 2 || val === 1) ? 'even' : 'odd';
+    const tag  = document.createElement('span');
+    tag.className = 'declared-tag ' + team;
+    tag.textContent = name;
+    inner.appendChild(tag);
+    sidebarText += (sidebarText ? ', ' : '') + name;
+  }
+  if (sidebar) sidebar.textContent = sidebarText || 'None yet';
+}
+
+/* ─── Player cards display ─── */
 function makePlayerCards(gameData) {
-  const div = document.getElementById('playercards2');
-  $('#playercards2 img').remove();
+  // Expanded view
+  const expanded = document.getElementById('playercards2');
+  expanded.innerHTML = '';
   for (const card of gameData.cards) {
-    div.innerHTML += '<img src="' + int2filename(card) + '">';
+    const img = document.createElement('img');
+    img.src = int2filename(card);
+    img.alt = convertNumToName(card);
+    img.className = 'card-img';
+    expanded.appendChild(img);
   }
 
-  const div2a = document.getElementById('playercards2a');
-  let div2apos = 0;
-  let div2azpos = 0;
-  $('#playercards2a img').remove();
+  // Compact (stacked) view
+  const compact = document.getElementById('playercards2a');
+  compact.innerHTML = '';
+  let pos = 0;
   for (const card of gameData.cards) {
-    const image = document.createElement('img');
-    image.style.position = 'absolute';
-    image.src = int2filename(card);
-    image.style.left = div2apos + 'px';
-    image.style.zIndex = div2azpos;
-    div2a.appendChild(image);
-    div2apos += 20;
-    div2azpos += 1;
+    const img = document.createElement('img');
+    img.className = 'card-img-compact';
+    img.src = int2filename(card);
+    img.alt = convertNumToName(card);
+    img.style.left = pos + 'px';
+    img.style.zIndex = pos;
+    compact.appendChild(img);
+    pos += 20;
+  }
+  // Adjust compact container width
+  if (gameData.cards.length > 0) {
+    compact.style.width = (pos + 60) + 'px';
   }
 
-  $('#playercards3 input').remove();
-
-  const div2 = document.getElementById('playercards3');
-  div2.style.display = 'none';
-
-  const div3 = document.getElementById('playercards3a');
-  div3.style.display = 'block';
-
+  // Ask panel – clickable copies of your cards
+  const ask3 = document.getElementById('playercards3');
+  const ask3a = document.getElementById('playercards3a');
+  ask3.innerHTML = '';
+  ask3a.innerHTML = '';
   for (const card of gameData.cards) {
-    div2.innerHTML += '<input type="image" class="cardinput" onClick="javascript:askTrigger(' + card + ')" src="' + int2filename(card) + '" />';
+    const btn = document.createElement('button');
+    btn.className = 'ask-card-btn';
+    btn.setAttribute('onclick', 'askTrigger(' + card + ')');
+    const img = document.createElement('img');
+    img.src = int2filename(card);
+    img.alt = convertNumToName(card);
+    btn.appendChild(img);
+    ask3a.appendChild(btn);
+    // also build ask3 (shown after set selection — just shows all in set)
   }
-
-  const div4 = document.getElementById('playercards4');
-  div4.style.display = 'none';
-
-  const div4a = document.getElementById('playercards4a');
-  div4a.style.display = 'block';
+  // hide step-3 until user clicks a card
+  const step3 = document.getElementById('ask-step3');
+  if (step3) step3.style.display = 'none';
+  const ask4 = document.getElementById('playercards4');
+  if (ask4) ask4.innerHTML = '';
 }
 
+/* ─── Ask flow ─── */
 function askTrigger(card) {
-  $('#playercards4 input').remove();
-  const div = document.getElementById('playercards4');
-  div.style.display = 'block';
-
-  const div4a = document.getElementById('playercards4a');
-  div4a.style.display = 'none';
-
   const type = card % 6;
-  const set = (card - type) / 6;
-
-  for (let c = 6 * set; c < 6 * (set + 1); ++c) {
-    div.innerHTML += '<input type="image" class="cardinput" onClick="javascript:ask2(' + c + ')" src="' + int2filename(c) + '" />';
+  const set  = (card - type) / 6;
+  const step3 = document.getElementById('ask-step3');
+  const ask4  = document.getElementById('playercards4');
+  ask4.innerHTML = '';
+  for (let c = 6 * set; c < 6 * (set + 1); c++) {
+    const btn = document.createElement('button');
+    btn.className = 'ask-card-btn';
+    btn.setAttribute('onclick', 'ask2(' + c + ')');
+    const img = document.createElement('img');
+    img.src = int2filename(c);
+    img.alt = convertNumToName(c);
+    btn.appendChild(img);
+    ask4.appendChild(btn);
   }
+  if (step3) step3.style.display = 'block';
 }
 
 function ask2(ccard) {
-  const div3 = document.getElementById('playercards3');
-  div3.style.display = 'none';
-
-  const div3a = document.getElementById('playercards3a');
-  div3a.style.display = 'block';
-
-  const div4 = document.getElementById('playercards4');
-  div4.style.display = 'none';
-
-  const div4a = document.getElementById('playercards4a');
-  div4a.style.display = 'block';
-
-  const data = {
-    type: 'ask',
-    card: ccard,
-    other: +$('#askplayer2').val()
-  };
-
+  if (selectedAskOpponent === -1) {
+    showToast('Please select an opponent first (Step 1).');
+    return;
+  }
+  const data = { type: 'ask', card: ccard, other: selectedAskOpponent };
   socket.emit('makemove', JSON.stringify({ data: data }));
 
-  const display = document.getElementById('displayaskplayer');
-  display.textContent = '';
+  // Reset UI
+  selectedAskOpponent = -1;
+  document.querySelectorAll('.ask-opp-btn').forEach(b => b.classList.remove('selected'));
+  const step3 = document.getElementById('ask-step3');
+  if (step3) step3.style.display = 'none';
+  const ask4 = document.getElementById('playercards4');
+  if (ask4) ask4.innerHTML = '';
 }
 
+/* ─── Update names in forms ─── */
 function updateFormsForNames(data) {
-  let start = (data.player + 1) % 2;
-  $('.playerselectmenu .op1').text(data.names[start]).val(start);
-  $('.playerselectmenu .op2').text(data.names[start + 2]).val(start + 2);
-  $('.playerselectmenu .op3').text(data.names[start + 4]).val(start + 4);
+  // Opponents for ask (other team parity)
+  const oppStart = (data.player + 1) % 2;
+  const opps = [oppStart, oppStart + 2, oppStart + 4];
 
-  $('#askplayer2a .op1').text(data.names[start]);
-  $('#askplayer2a .op2').text(data.names[start + 2]);
-  $('#askplayer2a .op3').text(data.names[start + 4]);
+  const oppBtns = document.querySelectorAll('#askplayer2a .ask-opp-btn');
+  const askSel  = document.getElementById('askplayer2');
+  const askOpts = askSel ? askSel.querySelectorAll('option') : [];
+  for (let i = 0; i < 3; i++) {
+    const name = data.names[opps[i]] || ('P' + (opps[i]+1));
+    if (oppBtns[i]) { oppBtns[i].textContent = name; oppBtns[i].dataset.player = opps[i]; }
+    if (askOpts[i]) { askOpts[i].textContent = name; askOpts[i].value = opps[i]; }
+  }
 
-  start = data.player % 2;
-  $('.playerselectmenu3 .op1').text(data.names[start]).val(start);
-  $('.playerselectmenu3 .op2').text(data.names[start + 2]).val(start + 2);
-  $('.playerselectmenu3 .op3').text(data.names[start + 4]).val(start + 4);
+  // Teammates for declare (all 3, including self)
+  const teamStart = data.player % 2;
+  const team = [teamStart, teamStart + 2, teamStart + 4];
+  const dLabels = ['declare2player1','declare2player2','declare2player3'];
+  const dBoxes  = ['declarebox1','declarebox2','declarebox3'];
+  for (let i = 0; i < 3; i++) {
+    const lbl = document.getElementById(dLabels[i]);
+    const box = document.getElementById(dBoxes[i]);
+    const name = data.names[team[i]] || ('P' + (team[i]+1));
+    if (lbl) lbl.textContent = name;
+    if (box) box.dataset.player = team[i];
+  }
 
-  $('#declare2player1').text(data.names[start]);
-  $('#declare2player2').text(data.names[start + 2]);
-  $('#declare2player3').text(data.names[start + 4]);
-
+  // Teammates for transfer (excluding self)
   let one = (data.player + 2) % 6;
   let two = (data.player + 4) % 6;
   if (two < one) { const tmp = two; two = one; one = tmp; }
-
-  $('.playerselectmenu2 .op1').text(data.names[one]).val(one);
-  $('.playerselectmenu2 .op2').text(data.names[two]).val(two);
+  const tBtns = document.querySelectorAll('#transfer-buttons button');
+  const tSel  = document.getElementById('transfer');
+  const tOpts = tSel ? tSel.querySelectorAll('option') : [];
+  [[one, 0],[two, 1]].forEach(([p, i]) => {
+    const name = data.names[p] || ('P' + (p+1));
+    if (tBtns[i]) { tBtns[i].textContent = name; tBtns[i].dataset.player = p; }
+    if (tOpts[i]) { tOpts[i].value = p; tOpts[i].textContent = name; }
+  });
 }
 
-socket.on('gamestate', function (stringData) {
-  const data = JSON.parse(stringData);
+/* ─── Declare drag UI ─── */
+function updateDeclareDragUI() {
+  const setVal = parseInt(document.getElementById('declareSET').value);
+  const unassigned = document.getElementById('declare-unassigned');
+  ['declarebox1','declarebox2','declarebox3'].forEach(id => {
+    document.getElementById(id).innerHTML = '';
+  });
+  unassigned.innerHTML = '';
+  if (isNaN(setVal) || setVal === -1) return;
+
+  for (let i = 0; i < 6; i++) {
+    const cardNum = setVal * 6 + i;
+    const chip = document.createElement('div');
+    chip.className = 'declare-chip';
+    chip.dataset.cardIdx = i;
+    const img = document.createElement('img');
+    img.src = int2filename(cardNum);
+    img.alt = convertNumToName(cardNum);
+    chip.appendChild(img);
+    const lbl = document.createElement('span');
+    // Short rank label
+    lbl.textContent = convertNumToName(cardNum).split(' of ')[0];
+    chip.appendChild(lbl);
+    unassigned.appendChild(chip);
+  }
+}
+
+/* ─── Declare submit ─── */
+function declare() {
+  const setVal = parseInt(document.getElementById('declareSET').value);
+  if (isNaN(setVal) || setVal === -1) { showToast('Please select a set first.'); return; }
+
+  const unassigned = document.getElementById('declare-unassigned');
+  if (unassigned && unassigned.querySelectorAll('.declare-chip').length > 0) {
+    showToast('All 6 cards must be assigned to a player!');
+    return;
+  }
+
+  const moveData = { type: 'declare', set: setVal };
+  ['declarebox1','declarebox2','declarebox3'].forEach(id => {
+    const box    = document.getElementById(id);
+    const player = parseInt(box.dataset.player);
+    box.querySelectorAll('.declare-chip').forEach(chip => {
+      moveData[parseInt(chip.dataset.cardIdx)] = player;
+    });
+  });
+
+  socket.emit('makemove', JSON.stringify({ data: moveData }));
+}
+
+/* ─── Declare alert ─── */
+function declarealert() { socket.emit('declarealert', ''); }
+socket.on('declarealert', function(stringData) {
+  const rdata = JSON.parse(stringData);
+  showToast(rdata.name + ' is about to declare!');
+});
+
+/* ─── Transfer ─── */
+function transfer(playerNum) {
+  if (playerNum === -1 || isNaN(playerNum)) { showToast('No teammate selected.'); return; }
+  const data = { type: 'transfer', other: playerNum };
+  socket.emit('makemove', JSON.stringify({ data: data }));
+}
+
+/* ─── Main gamestate handler ─── */
+socket.on('gamestate', function(stringData) {
+  const data     = JSON.parse(stringData);
   const gameData = data.data;
 
-  for (let i = 0; i < 6; ++i) {
-    $('#table' + (i + 1)).text(data.names[i]);
+  // Player names in row
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('table' + (i + 1));
+    if (el) el.textContent = data.names[i] || ('P' + (i+1));
   }
 
   updateFormsForNames(data);
 
-  $('#gameroom').text('' + data.gameCode);
-  $('#gameplayer').text('Player: ' + (data.player + 1));
+  // Game code
+  const roomEl = document.getElementById('gameroom');
+  if (roomEl) roomEl.textContent = data.gameCode;
 
-  if (data.player % 2 === 0) {
-    $('#score').text('Score: ' + gameData.scoreOdd + ' : ' + gameData.scoreEven + ' (you)');
-  } else {
-    $('#score').text('Score: ' + gameData.scoreOdd + ' (you) : ' + gameData.scoreEven);
-  }
+  // Player badge
+  const playerEl = document.getElementById('gameplayer');
+  if (playerEl) playerEl.textContent = 'Player ' + (data.player + 1);
 
-  const cur_total_score = gameData.scoreEven + gameData.scoreOdd;
-  const last_total_score = lastScoreEven + lastScoreOdd;
-
-  if (
-    cur_total_score > last_total_score &&
-    lastScoreOdd !== -1 &&
-    (lastScoreEven !== gameData.scoreEven || lastScoreOdd !== gameData.scoreOdd)
-  ) {
-    const notification = document.querySelector('.mdl-js-snackbar');
-    let message = 'A set was declared!';
-
-    const lastDeclare = gameData.lastDeclare;
-    if (lastDeclare !== undefined && lastDeclare.player >= 0) {
-      const playerName = data.names[lastDeclare.player];
-      const correctnessString = lastDeclare.success ? 'correctly' : 'incorrectly';
-      const suits = ['High Clubs', 'Low Hearts', 'High Diamonds', 'Low Spades', 'High Spades', 'Low Diamonds', 'High Hearts', 'Low Clubs', 'Jokers'];
-      const suitName = suits[lastDeclare.set];
-      message = playerName + ' ' + correctnessString + ' declared the ' + suitName + '!';
+  // game.ts: player%2===0 → team scoreEven; player%2===1 → team scoreOdd
+  const scoreEl = document.getElementById('score');
+  if (scoreEl) {
+    if (data.player % 2 === 0) {
+      // You are the even team (scoreEven)
+      scoreEl.textContent = gameData.scoreEven + ' (you) – ' + gameData.scoreOdd;
+    } else {
+      // You are the odd team (scoreOdd)
+      scoreEl.textContent = gameData.scoreOdd + ' (you) – ' + gameData.scoreEven;
     }
-    notification.MaterialSnackbar.showSnackbar({ message: message });
   }
 
+  // Declare notification
+  const curTotal  = gameData.scoreEven + gameData.scoreOdd;
+  const lastTotal = lastScoreEven + lastScoreOdd;
+  if (curTotal > lastTotal && lastScoreOdd !== -1) {
+    let msg = 'A set was declared!';
+    const ld = gameData.lastDeclare;
+    if (ld && ld.player >= 0) {
+      const suits = ['High Clubs','Low Hearts','High Diamonds','Low Spades',
+                     'High Spades','Low Diamonds','High Hearts','Low Clubs','Jokers & 8s'];
+      msg = data.names[ld.player] + ' ' + (ld.success ? 'correctly' : 'incorrectly') +
+            ' declared ' + suits[ld.set] + '!';
+    }
+    showToast(msg);
+  }
   lastScoreEven = gameData.scoreEven;
-  lastScoreOdd = gameData.scoreOdd;
+  lastScoreOdd  = gameData.scoreOdd;
 
   makeLog(gameData, data.names);
   makeNumCardsTable(gameData);
@@ -330,109 +390,33 @@ socket.on('gamestate', function (stringData) {
   makePlayerCards(gameData);
 });
 
-function updateDeclareDragUI() {
-  const index = document.getElementById('declareSET').selectedIndex - 1;
-
-  let elements = document.getElementsByClassName('decarechip1');
-  for (let i = 0; i < elements.length; ++i) hide(elements[i]);
-  elements = document.getElementsByClassName('declarechip2');
-  for (let i = 0; i < elements.length; ++i) hide(elements[i]);
-  elements = document.getElementsByClassName('declarechip3');
-  for (let i = 0; i < elements.length; ++i) hide(elements[i]);
-  elements = document.getElementsByClassName('declarechip4');
-  for (let i = 0; i < elements.length; ++i) hide(elements[i]);
-
-  let classname = '';
-  if (index === 8) classname = 'declarechip3';
-  else if (index === -1) classname = 'declarechip4';
-  else if (index % 2 === 0) classname = 'decarechip1';
-  else classname = 'declarechip2';
-
-  elements = document.getElementsByClassName(classname);
-  for (let i = 0; i < elements.length; ++i) toggle2(elements[i], 'inline-block');
-}
-document.getElementById('declareSET').onchange = updateDeclareDragUI;
-
-window.onload = function () {
-  updateDeclareDragUI();
-};
-
-function predeclare() {
-  const chips = document.getElementsByClassName('declarechip');
-  for (let i = 0; i < chips.length; ++i) {
-    const chip = chips[i];
-    const box = chip.parentNode.parentNode.parentNode;
-
-    let idx = 0;
-    if (box.id === 'declarebox1') idx = 0;
-    else if (box.id === 'declarebox2') idx = 1;
-    else if (box.id === 'declarebox3') idx = 2;
-
-    let item = '';
-    if (chip.innerText === '2/9/Black') item = 'declare1';
-    else if (chip.innerText === '3/10/Red') item = 'declare2';
-    else if (chip.innerText === '4/J/Club') item = 'declare3';
-    else if (chip.innerText === '5/Q/Diamond') item = 'declare4';
-    else if (chip.innerText === '6/K/Spade') item = 'declare5';
-    else if (chip.innerText === '7/Ace/Heart') item = 'declare6';
-
-    const sel = document.getElementById(item);
-    sel.selectedIndex = idx;
+/* ─── Randomizer (landing page) ─── */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+  return arr;
 }
-
-function declare() {
-  const setVal = +$('#declareSET').val();
-  if (setVal === -1) return;
-
-  predeclare();
-
-  const moveData = { type: 'declare', set: setVal };
-  for (let i = 1; i <= 6; ++i) {
-    moveData[i - 1] = +$('#declare' + i).val();
-  }
-
-  socket.emit('makemove', JSON.stringify({ data: moveData }));
-}
-
-function declarealert() {
-  socket.emit('declarealert', '');
-}
-
-socket.on('declarealert', function (string_data) {
-  const rdata = JSON.parse(string_data);
-  const notification = document.querySelector('.mdl-js-snackbar');
-  notification.MaterialSnackbar.showSnackbar({ message: rdata.name + ' is about to declare!' });
-});
-
-function transfer() {
-  const data = {
-    type: 'transfer',
-    other: +$('#transfer').val()
-  };
-
-  socket.emit('makemove', JSON.stringify({ data: data }));
-}
-
-function shuffle(array) {
-  let currentIndex = array.length;
-  while (currentIndex !== 0) {
-    const randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    const temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
 function randomize() {
-  const arr = [];
-  for (let i = 0; i < 6; ++i) {
-    arr[i] = $('#randomize' + (i + 1)).val();
+  const vals = [];
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('randomize' + i);
+    vals.push(el ? el.value : '');
   }
-  shuffle(arr);
-  for (let i = 0; i < 6; ++i) {
-    $('#randomize' + (i + 1)).val(arr[i]);
+  shuffle(vals);
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('randomize' + i);
+    if (el) el.value = vals[i - 1];
   }
+}
+
+/* ─── Sidebar chat helper (mirror to action chat) ─── */
+function sendSidebarMessage() {
+  const input = document.getElementById('sidebar-chatMessage');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  socket.emit('localMessage', JSON.stringify({ message: text }));
+  input.value = '';
 }

@@ -1,48 +1,84 @@
-/* socket declared in index.html */
+/* socket, showToast defined in index.html */
 
 var messageCounter = 0;
 
 function clearChat() {
-  $('#message-container div').remove();
+  const mc = document.getElementById('message-container');
+  const sc = document.getElementById('sidebar-message-container');
+  if (mc) mc.innerHTML = '';
+  if (sc) sc.innerHTML = '';
+  messageCounter = 0;
+  updateChatBadge();
 }
 
 function resetChatCounter() {
   messageCounter = 0;
+  updateChatBadge();
+}
 
-  const chatbadge = document.getElementById('chatbadge');
-  chatbadge.dataset.badge = messageCounter;
+function updateChatBadge() {
+  const badge = document.getElementById('chatbadge');
+  if (!badge) return;
+  if (messageCounter > 0) {
+    badge.textContent = messageCounter;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
 
-  $('#chatbadge').removeClass('numberbadge');
+function addChatMessage(user, message) {
+  // Action panel chat
+  const mc = document.getElementById('message-container');
+  if (mc) {
+    const row  = document.createElement('div');
+    row.className = 'chat-msg';
+    const bold = document.createElement('b');
+    bold.className = 'chat-name';
+    bold.textContent = user + ':';
+    row.appendChild(bold);
+    row.append(' ' + message);
+    mc.appendChild(row);
+    mc.scrollTop = mc.scrollHeight;
+  }
+
+  // Sidebar chat
+  const sc = document.getElementById('sidebar-message-container');
+  if (sc) {
+    const row  = document.createElement('div');
+    row.className = 'chat-msg';
+    const bold = document.createElement('b');
+    bold.className = 'chat-name';
+    bold.textContent = user + ':';
+    row.appendChild(bold);
+    row.append(' ' + message);
+    sc.appendChild(row);
+    sc.scrollTop = sc.scrollHeight;
+  }
 }
 
 function sendMessage() {
-  const text = $('#chatMessage').val();
-
+  const input = document.getElementById('chatMessage');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
   socket.emit('localMessage', JSON.stringify({ message: text }));
-  $('#chatMessage').val('');
+  input.value = '';
 }
 
-socket.on('localmessage', function (string_data) {
+socket.on('localmessage', function(string_data) {
   const data = JSON.parse(string_data);
-  const container = document.getElementById('message-container');
+  addChatMessage(data.user, data.message);
 
-  const row = document.createElement('div');
-  const bold = document.createElement('b');
-  bold.textContent = ' ' + data.user + ':';
-  row.appendChild(bold);
-  row.append(' ' + data.message + ' ');
-  container.appendChild(row);
-
-  const chatbox = document.getElementById('chatbox');
-  if (chatbox.style.display === 'none') {
+  // Badge: increment if chat tab is not active
+  const chatPanel = document.getElementById('chat-panel');
+  const isVisible = chatPanel && chatPanel.classList.contains('active');
+  if (!isVisible) {
     messageCounter += 1;
-
-    const chatbadge = document.getElementById('chatbadge');
-    chatbadge.dataset.badge = messageCounter;
-    $('#chatbadge').addClass('numberbadge');
+    updateChatBadge();
   }
 
   if (document.hidden) {
-    document.title = 'Fish | ' + data.user + ': ' + data.message;
+    document.title = 'Playfish | ' + data.user + ': ' + data.message;
   }
 });

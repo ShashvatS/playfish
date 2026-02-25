@@ -1,46 +1,45 @@
-$(document).ready(() => {
-  $('#captcha').submit(function (e) {
+/* showToast, showScreen defined in index.html */
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('captcha');
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    if ($('#code').val() !== '') {
-      return;
-    }
-
-    // Serialize form so the reCAPTCHA token is included
-    const formData = new FormData(this);
+    const formData = new FormData(form);
 
     fetch('/create', {
       method: 'POST',
       body: new URLSearchParams(formData),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
       .then(res => res.json())
       .then(response => {
-        const notification = document.querySelector('.mdl-js-snackbar');
         if (response.pass) {
-          $('#code').val(response.code);
-          notification.MaterialSnackbar.showSnackbar({ message: 'Game created!' });
+          const code = response.code;
+          // Fill in hidden input (used by goToJoinFromHost)
+          document.getElementById('code').value = code;
+          // Fill visible code display
+          const codeDisplay = document.getElementById('code-display');
+          if (codeDisplay) codeDisplay.textContent = code;
+          // Fill share link
+          const shareUrl = location.origin + location.pathname + '?gamecode=' + code;
+          const shareLinkInput = document.getElementById('share-link-input');
+          if (shareLinkInput) shareLinkInput.value = shareUrl;
+          // Show result block
+          const result = document.getElementById('host-result');
+          if (result) result.style.display = 'block';
+          // Update browser URL
+          history.replaceState(null, '', '?gamecode=' + code);
+          // Pre-fill join screen
+          document.getElementById('gamecode').value = code;
+          showToast('Game created!');
         } else {
-          notification.MaterialSnackbar.showSnackbar({ message: 'reCAPTCHA failed — please try again.' });
-          // Reset reCAPTCHA so user can try again
+          showToast('reCAPTCHA failed — please try again.');
           if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
         }
       })
-      .catch(() => {
-        const notification = document.querySelector('.mdl-js-snackbar');
-        notification.MaterialSnackbar.showSnackbar({ message: 'Network error — please try again.' });
-      });
+      .catch(() => showToast('Network error — please try again.'));
   });
 });
-
-function copyGameCode() {
-  const copyText = document.getElementById('code');
-  copyText.select();
-  document.execCommand('Copy');
-  copyText.blur();
-
-  const notification = document.querySelector('.mdl-js-snackbar');
-  notification.MaterialSnackbar.showSnackbar({ message: 'Game code copied!' });
-}

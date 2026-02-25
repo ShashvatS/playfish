@@ -1,72 +1,67 @@
-/* socket declared in index.html */
+/* socket, showToast, showGameScreen, showScreen defined in index.html */
 
 var joinstatus = null;
 
 function join() {
-  const gameCode = String($('#gamecode').val()).trim();
-  const player = +$('#player').val() - 1;
-  const name = String($('#playername').val()).trim();
+  const gameCode = document.getElementById('gamecode').value.trim();
+  const player   = parseInt(document.getElementById('player').value) - 1; // 0-based
+  const name     = document.getElementById('playername').value.trim();
 
-  if (!gameCode) {
-    const notification = document.querySelector('.mdl-js-snackbar');
-    notification.MaterialSnackbar.showSnackbar({ message: 'Please enter a game code.' });
-    return;
-  }
+  if (!gameCode) { showToast('Please enter a game code.'); return; }
 
-  const data = { game: gameCode, player: player, name: name };
-
-  // Open WebSocket to this game room, then send the join message
-  socket.connect(gameCode, function () {
-    socket.emit('join', JSON.stringify(data));
+  socket.connect(gameCode, function() {
+    socket.emit('join', JSON.stringify({ game: gameCode, player: player, name: name }));
   });
 
   clearChat();
 }
 
 function wjoin() {
-  const gameCode = String($('#gamecode').val()).trim();
-  const player = +$('#player').val() - 1;
-  const name = String($('#playername').val()).trim();
+  const gameCode = document.getElementById('gamecode').value.trim();
+  const player   = parseInt(document.getElementById('player').value) - 1;
+  const name     = document.getElementById('playername').value.trim();
 
-  if (!gameCode) {
-    const notification = document.querySelector('.mdl-js-snackbar');
-    notification.MaterialSnackbar.showSnackbar({ message: 'Please enter a game code.' });
-    return;
-  }
+  if (!gameCode) { showToast('Please enter a game code.'); return; }
 
-  const data = { game: gameCode, player: player, name: name };
-
-  socket.connect(gameCode, function () {
-    socket.emit('watch', JSON.stringify(data));
+  socket.connect(gameCode, function() {
+    socket.emit('watch', JSON.stringify({ game: gameCode, player: player, name: name }));
   });
 
   clearChat();
 }
 
-socket.on('joinstatus', function (stringStatus) {
+socket.on('joinstatus', function(stringStatus) {
   const status = JSON.parse(stringStatus);
   let message = '';
+
   if (status.success) {
-    message = 'Game joined!';
-    if (status.spectator === true) {
-      joinstatus = 'spectate';
-    } else {
-      joinstatus = 'player';
+    // Server sends same response for players and spectators
+    joinstatus = 'player';
+    message = 'Joined!';
+
+    // Update URL with game code (shareable link)
+    const gameCode = document.getElementById('gamecode').value.trim();
+    if (gameCode) {
+      history.replaceState(null, '', '?gamecode=' + gameCode);
     }
+
+    // Auto-show game screen
+    showGameScreen();
   } else if (status.reason !== undefined) {
-    if (status.reason === 'invalid') message = 'Sent invalid data to the server! Try checking the game code.';
-    else if (status.reason === 'you already joined') message = 'Already in this game!';
-    else if (status.reason === 'already 6 players') message = 'There are already 6 players in the game! Maybe one of them can leave?';
-    else if (status.reason === 'someone else already joined') message = 'Someone else is already this player! Join as a different player or have them leave.';
-    else if (status.reason === 'duplicate name') message = 'Someone else already took your name!';
-    else if (status.reason === 'player hasnt joined yet') message = 'That player hasn\'t joined yet — you can only spectate someone who is already in the game.';
-    else message = 'Could not join for unknown reason: ' + status.reason;
+    const reasons = {
+      'invalid':                   'Sent invalid data — check the game code.',
+      'you already joined':        'Already in this game!',
+      'already 6 players':         'There are already 6 players — maybe one can leave?',
+      'someone else already joined': 'Someone else is already that player. Pick a different number or ask them to leave.',
+      'duplicate name':            'That name is taken! Pick a different one.',
+      'player hasnt joined yet':   'That player hasn\'t joined yet — you can only spectate someone in the game.',
+    };
+    message = reasons[status.reason] || ('Could not join: ' + status.reason);
   } else {
-    message = 'Failed to join game for unknown reason!';
+    message = 'Failed to join game for an unknown reason.';
   }
 
-  const notification = document.querySelector('.mdl-js-snackbar');
-  notification.MaterialSnackbar.showSnackbar({ message: message });
+  showToast(message);
 });
 
 function leaveGame() {
@@ -74,27 +69,18 @@ function leaveGame() {
   joinstatus = null;
 }
 
-socket.on('leavestatus', function (stringStatus) {
+socket.on('leavestatus', function(stringStatus) {
   const status = JSON.parse(stringStatus);
-  let message = '';
-  if (status.success && status.reason === 'left game') message = 'Left game!';
-  else if (status.success && status.reason === 'nothing to leave') message = 'Currently not in a game!';
-  else message = 'Failed to leave game!';
-
-  const notification = document.querySelector('.mdl-js-snackbar');
-  notification.MaterialSnackbar.showSnackbar({ message: message });
+  let message;
+  if (status.success && status.reason === 'left game')         message = 'Left game!';
+  else if (status.success && status.reason === 'nothing to leave') message = 'Not currently in a game.';
+  else                                                          message = 'Failed to leave game.';
+  showToast(message);
+  showScreen('landing');
 });
 
-socket.on('spectatorjoinedgame', function (stringData) {
+socket.on('spectatorjoinedgame', function(stringData) {
   const data = JSON.parse(stringData);
-  let message = '';
-
-  if (!data.name) {
-    message = 'An unknown player is now spectating the game.';
-  } else {
-    message = data.name + ' is now spectating your game!';
-  }
-
-  const notification = document.querySelector('.mdl-js-snackbar');
-  notification.MaterialSnackbar.showSnackbar({ message: message });
+  const msg  = data.name ? (data.name + ' is now spectating your game!') : 'Someone is now spectating your game.';
+  showToast(msg);
 });
